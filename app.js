@@ -1,6 +1,6 @@
 /* ═══════════════════════════════════════════════════════════
    ARPAM · CDN CONFIG OPTIMIZER — app.js
-   100% client-side. No network calls except app logo images.
+   100% client-side. No network calls at all.
    ═══════════════════════════════════════════════════════════ */
 (function () {
 'use strict';
@@ -128,7 +128,7 @@ function setParam(params, key, value){
   if(!found) params.push({ key: key, value: value });
   return params;
 }
-function normalizeParams(params){                    // drop empty keys + duplicates
+function normalizeParams(params){
   var seen = {}, out = [];
   params.forEach(function(p){
     if(!p.key) return;
@@ -143,13 +143,13 @@ function sortParams(params){
   var known = [], unknown = [];
   params.forEach(function(p){ (idx[p.key.toLowerCase()] !== undefined ? known : unknown).push(p); });
   known.sort(function(a, b){ return idx[a.key.toLowerCase()] - idx[b.key.toLowerCase()]; });
-  return known.concat(unknown);                      // unknown params preserved at the end
+  return known.concat(unknown);                      // unknown params preserved
 }
 function encodeFinalMask(fmValue){
   var text = typeof fmValue === 'string' ? fmValue : JSON.stringify(fmValue);
   var obj;
   try { obj = JSON.parse(text); } catch(e){ throw new VlessError('Invalid FinalMask JSON', e.message); }
-  return JSON.stringify(obj);                        // minified, encoded later
+  return JSON.stringify(obj);
 }
 
 /* ───────── 5. BUILD ───────── */
@@ -177,7 +177,6 @@ function optimizeVless(raw, opts){
   var cfg = parseVless(raw);
   var changes = [];
 
-  // Address
   var oldHost = cfg.host;
   if(oldHost !== cdnIp){
     cfg.host = cdnIp;
@@ -186,20 +185,17 @@ function optimizeVless(raw, opts){
     changes.push({ type: 'keep', label: 'Address', to: cdnIp });
   }
 
-  // Fingerprint
   var oldFp = getParam(cfg.params, 'fp');
   setParam(cfg.params, 'fp', fp);
   if(oldFp === null) changes.push({ type: 'add', label: 'Fingerprint', to: fp });
   else if(oldFp !== fp) changes.push({ type: 'upd', label: 'Fingerprint', from: oldFp, to: fp });
   else changes.push({ type: 'keep', label: 'Fingerprint', to: fp });
 
-  // Cipher Suites
   var oldCs = getParam(cfg.params, 'cs');
   setParam(cfg.params, 'cs', cs);
   changes.push(oldCs === null ? { type: 'add', label: 'Cipher Suites' }
              : (oldCs !== cs ? { type: 'upd', label: 'Cipher Suites' } : { type: 'keep', label: 'Cipher Suites' }));
 
-  // FinalMask
   var oldFm = getParam(cfg.params, 'fm');
   setParam(cfg.params, 'fm', fm);
   changes.push(oldFm === null ? { type: 'add', label: 'FinalMask' }
@@ -265,107 +261,19 @@ function applyTheme(next){
   applyTheme._t = setTimeout(function(){ html.classList.remove('theming'); }, 460);
 }
 
-/* ───────── 10. APP DOWNLOAD CENTER ───────── */
-var GH = 'https://raw.githubusercontent.com/';
-var MZ = 'https://is1-ssl.mzstatic.com/image/thumb/';
-
-function proxy(src, mode, trim){
-  var u = 'https://wsrv.nl/?url=' + encodeURIComponent(src) + '&w=128&h=128&output=webp&q=86&n=-1';
-  u += (mode === 'pad') ? ('&trim=' + (trim || 12) + '&fit=contain&cbg=none') : '&fit=cover';
-  return u;
-}
-var LOGO = {
-  v2rayng:{mode:'cover',srcs:[GH+'2dust/v2rayNG/master/V2rayNG/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png']},
-  v2rayn:{mode:'pad',trim:40,srcs:[GH+'2dust/v2rayN/master/v2rayN/v2rayN/Resources/NotifyIcon1.ico']},
-  hiddify:{mode:'pad',trim:12,srcs:[GH+'hiddify/hiddify-app/main/assets/images/logo.png']},
-  karing:{mode:'cover',srcs:[GH+'KaringX/karing/main/assets/images/icon.png']},
-  nekobox:{mode:'cover',srcs:[GH+'MatsuriDayo/NekoBoxForAndroid/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png']},
-  verge:{mode:'pad',trim:10,srcs:[GH+'clash-verge-rev/clash-verge-rev/main/src-tauri/icons/icon.png']},
-  v2box:{mode:'cover',srcs:[MZ+'Purple126/v4/1a/3c/8d/1a3c8d00-0000-0000-0000-000000000000/AppIcon-0-0-85-220-0-0-0-0-2x.png/512x512bb.png']},
-  shadow:{mode:'cover',srcs:[MZ+'Purple116/v4/1c/9b/2f/1c9b2f00-0000-0000-0000-000000000000/AppIcon-1x_U007emarketing-0-7-0-85-220.png/512x512bb.png']},
-  streisand:{mode:'cover',srcs:[MZ+'Purple126/v4/5a/2b/6c/5a2b6c00-0000-0000-0000-000000000000/AppIcon-0-0-85-220-0-0-0-0-2x.png/512x512bb.png']},
-  stash:{mode:'cover',srcs:[MZ+'Purple116/v4/9f/3e/1b/9f3e1b00-0000-0000-0000-000000000000/AppIcon-0-0-85-220-0-0-0-0-2x.png/512x512bb.png']},
-  happ:{mode:'cover',srcs:[GH+'Happ-proxy/happ-assets/main/icon.png']}
-};
-function logoChain(key){
-  var e = LOGO[key];
-  if(!e) return { mode:'cover', urls:[] };
-  var urls = [];
-  e.srcs.forEach(function(s){ urls.push(proxy(s, e.mode, e.trim)); urls.push(s); });
-  return { mode: e.mode, urls: urls };
-}
-function loadLogo(imgEl, key){
-  var chain = logoChain(key), i = 0;
-  function next(){
-    if(i >= chain.urls.length) return;               // keep the mono fallback icon
-    var url = chain.urls[i++];
-    var probe = new Image();
-    probe.onload = function(){
-      if(!probe.naturalWidth || probe.naturalWidth < 4) return next();
-      imgEl.src = url; imgEl.classList.add('on');
-    };
-    probe.onerror = next;
-    probe.referrerPolicy = 'no-referrer';
-    probe.src = url;
-  }
-  next();
-}
-
-var OS_ICONS = {
-  android:'<svg class="osi" viewBox="0 0 24 24" fill="currentColor"><path d="M17.6 9.5H6.4v8.2c0 .6.5 1.1 1.1 1.1h1.1v3a1.2 1.2 0 0 0 2.4 0v-3h2v3a1.2 1.2 0 0 0 2.4 0v-3h1.1c.6 0 1.1-.5 1.1-1.1zM4.2 9.4a1.2 1.2 0 0 0-1.2 1.2v5a1.2 1.2 0 0 0 2.4 0v-5a1.2 1.2 0 0 0-1.2-1.2m15.6 0a1.2 1.2 0 0 0-1.2 1.2v5a1.2 1.2 0 0 0 2.4 0v-5a1.2 1.2 0 0 0-1.2-1.2M15.2 3l.9-1.6a.2.2 0 0 0-.3-.3l-1 1.7a6 6 0 0 0-4.6 0l-1-1.7a.2.2 0 0 0-.3.3L9.8 3A5.3 5.3 0 0 0 6.4 8.4h11.2A5.3 5.3 0 0 0 15.2 3M9.6 6.2a.6.6 0 1 1 .6-.6.6.6 0 0 1-.6.6m4.8 0a.6.6 0 1 1 .6-.6.6.6 0 0 1-.6.6"/></svg>',
-  windows:'<svg class="osi" viewBox="0 0 24 24" fill="currentColor"><path d="M3 5.6l7.3-1v7.1H3zM11.4 4.4L21 3v8.7h-9.6zM3 12.8h7.3v7.1L3 18.9zM11.4 12.8H21V21l-9.6-1.3z"/></svg>',
-  ios:'<svg class="osi" viewBox="0 0 24 24" fill="currentColor"><path d="M16.4 12.7c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.15-2.8.85-3.5.85s-1.8-.83-3-.8a4.4 4.4 0 0 0-3.7 2.2c-1.6 2.8-.4 6.9 1.1 9.1.75 1.1 1.6 2.3 2.8 2.25 1.1-.05 1.5-.72 2.9-.72s1.7.72 2.9.7c1.2 0 2-1.1 2.7-2.2a9.3 9.3 0 0 0 1.2-2.5c-.03-.02-2.3-.9-2.3-3.5M14.2 5.3A4 4 0 0 0 15.1 2a4.2 4.2 0 0 0-2.7 1.4 3.8 3.8 0 0 0-.95 3.2 3.5 3.5 0 0 0 2.75-1.3"/></svg>',
-  macos:'<svg class="osi" viewBox="0 0 24 24" fill="currentColor"><path d="M16.4 12.7c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.15-2.8.85-3.5.85s-1.8-.83-3-.8a4.4 4.4 0 0 0-3.7 2.2c-1.6 2.8-.4 6.9 1.1 9.1.75 1.1 1.6 2.3 2.8 2.25 1.1-.05 1.5-.72 2.9-.72s1.7.72 2.9.7c1.2 0 2-1.1 2.7-2.2a9.3 9.3 0 0 0 1.2-2.5c-.03-.02-2.3-.9-2.3-3.5M14.2 5.3A4 4 0 0 0 15.1 2a4.2 4.2 0 0 0-2.7 1.4 3.8 3.8 0 0 0-.95 3.2 3.5 3.5 0 0 0 2.75-1.3"/></svg>'
-};
-var ICON_DL = '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11"></path><path d="M8 11.5l4 4 4-4"></path><path d="M4.5 19.5h15"></path></svg>';
-var ICON_MONO = '<svg class="mono" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="4"></rect><path d="M9 12h6"></path></svg>';
-
-var PLATFORMS = [
-  { id:'android', label:'Android', apps:[
-    { key:'v2rayng', name:'v2rayNG 2.2.6-P2', note:'patterniha build · recommended', url:'https://github.com/patterniha/v2rayNG/releases/tag/2.2.6-P2' },
-    { key:'v2rayng', name:'v2rayNG (official)', note:'2dust · latest release', url:'https://github.com/2dust/v2rayNG/releases/latest' },
-    { key:'hiddify', name:'Hiddify', note:'latest release', url:'https://github.com/hiddify/hiddify-app/releases/latest' },
-    { key:'karing',  name:'Karing',  note:'latest release', url:'https://github.com/KaringX/karing/releases/latest' },
-    { key:'nekobox', name:'NekoBox', note:'latest release', url:'https://github.com/MatsuriDayo/NekoBoxForAndroid/releases/latest' },
-    { key:'v2box',   name:'V2Box',   note:'Google Play',    url:'https://play.google.com/store/apps/details?id=dev.hexasoftware.v2box' },
-    { key:'happ',    name:'Happ',    note:'official site',  url:'https://happ.su/main/download' }
-  ]},
-  { id:'windows', label:'Windows', apps:[
-    { key:'v2rayn',  name:'v2rayN',      note:'latest release', url:'https://github.com/2dust/v2rayN/releases/latest' },
-    { key:'hiddify', name:'Hiddify',     note:'latest release', url:'https://github.com/hiddify/hiddify-app/releases/latest' },
-    { key:'verge',   name:'Clash Verge', note:'latest release', url:'https://github.com/clash-verge-rev/clash-verge-rev/releases/latest' },
-    { key:'karing',  name:'Karing',      note:'latest release', url:'https://github.com/KaringX/karing/releases/latest' },
-    { key:'happ',    name:'Happ',        note:'official site',  url:'https://happ.su/main/download' }
-  ]},
-  { id:'ios', label:'iOS', apps:[
-    { key:'shadow',    name:'Shadowrocket', note:'App Store', url:'https://apps.apple.com/app/shadowrocket/id932747118' },
-    { key:'streisand', name:'Streisand',    note:'App Store', url:'https://apps.apple.com/app/streisand/id6450534064' },
-    { key:'v2box',     name:'V2Box',        note:'App Store', url:'https://apps.apple.com/app/v2box-v2ray-client/id6446814690' },
-    { key:'stash',     name:'Stash',        note:'App Store', url:'https://apps.apple.com/app/stash/id1596063349' },
-    { key:'happ',      name:'Happ',         note:'App Store', url:'https://apps.apple.com/app/happ-proxy-utility/id6504287215' }
-  ]},
-  { id:'macos', label:'macOS', apps:[
-    { key:'hiddify', name:'Hiddify',     note:'latest release', url:'https://github.com/hiddify/hiddify-app/releases/latest' },
-    { key:'verge',   name:'Clash Verge', note:'latest release', url:'https://github.com/clash-verge-rev/clash-verge-rev/releases/latest' },
-    { key:'karing',  name:'Karing',      note:'latest release', url:'https://github.com/KaringX/karing/releases/latest' },
-    { key:'v2box',   name:'V2Box',       note:'App Store',      url:'https://apps.apple.com/app/v2box-v2ray-client/id6446814690' },
-    { key:'happ',    name:'Happ',        note:'official site',  url:'https://happ.su/main/download' }
-  ]}
-];
-
-/* ───────── 11. UI ───────── */
+/* ───────── 10. UI ───────── */
 function init(){
   var settings = loadSettings();
 
-  /* refs */
   var themeToggle=$('themeToggle'), dropZone=$('dropZone'), inputArea=$('inputArea'),
       optimizeBtn=$('optimizeBtn'), pasteBtn=$('pasteBtn'), fileBtn=$('fileBtn'), fileInput=$('fileInput'),
       clearBtn=$('clearBtn'), advCard=$('advCard'), advToggle=$('advToggle'), cdnIp=$('cdnIp'),
       defaultIpBtn=$('defaultIpBtn'), fpSelect=$('fpSelect'), csArea=$('csArea'), fmArea=$('fmArea'),
       fmHint=$('fmHint'), resetBtn=$('resetBtn'), resultCard=$('resultCard'), resultSummary=$('resultSummary'),
       copyAllBtn=$('copyAllBtn'), downloadBtn=$('downloadBtn'), clearResultBtn=$('clearResultBtn'),
-      errorList=$('errorList'), resultList=$('resultList'), appsCard=$('appsCard'), appsToggle=$('appsToggle'),
-      appsTotal=$('appsTotal'), seg=$('seg'), pill=$('pill'), appsPanel=$('appsPanel');
+      errorList=$('errorList'), resultList=$('resultList');
+
+  if(!inputArea || !optimizeBtn) return;
 
   var lastResults = [];
 
@@ -400,7 +308,7 @@ function init(){
     checkFm(); persist(); flash(resetBtn, 'Reset', 'done', 1200);
   });
 
-  /* accordions */
+  /* accordion */
   function toggleAcc(card, btn){
     var open = card.classList.toggle('open');
     btn.setAttribute('aria-expanded', open ? 'true' : 'false');
@@ -438,7 +346,7 @@ function init(){
   ['dragleave','drop'].forEach(function(ev){
     dropZone.addEventListener(ev, function(e){
       e.preventDefault();
-      if(ev === 'dragleave' && dropZone.contains(e.relatedTarget)) return;
+      if(ev === 'dragleave' && e.relatedTarget && dropZone.contains(e.relatedTarget)) return;
       dropZone.classList.remove('dragging');
     });
   });
@@ -500,8 +408,10 @@ function init(){
     if(!checkFm()){ if(!advCard.classList.contains('open')) toggleAcc(advCard, advToggle); fmArea.focus(); return; }
     var out;
     try { out = optimizeMultipleConfigs(text, currentOpts()); }
-    catch(e){ errorList.innerHTML = '<div class="err"><div><b>' + esc(e.message || 'Unexpected error') + '</b><span>' + esc(e.detail || '') + '</span></div></div>';
-              resultCard.hidden = false; return; }
+    catch(e){
+      errorList.innerHTML = '<div class="err"><div><b>' + esc(e.message || 'Unexpected error') + '</b><span>' + esc(e.detail || '') + '</span></div></div>';
+      resultCard.hidden = false; return;
+    }
     render(out);
   }
 
@@ -524,75 +434,9 @@ function init(){
     resultSummary.textContent = '—'; resultCard.hidden = true;
   });
 
-  /* apps center */
-  var current = 0;
-  function osOf(id){ return OS_ICONS[id] || ''; }
-
-  function buildTabs(){
-    PLATFORMS.forEach(function(p, i){
-      var b = document.createElement('button');
-      b.type = 'button'; b.className = 'tab'; b.setAttribute('role','tab');
-      b.setAttribute('aria-selected', i === 0 ? 'true' : 'false');
-      b.dataset.i = i;
-      b.innerHTML = osOf(p.id) + '<span>' + esc(p.label) + '</span>';
-      seg.appendChild(b);
-    });
-    var total = PLATFORMS.reduce(function(s, p){ return s + p.apps.length; }, 0);
-    appsTotal.textContent = total;
-  }
-
-  function renderApps(i, animate){
-    var p = PLATFORMS[i];
-    appsPanel.innerHTML = '<div class="rows">' + p.apps.map(function(a){
-      var mode = (LOGO[a.key] && LOGO[a.key].mode === 'pad') ? 'pad' : 'cover';
-      return '<a class="row" href="' + esc(a.url) + '" target="_blank" rel="noopener noreferrer">'
-        + '<span class="ic ' + mode + '"><img alt="" loading="lazy" referrerpolicy="no-referrer" data-key="' + esc(a.key) + '">' + ICON_MONO + '</span>'
-        + '<span class="nm"><strong>' + esc(a.name) + '</strong><small>' + esc(a.note) + '</small></span>'
-        + '<span class="dl">' + ICON_DL + '</span></a>';
-    }).join('') + '</div>';
-
-    appsPanel.querySelectorAll('img[data-key]').forEach(function(img){ loadLogo(img, img.dataset.key); });
-
-    if(animate){
-      appsPanel.classList.remove('anim'); void appsPanel.offsetWidth; appsPanel.classList.add('anim');
-    }
-  }
-
-  function placePill(){
-    var active = seg.querySelector('.tab[aria-selected="true"]');
-    if(!active || !pill) return;
-    pill.style.width = active.offsetWidth + 'px';
-    pill.style.transform = 'translateX(' + active.offsetLeft + 'px)';
-  }
-
-  function selectTab(i, animate){
-    current = i;
-    seg.querySelectorAll('.tab').forEach(function(t, k){ t.setAttribute('aria-selected', k === i ? 'true' : 'false'); });
-    renderApps(i, animate);
-    placePill();
-  }
-
-  buildTabs();
-  selectTab(0, false);
-
-  seg.addEventListener('click', function(e){
-    var t = closestOf(e.target, '.tab');
-    if(t) selectTab(+t.dataset.i, true);
-  });
-
-  appsToggle.addEventListener('click', function(){
-    var open = toggleAcc(appsCard, appsToggle);
-    if(open) requestAnimationFrame(function(){ setTimeout(placePill, 60); });
-  });
-
-  window.addEventListener('resize', function(){
-    clearTimeout(placePill._t); placePill._t = setTimeout(placePill, 90);
-  });
-  if(window.ResizeObserver){ new ResizeObserver(placePill).observe(seg); }
-
   /* public test API */
   window.ArpamOptimizer = {
-    DEFAULTS: DEFAULTS, PLATFORMS: PLATFORMS,
+    DEFAULTS: DEFAULTS,
     parseVless: parseVless, validateVless: validateVless, normalizeParams: normalizeParams,
     sortParams: sortParams, getParam: getParam, setParam: setParam, encodeFinalMask: encodeFinalMask,
     optimizeVless: optimizeVless, buildVless: buildVless, optimizeMultipleConfigs: optimizeMultipleConfigs,
