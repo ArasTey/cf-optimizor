@@ -29,6 +29,19 @@ Parameter output order: `cs, path, security, alpn, encryption, fm, insecure, hos
 
 All values are encoded with `encodeURIComponent()`; nothing is percent-encoded by hand.
 
+## Free Configurations
+
+Free working configs are available from the ZEUS PANEL project:
+**https://github.com/zeus-panel/ZEUS-PANEL** — linked directly from the app header card.
+
+## Client Apps
+
+The app ships a built-in download center with official links for **Android** (v2rayNG, Hiddify, Karing, NekoBox, V2Box, Happ), **Windows** (v2rayN, Hiddify, Clash Verge, Karing, Happ), **iPhone** (Shadowrocket, Streisand, V2Box, Stash, Happ) and **macOS** (Hiddify, Clash Verge, Karing, V2Box, Happ). Every link points to the official GitHub release page or the official store listing.
+
+## Credits
+
+Developed by **Aras** with coffee — Telegram: [t.me/imArasTey](https://t.me/imArasTey)
+
 ## Supported VLESS URLs
 
 ​
