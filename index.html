@@ -37,10 +37,7 @@ code{font-family:var(--mono);font-size:.86em;padding:1px 5px;border-radius:5px;b
 .hd{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:4px 2px 2px}
 .bt h1{font-size:19px;font-weight:700;letter-spacing:-.01em;line-height:1.4}
 .bt small{display:block;font-size:12px;color:var(--tx3);font-weight:500;margin-top:2px}
-.hr{display:flex;align-items:center;gap:8px}
-.chip{display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 12px;border-radius:var(--pill);font-size:11.5px;font-weight:600;color:var(--tx2);background:var(--s2);border:1px solid var(--ln)}
-.chip svg{color:var(--ac)}
-.ib{width:35px;height:35px;display:grid;place-items:center;border-radius:var(--r3);color:var(--tx2);background:var(--s2);border:1px solid var(--ln);transition:all var(--t1) var(--e)}
+.ib{width:38px;height:38px;display:grid;place-items:center;border-radius:var(--r3);color:var(--tx2);background:var(--s2);border:1px solid var(--ln);transition:all var(--t1) var(--e)}
 .ib:hover{color:var(--tx);background:var(--s3)}
 .mn{display:none}html[data-theme=light] .sn{display:none}html[data-theme=light] .mn{display:block}
 /* featured app */
@@ -48,19 +45,17 @@ code{font-family:var(--mono);font-size:.86em;padding:1px 5px;border-radius:5px;b
 .fm{display:flex;align-items:center;gap:13px;flex:1 1 260px;min-width:0}
 .lg{width:48px;height:48px;flex:none;border-radius:13px;overflow:hidden;background:var(--s2);border:1px solid var(--ln);display:grid;place-items:center;font-weight:700;color:var(--tx2);font-size:19px}
 .lg img{width:100%;height:100%;object-fit:cover;display:block}
-.ft2{min-width:0;display:flex;flex-direction:column;gap:3px}
-.ft2 b{font-size:14.5px;font-weight:700;font-family:var(--mono);display:flex;align-items:center;gap:8px}
-.ver{font-family:var(--mono);font-size:11px;font-weight:500;padding:1px 8px;border-radius:var(--pill);color:var(--ac);background:var(--ac0);border:1px solid var(--ac1)}
-.ft2 small{font-size:12.3px;color:var(--tx2)}
-.tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:3px}
-.tag{font-size:10.5px;font-weight:600;font-style:normal;padding:2px 9px;border-radius:var(--pill);color:var(--tx3);background:var(--s2);border:1px solid var(--ln)}
+.ft2{min-width:0;display:flex;flex-direction:column;gap:4px}
+.ft2 b{font-size:14.5px;font-weight:700;font-family:var(--mono);display:inline-flex;align-items:center;gap:9px}
+.ver{font-family:var(--sans);font-size:11px;font-weight:600;padding:2px 9px;border-radius:var(--pill);color:var(--ac);background:var(--ac0);border:1px solid var(--ac1);letter-spacing:0}
+.ft2 small{font-size:12.3px;color:var(--tx2);line-height:1.7}
 .fa2{display:flex;gap:8px;flex-wrap:wrap}
 /* sections */
 .sec{padding:17px;display:flex;flex-direction:column;gap:13px}
 .st{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .st h2{font-size:14px;font-weight:600;margin-left:auto}
 .si{width:30px;height:30px;flex:none;display:grid;place-items:center;border-radius:var(--r3);color:var(--tx2);background:var(--s2);border:1px solid var(--ln)}
-.cnt{font-family:var(--mono);font-size:11px;font-weight:500;color:var(--tx3);background:var(--s2);border:1px solid var(--ln);padding:2px 9px;border-radius:var(--pill)}
+.cnt{font-family:var(--sans);font-size:11.5px;font-weight:600;color:var(--tx2);background:var(--s2);border:1px solid var(--ln);padding:3px 11px;border-radius:var(--pill)}
 .acts{display:flex;gap:7px;flex-wrap:wrap}
 /* buttons — minimal glass, single accent */
 .b{display:inline-flex;align-items:center;justify-content:center;gap:7px;height:38px;padding:0 15px;border-radius:var(--r2);font-size:13.5px;font-weight:600;color:var(--tx2);background:var(--s2);border:1px solid var(--ln);white-space:nowrap;transition:all var(--t1) var(--e)}
@@ -81,8 +76,10 @@ html[data-theme=light] .bp,html[data-theme=light] .b.ok{color:#fff}
 .ta,.in{width:100%;border-radius:var(--r2);background:var(--s2);border:1px solid var(--ln);color:var(--tx);transition:border-color var(--t1) var(--e),background var(--t1) var(--e)}
 .ta{padding:13px;resize:vertical;font-family:var(--mono);font-size:12.2px;line-height:1.8;direction:ltr;text-align:left;word-break:break-all}
 .ta:focus,.in:focus{outline:none;border-color:var(--ac1);background:var(--s3)}
-.ta::placeholder{color:var(--tx3);direction:rtl;text-align:right;font-family:var(--sans);word-break:normal}
-#inp{min-height:150px}#out{min-height:180px}
+.ta::placeholder{color:var(--tx3);font-family:var(--sans);font-size:12.8px;line-height:1.9}
+#inp{min-height:150px;direction:rtl;text-align:right}
+#inp::placeholder{direction:rtl;text-align:right}
+#out{min-height:180px;border-color:var(--ac1)}
 .in{height:40px;padding:0 13px;font-size:13.5px}
 .in::placeholder{color:var(--tx3)}
 .drag{border-color:var(--ac)!important;background:var(--ac0)!important}
@@ -114,7 +111,6 @@ html[data-theme=light] .bp,html[data-theme=light] .b.ok{color:#fff}
 .sum{font-size:12.6px;font-weight:600;color:var(--tx2)}
 .errs{display:flex;flex-direction:column;gap:7px}.errs:empty{display:none}
 .er{font-size:12px;color:var(--rd);background:var(--rd1);border:1px solid var(--rd1);border-radius:var(--r3);padding:9px 12px;word-break:break-all}
-#out{border-color:var(--ac1)}
 /* quick links */
 .qk{display:grid;grid-template-columns:1fr;gap:12px}
 .qc{display:flex;align-items:center;gap:12px;padding:15px;border-radius:var(--r);background:var(--s1);border:1px solid var(--ln);box-shadow:var(--sh);transition:all var(--t2) var(--e2)}
@@ -141,7 +137,7 @@ html[data-theme=light] .bp,html[data-theme=light] .b.ok{color:#fff}
 .lk a:hover{color:var(--tx);background:var(--s3);border-color:var(--ln2)}
 @media(min-width:640px){.wrap{padding:28px 24px 56px;gap:16px}.sec,.feat{padding:20px}.ah{padding:17px 20px}.inr{padding:17px 20px 20px}.g2{grid-template-columns:1fr 1fr;gap:16px}.qk{grid-template-columns:1fr 1fr}#inp{min-height:170px}#out{min-height:210px}.bt h1{font-size:20px}}
 @media(min-width:900px){.wrap{padding:34px 28px 64px}.sec,.feat{padding:22px}#inp{min-height:190px}#out{min-height:240px}}
-@media(max-width:430px){.wrap{padding:16px 13px 38px;gap:12px}.sec,.feat{padding:15px}.ah{padding:14px 15px}.inr{padding:15px}.chip{display:none}.bl{width:100%}.at small{display:none}.bt h1{font-size:17px}}
+@media(max-width:430px){.wrap{padding:16px 13px 38px;gap:12px}.sec,.feat{padding:15px}.ah{padding:14px 15px}.inr{padding:15px}.bl{width:100%}.at small{display:none}.bt h1{font-size:17px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{transition-duration:.01ms!important}}
 </style>
 </head>
@@ -155,25 +151,18 @@ html[data-theme=light] .bp,html[data-theme=light] .b.ok{color:#fff}
       <h1>بهینه‌ساز کانفیگ</h1>
       <small>افزودن Fragment و Cipher Suites به VLESS</small>
     </div>
-    <div class="hr">
-      <span class="chip">
-        <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.4-3 8-7 9-4-1-7-4.6-7-9V6z"/><path d="M9.4 12.2l1.9 1.9 3.4-3.7"/></svg>
-        کاملاً آفلاین
-      </span>
-      <button class="ib" id="th" type="button" aria-label="تغییر تم">
-        <svg class="sn" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.6v2.2M12 19.2v2.2M2.6 12h2.2M19.2 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M18.7 5.3l-1.6 1.6M6.9 17.1l-1.6 1.6"/></svg>
-        <svg class="mn" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linejoin="round"><path d="M20 14.2A8.2 8.2 0 019.8 4 8.4 8.4 0 1020 14.2z"/></svg>
-      </button>
-    </div>
+    <button class="ib" id="th" type="button" aria-label="تغییر تم">
+      <svg class="sn" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.6v2.2M12 19.2v2.2M2.6 12h2.2M19.2 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M18.7 5.3l-1.6 1.6M6.9 17.1l-1.6 1.6"/></svg>
+      <svg class="mn" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linejoin="round"><path d="M20 14.2A8.2 8.2 0 019.8 4 8.4 8.4 0 1020 14.2z"/></svg>
+    </button>
   </header>
 
   <section class="card feat">
     <div class="fm">
       <span class="lg" id="lg"><img src="https://github.com/patterniha.png?size=200" alt="patterniha" loading="lazy" onerror="this.remove();document.getElementById('lg').textContent='P';"></span>
       <span class="ft2">
-        <b>v2rayNG<span class="ver">2.2.6-P2</span></b>
+        <b>v2rayNG <span class="ver">2.2.6-P2</span></b>
         <small>ساخت <b>patterniha</b> — تنها نسخه‌ای که <code>cs</code> و <code>fm</code> را پشتیبانی می‌کند.</small>
-        <span class="tags"><i class="tag">اندروید</i><i class="tag">FinalMask</i><i class="tag">Cipher Suites</i></span>
       </span>
     </div>
     <div class="fa2">
@@ -188,7 +177,7 @@ html[data-theme=light] .bp,html[data-theme=light] .b.ok{color:#fff}
   <section class="card sec" id="dz">
     <div class="st">
       <span class="si"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4h9a3 3 0 013 3v9"/><rect x="4" y="8" width="12" height="12" rx="2.6"/></svg></span>
-      <h2>ورودی</h2>
+      <h2>کانفیگ‌های ورودی</h2>
       <span class="cnt" id="cnt">۰ خط</span>
       <div class="acts">
         <button class="b bs" id="pst" type="button">چسباندن</button>
@@ -196,12 +185,12 @@ html[data-theme=light] .bp,html[data-theme=light] .b.ok{color:#fff}
         <button class="b bs bd" id="clr" type="button">پاک کردن</button>
       </div>
     </div>
-    <textarea class="ta" id="inp" spellcheck="false" placeholder="کانفیگ‌های ‎vless://‎ را اینجا بریز — هر خط یک کانفیگ، بدون محدودیت تعداد.&#10;لینک ساب هم بذاری، خودش همهٔ کانفیگ‌ها را استخراج می‌کند."></textarea>
+    <textarea class="ta" id="inp" spellcheck="false" placeholder="هر خط یک کانفیگ vless — یا لینک ساب را بگذار تا خودش همهٔ کانفیگ‌ها را استخراج کند."></textarea>
     <input type="file" id="fin" accept=".txt,text/plain" hidden>
     <div class="row">
       <span class="nt">
         <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V4"/><path d="M8.5 7.5L12 4l3.5 3.5"/><path d="M4.5 15v3a2 2 0 002 2h11a2 2 0 002-2v-3"/></svg>
-        فایل ‎.txt‎ را رها کن · لینک ساب پشتیبانی می‌شود
+        فایل ‎.txt‎ · لینک ساب · بدون محدودیت تعداد
       </span>
       <button class="b bp bl" id="go" type="button">
         <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2.5L5 13.4h5.6L11 21.5l8-10.9h-5.6z"/></svg>
@@ -252,7 +241,7 @@ html[data-theme=light] .bp,html[data-theme=light] .b.ok{color:#fff}
     <div class="st">
       <span class="si"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.6l4.2 4.2L19 7"/></svg></span>
       <h2>خروجی</h2>
-      <span class="cnt" id="ocnt">۰</span>
+      <span class="cnt" id="ocnt">۰ کانفیگ</span>
       <div class="acts">
         <button class="b bs bp" id="cpy" type="button">کپی همه</button>
         <button class="b bs" id="dl" type="button">دانلود</button>
@@ -453,7 +442,7 @@ $('dl').addEventListener('click',function(){if(!out.value)return;
   a.href=u;a.download='configs-'+Date.now()+'.txt';document.body.appendChild(a);a.click();document.body.removeChild(a);
   setTimeout(function(){URL.revokeObjectURL(u)},1200);flash(this,'ذخیره شد')});
 $('crs').addEventListener('click',function(){
-  out.value='';errs.innerHTML='';sum.textContent='—';ocnt.textContent='۰';res.hidden=true});
+  out.value='';errs.innerHTML='';sum.textContent='—';ocnt.textContent='۰ کانفیگ';res.hidden=true});
 
 function run(){
   var raw=inp.value.trim();
@@ -474,7 +463,7 @@ function finish(all,failed){
   all.forEach(function(l,i){try{ok.push(optimize(l,o))}catch(e){bad.push('خط '+fa(i+1)+' — '+e.message)}});
   failed.forEach(function(u){bad.push('ساب دریافت نشد: '+u)});
   out.value=ok.join('\n');
-  ocnt.textContent=fa(ok.length);
+  ocnt.textContent=fa(ok.length)+' کانفیگ';
   errs.innerHTML=bad.map(function(t){return '<div class="er">'+esc(t)+'</div>'}).join('');
   sum.textContent=ok.length?(fa(ok.length)+' کانفیگ بهینه شد'+(bad.length?' · '+fa(bad.length)+' خطا':'')):'هیچ کانفیگ معتبری پیدا نشد';
   res.hidden=false;
