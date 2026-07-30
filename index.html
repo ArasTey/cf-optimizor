@@ -6,60 +6,111 @@
 <meta name="color-scheme" content="dark light">
 <meta name="theme-color" id="metaThemeColor" content="#0b0b10">
 <meta name="description" content="Arpam CDN Config Optimizer — client-side VLESS configuration optimizer for CDN. Nothing leaves your browser.">
-<title>Arpam CDN Config Optimizer</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2310b981'/%3E%3Cpath d='M9 22l7-13 7 13-7-3.6z' fill='%230b0b10'/%3E%3C/svg%3E">
+<title>Arpam · CDN Config Optimizer</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%2310b981'/%3E%3Cpath d='M9 22l7-13 7 13-7-3.6z' fill='%230b0b10'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://wsrv.nl" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="style.css">
 <script>
-(function(){try{var t=localStorage.getItem('arpam_theme');if(t!=='dark'&&t!=='light'){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';}
-document.documentElement.setAttribute('data-theme',t);var m=document.getElementById('metaThemeColor');if(m)m.setAttribute('content',t==='light'?'#f1f4f9':'#0b0b10');}catch(e){}})();
+(function(){try{var t=localStorage.getItem('arpam_theme');
+if(t!=='dark'&&t!=='light'){t=(window.matchMedia&&window.matchMedia('(prefers-color-scheme: light)').matches)?'light':'dark';}
+document.documentElement.setAttribute('data-theme',t);
+var m=document.getElementById('metaThemeColor');if(m)m.setAttribute('content',t==='light'?'#f1f4f9':'#0b0b10');}catch(e){}})();
 </script>
 </head>
 <body>
+
+<div class="bg" aria-hidden="true"><span class="glow g1"></span><span class="glow g2"></span></div>
+
 <div class="wrap">
 
-  <!-- ============ HEADER ============ -->
+  <!-- ══════════ HEADER ══════════ -->
   <header class="card tz app-head">
     <div class="brand-mark" aria-hidden="true">
       <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M12 3l8 15H4z"></path><path d="M12 12.5L8.2 18h7.6z"></path>
+        <path d="M12 3l8 15H4z"></path><path d="M12 12.4L8.2 18h7.6z"></path>
       </svg>
     </div>
+
     <div class="brand-text">
       <h1>Arpam <span>CDN Config Optimizer</span></h1>
       <p>VLESS CDN Configuration Optimizer</p>
     </div>
-    <span class="chip chip-ok">
-      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.4-3 8.2-7 9-4-.8-7-4.6-7-9V6z"></path><path d="M9.2 12.2l2 2 3.6-3.9"></path></svg>
-      100% Client-Side
-    </span>
-    <button type="button" class="icon-btn" id="themeToggle" aria-label="Toggle theme" title="Toggle theme">
-      <svg class="icon-sun" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"></circle><path d="M12 2.6v2.2M12 19.2v2.2M2.6 12h2.2M19.2 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M18.7 5.3l-1.6 1.6M6.9 17.1l-1.6 1.6"></path></svg>
-      <svg class="icon-moon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.2A8.2 8.2 0 019.8 4 8.4 8.4 0 1020 14.2z"></path></svg>
-    </button>
+
+    <div class="head-right">
+      <span class="chip chip-ok" title="Everything runs in your browser">
+        <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.4-3 8.2-7 9-4-.8-7-4.6-7-9V6z"></path><path d="M9.2 12.2l2 2 3.6-3.9"></path></svg>
+        <b>100% Client-Side</b>
+      </span>
+
+      <a class="btn-icon repo" href="https://github.com/ArasTey/cf-optimizor" target="_blank" rel="noopener noreferrer" aria-label="Open project on GitHub" title="ArasTey/cf-optimizor">
+        <svg viewBox="0 0 24 24" width="17" height="17" fill="currentColor"><path d="M12 2.2A9.8 9.8 0 002.2 12c0 4.33 2.8 8 6.7 9.3.49.09.67-.21.67-.47v-1.8c-2.72.6-3.3-1.16-3.3-1.16-.45-1.14-1.1-1.45-1.1-1.45-.9-.61.07-.6.07-.6 1 .07 1.52 1.02 1.52 1.02.88 1.52 2.32 1.08 2.88.83.09-.64.35-1.08.63-1.33-2.17-.25-4.46-1.09-4.46-4.85 0-1.07.38-1.95 1.01-2.64-.1-.25-.44-1.25.1-2.6 0 0 .83-.27 2.72 1.01a9.4 9.4 0 014.96 0c1.88-1.28 2.71-1.01 2.71-1.01.54 1.35.2 2.35.1 2.6.63.69 1.01 1.57 1.01 2.64 0 3.77-2.3 4.6-4.48 4.84.36.31.68.92.68 1.85v2.74c0 .27.18.57.68.47A9.81 9.81 0 0021.8 12 9.8 9.8 0 0012 2.2z"></path></svg>
+      </a>
+
+      <button type="button" class="btn-icon" id="themeToggle" aria-label="Toggle theme" title="Toggle theme">
+        <svg class="icon-sun" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"></circle><path d="M12 2.6v2.2M12 19.2v2.2M2.6 12h2.2M19.2 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M18.7 5.3l-1.6 1.6M6.9 17.1l-1.6 1.6"></path></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.2A8.2 8.2 0 019.8 4 8.4 8.4 0 1020 14.2z"></path></svg>
+      </button>
+    </div>
   </header>
 
-  <!-- ============ FREE CONFIG ============ -->
-  <a class="card tz free" href="https://github.com/zeus-panel/ZEUS-PANEL" target="_blank" rel="noopener noreferrer">
-    <span class="free-ic" aria-hidden="true">
-      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M12 2.8s4.6 3.4 4.6 7.6c0 1.5-.7 2.6-1.7 3.2.2-1.6-.6-3.2-2-4.3.2 2.4-1 3.6-2.2 4.7-1.1 1-2 2.1-2 3.6a4 4 0 004 4 5.2 5.2 0 005.2-5.2c0-5-5.9-8.2-5.9-13.6z"></path>
-        <path d="M9.4 21.2A5.4 5.4 0 016 16.3c0-1.6.7-2.9 1.6-4"></path>
-      </svg>
-    </span>
-    <span class="free-text">
-      <strong>Free Configurations <span class="tag">ZEUS PANEL</span></strong>
-      <small>Get free working configs from the ZEUS PANEL project on GitHub</small>
-    </span>
-    <span class="free-go" aria-hidden="true">
-      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13"></path><path d="M13 6l6 6-6 6"></path></svg>
-    </span>
-  </a>
+  <!-- ══════════ QUICK LINKS ══════════ -->
+  <div class="quick">
+    <a class="qcard fire" href="https://github.com/zeus-panel/ZEUS-PANEL" target="_blank" rel="noopener noreferrer">
+      <span class="qic" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2.8s4.6 3.4 4.6 7.6c0 1.5-.7 2.6-1.7 3.2.2-1.6-.6-3.2-2-4.3.2 2.4-1 3.6-2.2 4.7-1.1 1-2 2.1-2 3.6a4 4 0 004 4 5.2 5.2 0 005.2-5.2c0-5-5.9-8.2-5.9-13.6z"></path>
+          <path d="M9.4 21.2A5.4 5.4 0 016 16.3c0-1.6.7-2.9 1.6-4"></path>
+        </svg>
+      </span>
+      <span class="qtext"><strong>Free Configurations</strong><small>ZEUS PANEL · working configs</small></span>
+      <span class="qgo" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13"></path><path d="M13 6l6 6-6 6"></path></svg></span>
+    </a>
 
-  <!-- ============ INPUT ============ -->
+    <a class="qcard code" href="https://github.com/ArasTey/cf-optimizor" target="_blank" rel="noopener noreferrer">
+      <span class="qic" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M8.6 8.2L4.4 12l4.2 3.8"></path><path d="M15.4 8.2L19.6 12l-4.2 3.8"></path><path d="M13.4 5.4l-2.8 13.2"></path></svg>
+      </span>
+      <span class="qtext"><strong>Source Code</strong><small>ArasTey / cf-optimizor</small></span>
+      <span class="qgo" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13"></path><path d="M13 6l6 6-6 6"></path></svg></span>
+    </a>
+  </div>
+
+  <!-- ══════════ FEATURED APP · v2rayNG 2.2.6-P2 ══════════ -->
+  <section class="card tz featured">
+    <span class="feat-badge">Recommended</span>
+    <div class="feat-main">
+      <span class="feat-ic" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4.4 9.2h15.2l-1.3 9.1a2.2 2.2 0 01-2.2 1.9H7.9a2.2 2.2 0 01-2.2-1.9z"></path>
+          <path d="M8.4 6.1L6.9 3.6M15.6 6.1l1.5-2.5"></path>
+          <circle cx="9.4" cy="13" r=".9" fill="currentColor" stroke="none"></circle>
+          <circle cx="14.6" cy="13" r=".9" fill="currentColor" stroke="none"></circle>
+        </svg>
+      </span>
+      <div class="feat-text">
+        <strong>v2rayNG <span class="ver">2.2.6-P2</span></strong>
+        <small>patterniha build — the recommended client for these optimized CDN configs (Android)</small>
+        <div class="feat-tags">
+          <span class="tag">FinalMask</span><span class="tag">Fragment</span><span class="tag">Cipher Suites</span><span class="tag">unsafe fp</span>
+        </div>
+      </div>
+    </div>
+    <div class="feat-actions">
+      <a class="btn btn-primary" href="https://github.com/patterniha/v2rayNG/releases/tag/2.2.6-P2" target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11"></path><path d="M8 11.5l4 4 4-4"></path><path d="M4.5 19.5h15"></path></svg>
+        Download APK
+      </a>
+      <a class="btn btn-soft" href="https://github.com/patterniha/v2rayNG" target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor"><path d="M12 2.2A9.8 9.8 0 002.2 12c0 4.33 2.8 8 6.7 9.3.49.09.67-.21.67-.47v-1.8c-2.72.6-3.3-1.16-3.3-1.16-.45-1.14-1.1-1.45-1.1-1.45-.9-.61.07-.6.07-.6 1 .07 1.52 1.02 1.52 1.02.88 1.52 2.32 1.08 2.88.83.09-.64.35-1.08.63-1.33-2.17-.25-4.46-1.09-4.46-4.85 0-1.07.38-1.95 1.01-2.64-.1-.25-.44-1.25.1-2.6 0 0 .83-.27 2.72 1.01a9.4 9.4 0 014.96 0c1.88-1.28 2.71-1.01 2.71-1.01.54 1.35.2 2.35.1 2.6.63.69 1.01 1.57 1.01 2.64 0 3.77-2.3 4.6-4.48 4.84.36.31.68.92.68 1.85v2.74c0 .27.18.57.68.47A9.81 9.81 0 0021.8 12 9.8 9.8 0 0012 2.2z"></path></svg>
+        Repository
+      </a>
+    </div>
+  </section>
+
+  <!-- ══════════ INPUT ══════════ -->
   <section class="card tz sect" id="dropZone">
     <div class="sect-head">
       <span class="sect-ic ic-blue" aria-hidden="true">
@@ -67,17 +118,17 @@ document.documentElement.setAttribute('data-theme',t);var m=document.getElementB
       </span>
       <div class="acc-title"><strong>VLESS Configuration</strong><small>One configuration per line</small></div>
       <div class="head-actions">
-        <button type="button" class="btn btn-ghost btn-sm" id="pasteBtn">
+        <button type="button" class="btn btn-soft btn-sm" id="pasteBtn">
           <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="3" width="8" height="4" rx="1.4"></rect><path d="M9 5H6.6A1.6 1.6 0 005 6.6v12.8A1.6 1.6 0 006.6 21h10.8a1.6 1.6 0 001.6-1.6V6.6A1.6 1.6 0 0017.4 5H15"></path></svg>
-          Paste
+          <span>Paste</span>
         </button>
-        <button type="button" class="btn btn-ghost btn-sm" id="fileBtn">
+        <button type="button" class="btn btn-soft btn-sm" id="fileBtn">
           <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4"></path><path d="M8 8l4-4 4 4"></path><path d="M4 16v2.4A1.6 1.6 0 005.6 20h12.8a1.6 1.6 0 001.6-1.6V16"></path></svg>
-          Import .txt
+          <span>Import</span>
         </button>
-        <button type="button" class="btn btn-ghost btn-sm" id="clearBtn">
+        <button type="button" class="btn btn-soft btn-sm" id="clearBtn">
           <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"></path></svg>
-          Clear
+          <span>Clear</span>
         </button>
       </div>
     </div>
@@ -87,29 +138,26 @@ document.documentElement.setAttribute('data-theme',t);var m=document.getElementB
 
     <input type="file" id="fileInput" accept=".txt,text/plain" hidden>
 
-    <div class="drop-hint" id="dropHint">
-      <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V5"></path><path d="M8.5 8.5L12 5l3.5 3.5"></path><path d="M4 15v3.2A1.8 1.8 0 005.8 20h12.4a1.8 1.8 0 001.8-1.8V15"></path></svg>
-      Drop a <b>.txt</b> file anywhere in this card
-    </div>
-
-    <div class="inline" style="margin-top:12px">
-      <button type="button" class="btn btn-primary" id="optimizeBtn">
-        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2.8L5 13.6h5.4L9.8 21.2 18.6 10h-5.8z"></path></svg>
+    <div class="row-between">
+      <div class="drop-hint" id="dropHint">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V5"></path><path d="M8.5 8.5L12 5l3.5 3.5"></path><path d="M4 15v3.2A1.8 1.8 0 005.8 20h12.4a1.8 1.8 0 001.8-1.8V15"></path></svg>
+        Drop a <b>.txt</b> file anywhere in this card
+      </div>
+      <button type="button" class="btn btn-primary btn-lg" id="optimizeBtn">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2.8L5 13.6h5.4L9.8 21.2 18.6 10h-5.8z"></path></svg>
         Optimize
       </button>
     </div>
   </section>
 
-  <!-- ============ ADVANCED SETTINGS ============ -->
+  <!-- ══════════ ADVANCED SETTINGS ══════════ -->
   <section class="card tz sect adv" id="advCard">
     <button type="button" class="acc-head" id="advToggle" aria-expanded="false" aria-controls="advPanel">
       <span class="sect-ic ic-violet" aria-hidden="true">
         <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2"></circle><path d="M12 3v2.2M12 18.8V21M3 12h2.2M18.8 12H21M5.6 5.6l1.6 1.6M16.8 16.8l1.6 1.6M18.4 5.6l-1.6 1.6M7.2 16.8l-1.6 1.6"></path></svg>
       </span>
-      <span class="acc-title"><strong>Advanced Settings</strong><small>CDN IP, fingerprint, cipher suites, FinalMask</small></span>
-      <span class="caret" aria-hidden="true">
-        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9.5l6 6 6-6"></path></svg>
-      </span>
+      <span class="acc-title"><strong>Advanced Settings</strong><small>CDN IP · fingerprint · cipher suites · FinalMask</small></span>
+      <span class="caret" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9.5l6 6 6-6"></path></svg></span>
     </button>
 
     <div class="acc" id="advPanel" role="region" aria-labelledby="advToggle">
@@ -120,9 +168,9 @@ document.documentElement.setAttribute('data-theme',t);var m=document.getElementB
             <label class="lbl" for="cdnIp">CDN IP / Address</label>
             <div class="inline">
               <input class="inp" type="text" id="cdnIp" inputmode="text" spellcheck="false" autocomplete="off" placeholder="188.114.97.6">
-              <button type="button" class="btn btn-ghost btn-sm" id="defaultIpBtn">Use Default</button>
+              <button type="button" class="btn btn-soft btn-sm" id="defaultIpBtn">Default</button>
             </div>
-            <p class="hint">Only the destination host after <code>@</code> is replaced. <code>host=</code> and <code>sni=</code> stay untouched.</p>
+            <p class="hint">Only the host after <code>@</code> is replaced. <code>host=</code> and <code>sni=</code> stay untouched.</p>
           </div>
 
           <div class="field">
@@ -136,11 +184,9 @@ document.documentElement.setAttribute('data-theme',t);var m=document.getElementB
                 <option value="edge">edge</option>
                 <option value="random">random</option>
               </select>
-              <span class="sel-caret" aria-hidden="true">
-                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9.5l6 6 6-6"></path></svg>
-              </span>
+              <span class="sel-caret" aria-hidden="true"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9.5l6 6 6-6"></path></svg></span>
             </div>
-            <p class="hint">Default <code>unsafe</code> — best compatibility with CDN fronting.</p>
+            <p class="hint">Default <code>unsafe</code> — best CDN compatibility.</p>
           </div>
         </div>
 
@@ -155,19 +201,19 @@ document.documentElement.setAttribute('data-theme',t);var m=document.getElementB
           <p class="hint" id="fmHint">Valid JSON</p>
         </div>
 
-        <div class="inline">
-          <button type="button" class="btn btn-ghost btn-sm" id="resetBtn">
+        <div class="row-between">
+          <span class="save-note">Settings are saved locally in your browser</span>
+          <button type="button" class="btn btn-soft btn-sm" id="resetBtn">
             <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12a8 8 0 1 0 2.6-5.9"></path><path d="M4 4v4.4h4.4"></path></svg>
             Reset Defaults
           </button>
-          <span class="save-note">Settings are saved locally in your browser</span>
         </div>
 
       </div></div>
     </div>
   </section>
 
-  <!-- ============ RESULTS ============ -->
+  <!-- ══════════ RESULTS ══════════ -->
   <section class="card tz sect" id="resultCard" hidden>
     <div class="sect-head">
       <span class="sect-ic ic-green" aria-hidden="true">
@@ -175,17 +221,17 @@ document.documentElement.setAttribute('data-theme',t);var m=document.getElementB
       </span>
       <div class="acc-title"><strong>Optimized Configuration</strong><small id="resultSummary">—</small></div>
       <div class="head-actions">
-        <button type="button" class="btn btn-ghost btn-sm" id="copyAllBtn">
+        <button type="button" class="btn btn-primary btn-sm" id="copyAllBtn">
           <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"></rect><path d="M15 6.5V5.6A1.6 1.6 0 0013.4 4H5.6A1.6 1.6 0 004 5.6v7.8A1.6 1.6 0 005.6 15h.9"></path></svg>
-          Copy All
+          <span>Copy All</span>
         </button>
-        <button type="button" class="btn btn-ghost btn-sm" id="downloadBtn">
+        <button type="button" class="btn btn-soft btn-sm" id="downloadBtn">
           <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11"></path><path d="M8 11.5l4 4 4-4"></path><path d="M4.5 19.5h15"></path></svg>
-          Download TXT
+          <span>TXT</span>
         </button>
-        <button type="button" class="btn btn-ghost btn-sm" id="clearResultBtn">
+        <button type="button" class="btn btn-soft btn-sm" id="clearResultBtn">
           <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"></path></svg>
-          Clear
+          <span>Clear</span>
         </button>
       </div>
     </div>
@@ -194,30 +240,26 @@ document.documentElement.setAttribute('data-theme',t);var m=document.getElementB
     <div class="result-list" id="resultList"></div>
   </section>
 
-  <!-- ============ APPS DOWNLOAD CENTER ============ -->
+  <!-- ══════════ APPS DOWNLOAD CENTER ══════════ -->
   <section class="card tz sect apps" id="appsCard">
     <button type="button" class="acc-head" id="appsToggle" aria-expanded="false" aria-controls="appsAcc">
       <span class="sect-ic ic-blue" aria-hidden="true">
         <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.6v10"></path><path d="M8 10l4 3.6 4-3.6"></path><path d="M4.5 16.4v2.2A1.9 1.9 0 006.4 20.5h11.2a1.9 1.9 0 001.9-1.9v-2.2"></path></svg>
       </span>
-      <span class="acc-title"><strong>Download Apps</strong><small>Clients for Android, Windows, iOS and macOS</small></span>
+      <span class="acc-title"><strong>Download Apps</strong><small>Android · Windows · iOS · macOS</small></span>
       <span class="badge" id="appsTotal">0</span>
-      <span class="caret" aria-hidden="true">
-        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9.5l6 6 6-6"></path></svg>
-      </span>
+      <span class="caret" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9.5l6 6 6-6"></path></svg></span>
     </button>
 
     <div class="acc" id="appsAcc" role="region" aria-labelledby="appsToggle">
       <div class="clip"><div class="inner apps-inner">
-        <div class="seg" id="seg" role="tablist" aria-label="Platforms">
-          <span class="pill" id="pill" aria-hidden="true"></span>
-        </div>
+        <div class="seg" id="seg" role="tablist" aria-label="Platforms"><span class="pill" id="pill" aria-hidden="true"></span></div>
         <div class="apps-panel" id="appsPanel"></div>
       </div></div>
     </div>
   </section>
 
-  <!-- ============ PRIVACY ============ -->
+  <!-- ══════════ PRIVACY ══════════ -->
   <section class="card tz privacy">
     <span class="sect-ic ic-green" aria-hidden="true">
       <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="10.5" width="15" height="9.5" rx="2.2"></rect><path d="M8 10.5V8a4 4 0 018 0v2.5"></path></svg>
@@ -228,7 +270,7 @@ document.documentElement.setAttribute('data-theme',t);var m=document.getElementB
     </div>
   </section>
 
-  <!-- ============ CREDITS ============ -->
+  <!-- ══════════ CREDITS ══════════ -->
   <footer class="card tz credits">
     <span class="cred-text">
       Developed by <b>Aras</b> with
@@ -240,8 +282,12 @@ document.documentElement.setAttribute('data-theme',t);var m=document.getElementB
       <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor"><path d="M21.2 4.2L2.9 11.3c-.9.35-.88 1.64.03 1.96l4.5 1.57 1.72 5.2c.24.72 1.17.9 1.66.32l2.5-2.9 4.5 3.3c.63.46 1.53.12 1.7-.65l3-13.9c.19-.86-.64-1.6-1.31-1.3zM9.6 14.1l8.1-5.5-6.7 6.3-.35 3.05z"></path></svg>
       @imArasTey
     </a>
-    <a class="cred-link zeus" href="https://github.com/zeus-panel/ZEUS-PANEL" target="_blank" rel="noopener noreferrer">
+    <a class="cred-link gh" href="https://github.com/ArasTey/cf-optimizor" target="_blank" rel="noopener noreferrer">
       <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor"><path d="M12 2.2A9.8 9.8 0 002.2 12c0 4.33 2.8 8 6.7 9.3.49.09.67-.21.67-.47v-1.8c-2.72.6-3.3-1.16-3.3-1.16-.45-1.14-1.1-1.45-1.1-1.45-.9-.61.07-.6.07-.6 1 .07 1.52 1.02 1.52 1.02.88 1.52 2.32 1.08 2.88.83.09-.64.35-1.08.63-1.33-2.17-.25-4.46-1.09-4.46-4.85 0-1.07.38-1.95 1.01-2.64-.1-.25-.44-1.25.1-2.6 0 0 .83-.27 2.72 1.01a9.4 9.4 0 014.96 0c1.88-1.28 2.71-1.01 2.71-1.01.54 1.35.2 2.35.1 2.6.63.69 1.01 1.57 1.01 2.64 0 3.77-2.3 4.6-4.48 4.84.36.31.68.92.68 1.85v2.74c0 .27.18.57.68.47A9.81 9.81 0 0021.8 12 9.8 9.8 0 0012 2.2z"></path></svg>
+      cf-optimizor
+    </a>
+    <a class="cred-link zeus" href="https://github.com/zeus-panel/ZEUS-PANEL" target="_blank" rel="noopener noreferrer">
+      <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2.8L5 13.6h5.4L9.8 21.2 18.6 10h-5.8z"></path></svg>
       ZEUS PANEL
     </a>
   </footer>
