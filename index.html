@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<meta name="theme-color" content="#0b0b10" id="metaThemeColor">
+<meta name="description" content="Arpam CDN Config Optimizer — VLESS CDN configuration optimizer that runs entirely in your browser.">
+<title>Arpam CDN Config Optimizer</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%233ddc9a' d='M12 2 3.6 5.8v6.4c0 5 3.6 8.9 8.4 9.8 4.8-.9 8.4-4.8 8.4-9.8V5.8z'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script>
+(function(){try{var s=localStorage.getItem('arpam_theme');document.documentElement.setAttribute('data-theme',s==='light'?'light':'dark');}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();
+</script>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="card tz app-head">
+    <span class="brand-mark" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.8 4.4 6.2v6c0 4.7 3.2 8.2 7.6 9.1 4.4-.9 7.6-4.4 7.6-9.1v-6z"/><path d="m8.9 12.2 2.1 2.1 4.1-4.4"/></svg>
+    </span>
+    <div class="brand-text">
+      <h1>Arpam <span>CDN Config Optimizer</span></h1>
+      <p>VLESS CDN Configuration Optimizer</p>
+    </div>
+    <span class="chip chip-ok" title="No server involved">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 5 6v5.5c0 4 2.9 7.4 7 8.5 4.1-1.1 7-4.5 7-8.5V6z"/></svg>
+      100% Client-Side
+    </span>
+    <button type="button" class="icon-btn" id="themeToggle" title="Toggle theme" aria-label="Toggle theme">
+      <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.4v2.2M12 19.4v2.2M4.2 12H2M22 12h-2.2M5.6 5.6l1.6 1.6M16.8 16.8l1.6 1.6M18.4 5.6l-1.6 1.6M7.2 16.8l-1.6 1.6"/></svg>
+      <svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 14.3A8.6 8.6 0 0 1 9.7 3.5a8.6 8.6 0 1 0 10.8 10.8z"/></svg>
+    </button>
+  </header>
+
+  <section class="card tz sect" id="dropZone">
+    <div class="sect-head">
+      <span class="sect-ic ic-blue" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10.6 13.4a4.2 4.2 0 0 0 6.1.3l2.4-2.4a4.2 4.2 0 0 0-6-6l-1.3 1.3"/><path d="M13.4 10.6a4.2 4.2 0 0 0-6.1-.3l-2.4 2.4a4.2 4.2 0 0 0 6 6l1.3-1.3"/></svg>
+      </span>
+      <div><h2>Input</h2><p>Paste one VLESS URL per line, or drop a .txt file</p></div>
+    </div>
+    <textarea id="inputArea" class="ta ta-input" spellcheck="false" autocomplete="off" placeholder="vless://..."></textarea>
+    <div class="btn-row">
+      <button type="button" class="btn btn-primary" id="optimizeBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M13.2 2.6 4.6 13.4h6L10.8 21.4l8.6-10.8h-6z"/></svg>
+        <span class="lbl">Optimize</span>
+      </button>
+      <button type="button" class="btn" id="pasteBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="3.4" width="8" height="3.6" rx="1.2"/><path d="M16 5.2h1.8A1.8 1.8 0 0 1 19.6 7v12.6a1.8 1.8 0 0 1-1.8 1.8H6.2a1.8 1.8 0 0 1-1.8-1.8V7a1.8 1.8 0 0 1 1.8-1.8H8"/></svg>
+        <span class="lbl">Paste</span>
+      </button>
+      <button type="button" class="btn" id="fileBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13.6 2.8H7a1.8 1.8 0 0 0-1.8 1.8v14.8A1.8 1.8 0 0 0 7 21.2h10a1.8 1.8 0 0 0 1.8-1.8V8z"/><path d="M13.6 2.8V8h5.2"/></svg>
+        <span class="lbl">Import TXT</span>
+      </button>
+      <button type="button" class="btn btn-ghost" id="clearBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4.6 6.6h14.8M9.4 6.6V4.8a1.2 1.2 0 0 1 1.2-1.2h2.8a1.2 1.2 0 0 1 1.2 1.2v1.8M17.4 6.6l-.7 12.1a1.8 1.8 0 0 1-1.8 1.7H9.1a1.8 1.8 0 0 1-1.8-1.7L6.6 6.6"/></svg>
+        <span class="lbl">Clear</span>
+      </button>
+      <input type="file" id="fileInput" accept=".txt,text/plain" hidden>
+    </div>
+    <div class="drop-hint" id="dropHint">Drop your .txt file to load configurations</div>
+  </section>
+
+  <section class="card tz adv" id="advCard">
+    <button type="button" class="acc-head" id="advToggle" aria-expanded="false">
+      <span class="sect-ic ic-violet" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.6 14.6a1.5 1.5 0 0 0 .3 1.7l.1.1a1.8 1.8 0 1 1-2.6 2.6l-.1-.1a1.5 1.5 0 0 0-2.6 1.1v.3a1.8 1.8 0 1 1-3.6 0v-.2a1.5 1.5 0 0 0-2.6-1.1l-.1.1a1.8 1.8 0 1 1-2.6-2.6l.1-.1a1.5 1.5 0 0 0-1.1-2.6h-.2a1.8 1.8 0 1 1 0-3.6h.2a1.5 1.5 0 0 0 1.1-2.6l-.1-.1A1.8 1.8 0 1 1 8.3 4.9l.1.1a1.5 1.5 0 0 0 2.6-1.1v-.2a1.8 1.8 0 1 1 3.6 0v.2a1.5 1.5 0 0 0 2.6 1.1l.1-.1a1.8 1.8 0 1 1 2.6 2.6l-.1.1a1.5 1.5 0 0 0 1.1 2.6h.2a1.8 1.8 0 1 1 0 3.6h-.2a1.5 1.5 0 0 0-1.3.8z"/></svg>
+      </span>
+      <span class="acc-title"><b>Advanced Settings</b><i>CDN IP, fingerprint, cipher suites, FinalMask</i></span>
+      <span class="caret" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg></span>
+    </button>
+    <div class="acc"><div class="clip"><div class="inner adv-inner">
+      <div class="grid2">
+        <div class="field">
+          <label for="cdnIp">CDN IP <em>destination address only</em></label>
+          <div class="inline">
+            <input type="text" id="cdnIp" class="inp" spellcheck="false" autocomplete="off" placeholder="188.114.97.6">
+            <button type="button" class="btn btn-sm" id="defaultIpBtn"><span class="lbl">Use Default</span></button>
+          </div>
+        </div>
+        <div class="field">
+          <label for="fpSelect">Fingerprint <em>written as fp=</em></label>
+          <div class="sel-wrap">
+            <select id="fpSelect" class="inp">
+              <option value="unsafe">unsafe</option>
+              <option value="chrome">chrome</option>
+              <option value="firefox">firefox</option>
+              <option value="safari">safari</option>
+              <option value="edge">edge</option>
+              <option value="random">random</option>
+            </select>
+            <svg class="sel-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+        </div>
+      </div>
+      <div class="field">
+        <label for="csArea">Cipher Suites <em>written as cs=</em></label>
+        <textarea id="csArea" class="ta ta-code" rows="4" spellcheck="false"></textarea>
+      </div>
+      <div class="field">
+        <label for="fmArea">FinalMask JSON <em>written as fm=</em></label>
+        <textarea id="fmArea" class="ta ta-code" rows="9" spellcheck="false"></textarea>
+        <span class="hint" id="fmHint"></span>
+      </div>
+      <div class="btn-row">
+        <button type="button" class="btn btn-sm" id="resetBtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.6 12a8.4 8.4 0 1 1 2.5 6"/><polyline points="3.4 20.2 3.4 14.6 9 14.6"/></svg>
+          <span class="lbl">Reset Defaults</span>
+        </button>
+        <span class="save-note">Settings are stored locally in this browser only.</span>
+      </div>
+    </div></div></div>
+  </section>
+
+  <section class="card tz sect result-card" id="resultCard" hidden>
+    <div class="sect-head">
+      <span class="sect-ic ic-green" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.4 11.1v.9a8.4 8.4 0 1 1-5-7.7"/><polyline points="20.4 5.4 12 13.8 9.6 11.4"/></svg>
+      </span>
+      <div><h2>Optimized Configuration</h2><p id="resultSummary">—</p></div>
+      <div class="head-actions">
+        <button type="button" class="btn btn-sm" id="copyAllBtn"><span class="lbl">Copy All</span></button>
+        <button type="button" class="btn btn-sm" id="downloadBtn"><span class="lbl">Download TXT</span></button>
+        <button type="button" class="btn btn-sm btn-ghost" id="clearResultBtn"><span class="lbl">Clear</span></button>
+      </div>
+    </div>
+    <div id="errorList" class="err-list" hidden></div>
+    <div id="resultList" class="result-list"></div>
+  </section>
+
+  <section class="card tz privacy">
+    <span class="chip chip-violet">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4.6" y="10.4" width="14.8" height="9.6" rx="2"/><path d="M8.2 10.4V7.6a3.8 3.8 0 0 1 7.6 0v2.8"/></svg>
+      Private &amp; Client-Side
+    </span>
+    <p>Your configurations are processed locally in your browser.<br>Nothing is uploaded to a server.</p>
+  </section>
+
+  <footer class="foot"><i aria-hidden="true"></i> Arpam CDN Config Optimizer — static, dependency-free, GitHub Pages ready</footer>
+</div>
+<script src="app.js" defer></script>
+</body>
+</html>
