@@ -135,6 +135,15 @@ html[data-theme=light] .b.ok{color:#fff!important}
 .lk a:hover{color:var(--tx);background:var(--glass-hv);border-color:var(--ln2);transform:translateY(-2px)}
 .lk a:active{transform:translateY(0)}
 .copy{font-size:11.5px;color:var(--tx3)}
+/* ── تغییرات رنگ footer ── */
+.dev-link{color:var(--cy);font-weight:700;text-decoration:none;border-bottom:1px solid rgba(34,211,238,.3);transition:opacity var(--t1) var(--e)}
+.dev-link:hover{opacity:.75}
+.lk a.tg-lk{color:var(--cy)}
+.lk a.tg-lk:hover{color:var(--cy)}
+.lk a.gh-lk{color:#6b7280}
+.lk a.gh-lk:hover{color:#9ca3af}
+.lk a.zeus-lk{color:#f59e0b}
+.lk a.zeus-lk:hover{color:#fbbf24}
 @media(min-width:640px){.wrap{padding:28px 24px 64px;gap:16px}.sec,.feat,.guide{padding:20px 22px}.ah{padding:17px 20px}.inr{padding:17px 20px 20px}.g2{grid-template-columns:1fr 1fr;gap:16px}.qk{grid-template-columns:1fr 1fr}#inp{min-height:170px}#out{min-height:210px}.bt h1{font-size:20px}.steps{display:grid;grid-template-columns:1fr 1fr;gap:4px}.step{border-bottom:none;padding:14px 16px}.step:nth-child(odd){border-right:1px solid var(--ln)}}
 @media(min-width:900px){.wrap{padding:34px 28px 72px}.sec,.feat,.guide{padding:22px 24px}#inp{min-height:190px}#out{min-height:240px}}
 @media(max-width:430px){.wrap{padding:16px 13px 46px;gap:12px}.sec,.feat,.guide{padding:15px}.ah{padding:14px 15px}.inr{padding:15px}.bl{width:100%}.at small{display:none}.bt h1{font-size:17px}}
@@ -319,16 +328,17 @@ html[data-theme=light] .b.ok{color:#fff!important}
   </div>
 </section>
 
+<!-- ✅ FOOTER با تغییرات اعمال‌شده -->
 <footer class="foot">
-  <p class="dev" dir="ltr">Developed by <b>ArasTey</b> With ☕️</p>
+  <p class="dev" dir="ltr">Developed by <a href="https://t.me/imArasTey" target="_blank" rel="noopener" class="dev-link">ArasTey</a> With ☕️</p>
   <div class="lk">
-    <a href="https://t.me/imArasTey" target="_blank" rel="noopener">
+    <a class="tg-lk" href="https://t.me/imArasTey" target="_blank" rel="noopener">
       <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>تلگرام
     </a>
-    <a href="https://github.com/ArasTey/cf-optimizor" target="_blank" rel="noopener">
+    <a class="gh-lk" href="https://github.com/ArasTey/cf-optimizor" target="_blank" rel="noopener">
       <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>گیت‌هاب
     </a>
-    <a href="https://github.com/zeus-panel/ZEUS-PANEL" target="_blank" rel="noopener">
+    <a class="zeus-lk" href="https://github.com/zeus-panel/ZEUS-PANEL" target="_blank" rel="noopener">
       <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>ZEUS-PANEL
     </a>
   </div>
@@ -412,7 +422,6 @@ function parseAuth(au){
   return{host:host,port:port};
 }
 function splitUrl(raw,skip){
-  /* skip = number of chars in scheme, e.g. 8 for "vless://" */
   var b=raw.slice(skip),frag='';
   var qi=b.indexOf('?'),hi=-1;
   if(qi>=0){hi=b.indexOf('#',qi);}else{hi=b.indexOf('#');}
@@ -470,12 +479,7 @@ function b64decode(s){
   }catch(e){return'';}
 }
 
-/* ── extract configs from arbitrary text ──────────────────────────────
-   Handles: plain configs, # comments + configs (ZEUS format),
-            pure base64 blobs, base64 with # comment headers.
-   Strategy: line-by-line first (preserves full lines incl. spaces in
-   fragment). Falls back to base64 decode if nothing found.
-─────────────────────────────────────────────────────────────────────── */
+/* ── extract ── */
 function extractLines(text){
   var found=[];
   text.split(/\r?\n/).forEach(function(line){
@@ -486,10 +490,8 @@ function extractLines(text){
 }
 function extract(text){
   var t=String(text||'');
-  /* 1. Try direct line-by-line */
   var direct=extractLines(t);
   if(direct.length)return direct;
-  /* 2. Try base64 decode of full content */
   var decoded=b64decode(t);
   if(decoded){
     var fromDecoded=extractLines(decoded);
@@ -667,26 +669,15 @@ $('crs').addEventListener('click',function(){
   ocnt.textContent='۰ کانفیگ';res.hidden=true;setOutputBtns(false);
 });
 
-/* ── run ────────────────────────────────────────────────────────────────
-   Algorithm:
-   1. Find sub URLs (http/https lines) → fetch each via fetchSub
-   2. Run extract() on the ENTIRE raw input → handles:
-      - plain configs (line-by-line)
-      - ZEUS format (# comments + vless lines)
-      - pure base64 blob → decoded → line-by-line
-   3. Merge fetched + extracted, deduplicate, optimize, show results
-─────────────────────────────────────────────────────────────────────── */
+/* ── run ── */
 function run(){
   if(go._running)return;
   var raw=inp.value.trim();
   if(!raw){flash(go,'ورودی خالی است','no');inp.focus();return;}
   if(!validateFm()){if(!adv.classList.contains('open'))advb.click();fm.focus();return;}
 
-  /* separate sub URLs from the rest */
   var lines=raw.split(/\r?\n/).map(function(l){return l.trim();}).filter(Boolean);
   var subs=lines.filter(function(l){return /^https?:\/\//i.test(l);});
-
-  /* extract direct configs from full raw input (handles base64, ZEUS, plain) */
   var directConfigs=extract(raw);
 
   var failed=[];
@@ -699,10 +690,8 @@ function run(){
     return fetchSub(u).catch(function(e){failed.push(u+' — '+e.message);return[];});
   }))
   .then(function(sets){
-    /* merge: sub results + direct configs */
     var all=directConfigs.slice();
     sets.forEach(function(s){all=all.concat(s);});
-    /* deduplicate by exact string */
     var seen={},unique=[];
     all.forEach(function(l){if(!seen[l]){seen[l]=1;unique.push(l);}});
     finish(unique,failed);
@@ -736,4 +725,4 @@ function finish(all,failed){
 })();
 </script>
 </body>
-</html>
+                                                </html>
