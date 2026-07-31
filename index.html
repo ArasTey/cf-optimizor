@@ -12,8 +12,24 @@
 <script>try{if(localStorage.getItem('vpn_theme')==='light')document.documentElement.setAttribute('data-theme','light');}catch(e){}</script>
 <style>
 :root{--r:14px;--r2:11px;--r3:9px;--pill:999px;--e:cubic-bezier(.4,0,.2,1);--e2:cubic-bezier(.22,1,.36,1);--t1:.15s;--t2:.24s;--t3:.4s;--mono:'JetBrains Mono',monospace;--sans:'Vazirmatn',system-ui,sans-serif}
-html[data-theme=dark]{--bg:#0b0b10;--bg2:#0d0e14;--s1:rgba(255,255,255,.035);--s2:rgba(255,255,255,.055);--s3:rgba(255,255,255,.09);--ln:rgba(255,255,255,.08);--ln2:rgba(255,255,255,.14);--tx:#eceff5;--tx2:#9aa4b2;--tx3:#5f6a79;--ac:#10b981;--ac2:#34d399;--ac1:rgba(16,185,129,.14);--ac0:rgba(16,185,129,.07);--rd:#f26d78;--rd1:rgba(242,109,120,.13);--sh:0 1px 2px rgba(0,0,0,.4),0 8px 26px rgba(0,0,0,.3)}
-html[data-theme=light]{--bg:#f3f5f9;--bg2:#eaeef4;--s1:rgba(255,255,255,.8);--s2:rgba(15,23,42,.04);--s3:rgba(15,23,42,.075);--ln:rgba(15,23,42,.09);--ln2:rgba(15,23,42,.16);--tx:#111826;--tx2:#54606f;--tx3:#828d9b;--ac:#059669;--ac2:#10b981;--ac1:rgba(5,150,105,.13);--ac0:rgba(5,150,105,.06);--rd:#dc4b57;--rd1:rgba(220,75,87,.12);--sh:0 1px 2px rgba(15,23,42,.05),0 8px 24px rgba(15,23,42,.07)}
+html[data-theme=dark]{--bg:#0b0b10;--bg2:#0d0e14;--s1:rgba(255,255,255,.035);--s2:rgba(255,255,255,.055);--s3:rgba(255,255,255,.09);--ln:rgba(255,255,255,.08);--ln2:rgba(255,255,255,.14);--tx:#eceff5;--tx2:#9aa4b2;--tx3:#5f6a79;
+--ac:#10b981;--ac2:#34d399;--ac1:rgba(16,185,129,.14);--ac0:rgba(16,185,129,.07);
+--bl:#60a5fa;--bl1:rgba(96,165,250,.14);--bl0:rgba(96,165,250,.07);
+--vi:#a78bfa;--vi1:rgba(167,139,250,.14);--vi0:rgba(167,139,250,.07);
+--cy:#22d3ee;--cy1:rgba(34,211,238,.14);--cy0:rgba(34,211,238,.07);
+--am:#fbbf24;--am1:rgba(251,191,36,.14);--am0:rgba(251,191,36,.07);
+--rd:#f87171;--rd1:rgba(248,113,113,.13);--rd0:rgba(248,113,113,.06);
+--sh:0 1px 2px rgba(0,0,0,.4),0 8px 26px rgba(0,0,0,.3);
+--glass-bg:rgba(255,255,255,.06);--glass-bd:rgba(255,255,255,.11);--glass-hv:rgba(255,255,255,.1)}
+html[data-theme=light]{--bg:#f3f5f9;--bg2:#eaeef4;--s1:rgba(255,255,255,.8);--s2:rgba(15,23,42,.04);--s3:rgba(15,23,42,.075);--ln:rgba(15,23,42,.09);--ln2:rgba(15,23,42,.16);--tx:#111826;--tx2:#54606f;--tx3:#828d9b;
+--ac:#059669;--ac2:#10b981;--ac1:rgba(5,150,105,.13);--ac0:rgba(5,150,105,.06);
+--bl:#2563eb;--bl1:rgba(37,99,235,.14);--bl0:rgba(37,99,235,.07);
+--vi:#7c3aed;--vi1:rgba(124,58,237,.14);--vi0:rgba(124,58,237,.07);
+--cy:#0891b2;--cy1:rgba(8,145,178,.14);--cy0:rgba(8,145,178,.07);
+--am:#d97706;--am1:rgba(217,119,6,.15);--am0:rgba(217,119,6,.07);
+--rd:#dc2626;--rd1:rgba(220,38,38,.12);--rd0:rgba(220,38,38,.06);
+--sh:0 1px 2px rgba(15,23,42,.05),0 8px 24px rgba(15,23,42,.07);
+--glass-bg:rgba(255,255,255,.7);--glass-bd:rgba(15,23,42,.12);--glass-hv:rgba(255,255,255,.9)}
 *,*::before,*::after{box-sizing:border-box}
 body{margin:0;min-height:100vh;font-family:var(--sans);font-size:14.5px;line-height:1.75;color:var(--tx);background:var(--bg);overflow-x:hidden;-webkit-font-smoothing:antialiased}
 html.tz,html.tz *{transition:background-color var(--t3) var(--e),color var(--t3) var(--e),border-color var(--t3) var(--e)!important}
@@ -33,53 +49,55 @@ code{font-family:var(--mono);font-size:.86em;padding:1px 5px;border-radius:5px;b
 .wrap{width:100%;max-width:940px;margin:0 auto;padding:22px 18px 46px;display:flex;flex-direction:column;gap:14px}
 .card{background:var(--s1);border:1px solid var(--ln);border-radius:var(--r);box-shadow:var(--sh);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
 .row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
-/* header */
 .hd{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:4px 2px 2px}
 .bt h1{font-size:19px;font-weight:700;letter-spacing:-.01em;line-height:1.4}
 .bt small{display:block;font-size:12px;color:var(--tx3);font-weight:500;margin-top:2px}
 .ib{width:38px;height:38px;display:grid;place-items:center;border-radius:var(--r3);color:var(--tx2);background:var(--s2);border:1px solid var(--ln);transition:all var(--t1) var(--e)}
 .ib:hover{color:var(--tx);background:var(--s3)}
 .mn{display:none}html[data-theme=light] .sn{display:none}html[data-theme=light] .mn{display:block}
-/* featured app */
 .feat{padding:17px;display:flex;align-items:center;gap:15px;flex-wrap:wrap}
 .fm{display:flex;align-items:center;gap:13px;flex:1 1 260px;min-width:0}
 .lg{width:48px;height:48px;flex:none;border-radius:13px;overflow:hidden;background:var(--s2);border:1px solid var(--ln);display:grid;place-items:center;font-weight:700;color:var(--tx2);font-size:19px}
 .lg img{width:100%;height:100%;object-fit:cover;display:block}
 .ft2{min-width:0;display:flex;flex-direction:column;gap:4px}
 .ft2 b{font-size:14.5px;font-weight:700;font-family:var(--mono);display:inline-flex;align-items:center;gap:9px}
-.ver{font-family:var(--sans);font-size:11px;font-weight:600;padding:2px 9px;border-radius:var(--pill);color:var(--ac);background:var(--ac0);border:1px solid var(--ac1);letter-spacing:0}
-.ft2 small{font-size:12.3px;color:var(--tx2);line-height:1.7}
+.ver{font-family:var(--sans);font-size:11px;font-weight:600;padding:2px 9px;border-radius:var(--pill);color:var(--ac);background:var(--ac0);border:1px solid var(--ac1)}
+.ft2 small{font-size:12.3px;color:var(--tx2)}
 .fa2{display:flex;gap:8px;flex-wrap:wrap}
-/* sections */
 .sec{padding:17px;display:flex;flex-direction:column;gap:13px}
 .st{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .st h2{font-size:14px;font-weight:600;margin-left:auto}
 .si{width:30px;height:30px;flex:none;display:grid;place-items:center;border-radius:var(--r3);color:var(--tx2);background:var(--s2);border:1px solid var(--ln)}
 .cnt{font-family:var(--sans);font-size:11.5px;font-weight:600;color:var(--tx2);background:var(--s2);border:1px solid var(--ln);padding:3px 11px;border-radius:var(--pill)}
 .acts{display:flex;gap:7px;flex-wrap:wrap}
-/* buttons — minimal glass, single accent */
 .b{display:inline-flex;align-items:center;justify-content:center;gap:7px;height:38px;padding:0 15px;border-radius:var(--r2);font-size:13.5px;font-weight:600;color:var(--tx2);background:var(--s2);border:1px solid var(--ln);white-space:nowrap;transition:all var(--t1) var(--e)}
-.b:hover{color:var(--tx);background:var(--s3);border-color:var(--ln2)}
+.b svg{opacity:.9}
+.b:hover{background:var(--s3);border-color:var(--ln2);color:var(--tx)}
 .b:active{transform:scale(.98)}
-.b svg{opacity:.85}
 .bs{height:32px;padding:0 13px;font-size:12.5px;border-radius:var(--r3)}
 .bl{height:44px;padding:0 24px;font-size:14.5px}
 .bp{color:#04120c;background:var(--ac);border-color:var(--ac)}
 .bp:hover{background:var(--ac2);border-color:var(--ac2);color:#04120c}
-.bp svg{opacity:1}
-.bd:hover{color:var(--rd);border-color:var(--rd1);background:var(--rd1)}
+html[data-theme=light] .bp,html[data-theme=light] .bp:hover{color:#fff}
+#pst{color:var(--bl)}#pst:hover{background:var(--bl0);border-color:var(--bl1);color:var(--bl)}
+#fbt{color:var(--vi)}#fbt:hover{background:var(--vi0);border-color:var(--vi1);color:var(--vi)}
+#clr,#crs,#cadr{color:var(--rd)}
+#clr:hover,#crs:hover,#cadr:hover{background:var(--rd0);border-color:var(--rd1);color:var(--rd)}
+#dl{color:var(--cy)}#dl:hover{background:var(--cy0);border-color:var(--cy1);color:var(--cy)}
+#rst{color:var(--am)}#rst:hover{background:var(--am0);border-color:var(--am1);color:var(--am)}
 .b[disabled]{opacity:.4;pointer-events:none}
 .b.ok{color:#04120c!important;background:var(--ac)!important;border-color:var(--ac)!important}
-.b.no{color:var(--rd)!important;border-color:var(--rd1)!important;background:var(--rd1)!important}
-html[data-theme=light] .bp,html[data-theme=light] .b.ok{color:#fff}
+.b.no{color:var(--rd)!important;border-color:var(--rd1)!important;background:var(--rd0)!important}
+html[data-theme=light] .b.ok{color:#fff!important}
 /* fields */
 .ta,.in{width:100%;border-radius:var(--r2);background:var(--s2);border:1px solid var(--ln);color:var(--tx);transition:border-color var(--t1) var(--e),background var(--t1) var(--e)}
-.ta{padding:13px;resize:vertical;font-family:var(--mono);font-size:12.2px;line-height:1.8;direction:ltr;text-align:left;word-break:break-all}
+.ta{padding:13px;resize:vertical;font-family:var(--mono);font-size:12.2px;line-height:1.8;word-break:break-all;direction:ltr;text-align:left}
 .ta:focus,.in:focus{outline:none;border-color:var(--ac1);background:var(--s3)}
-.ta::placeholder{color:var(--tx3);font-family:var(--sans);font-size:12.8px;line-height:1.9}
-#inp{min-height:150px;direction:rtl;text-align:right}
-#inp::placeholder{direction:rtl;text-align:right}
+/* FIX: inp LTR for configs, placeholder RTL via unicode-bidi */
+#inp{min-height:150px}
+#inp::placeholder{font-family:var(--sans);font-size:12.8px;color:var(--tx3);unicode-bidi:plaintext;direction:rtl;text-align:right}
 #out{min-height:180px;border-color:var(--ac1)}
+#cs,#fm{direction:ltr;text-align:left}
 .in{height:40px;padding:0 13px;font-size:13.5px}
 .in::placeholder{color:var(--tx3)}
 .drag{border-color:var(--ac)!important;background:var(--ac0)!important}
@@ -89,11 +107,9 @@ html[data-theme=light] .bp,html[data-theme=light] .b.ok{color:#fff}
 .opt{font-size:9.5px;font-weight:600;padding:2px 8px;border-radius:var(--pill);color:var(--tx3);background:var(--s2);border:1px solid var(--ln)}
 .hint{font-size:11.5px;color:var(--tx3)}.hint.no{color:var(--rd)}
 .nt{display:flex;align-items:center;gap:6px;font-size:11.5px;color:var(--tx3)}
-.nt svg{color:var(--tx3)}
 .inl{display:flex;gap:8px}.inl .in{flex:1;min-width:0}
 .sw{position:relative}.sw .in{appearance:none;-webkit-appearance:none;padding-left:34px;cursor:pointer}
 .sw>svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--tx3);pointer-events:none}
-/* accordion */
 .acard{overflow:hidden}
 .ah{width:100%;display:flex;align-items:center;gap:11px;padding:15px 17px;text-align:right;transition:background var(--t1) var(--e)}
 .ah:hover{background:var(--s2)}
@@ -107,34 +123,34 @@ html[data-theme=light] .bp,html[data-theme=light] .b.ok{color:#fff}
 .clip{overflow:hidden;min-height:0}
 .inr{padding:15px 17px 17px;display:flex;flex-direction:column;gap:14px;border-top:1px solid var(--ln);opacity:0;transform:translateY(-4px);transition:opacity var(--t2) var(--e),transform var(--t2) var(--e2)}
 .acard.open .inr{opacity:1;transform:none;transition-delay:.05s}
-/* output */
+.protos{display:flex;gap:6px;flex-wrap:wrap}
+.ptag{font-size:10.5px;font-weight:600;font-style:normal;padding:2px 9px;border-radius:var(--pill);color:var(--tx3);background:var(--s2);border:1px solid var(--ln)}
+.ptag.ac{color:var(--ac);background:var(--ac0);border-color:var(--ac1)}
 .sum{font-size:12.6px;font-weight:600;color:var(--tx2)}
 .errs{display:flex;flex-direction:column;gap:7px}.errs:empty{display:none}
-.er{font-size:12px;color:var(--rd);background:var(--rd1);border:1px solid var(--rd1);border-radius:var(--r3);padding:9px 12px;word-break:break-all}
-/* quick links */
+.er{font-size:12px;color:var(--rd);background:var(--rd0);border:1px solid var(--rd1);border-radius:var(--r3);padding:9px 12px;word-break:break-all;direction:rtl;text-align:right}
 .qk{display:grid;grid-template-columns:1fr;gap:12px}
 .qc{display:flex;align-items:center;gap:12px;padding:15px;border-radius:var(--r);background:var(--s1);border:1px solid var(--ln);box-shadow:var(--sh);transition:all var(--t2) var(--e2)}
 .qc:hover{border-color:var(--ln2);background:var(--s2)}
-.qi{width:38px;height:38px;flex:none;display:grid;place-items:center;border-radius:11px;color:var(--tx2);background:var(--s2);border:1px solid var(--ln)}
-.q-fire .qi svg{color:var(--ac)}
+.qi{width:38px;height:38px;flex:none;display:grid;place-items:center;border-radius:11px;color:var(--ac);background:var(--ac0);border:1px solid var(--ac1)}
+.q-code .qi{color:var(--vi);background:var(--vi0);border-color:var(--vi1)}
 .qt{display:flex;flex-direction:column;gap:1px;margin-left:auto;min-width:0}
-.qt b{font-size:13.5px;font-weight:600}
-.qt small{font-size:11.5px;color:var(--tx3)}
+.qt b{font-size:13.5px;font-weight:600}.qt small{font-size:11.5px;color:var(--tx3)}
 .qg{color:var(--tx3);transition:transform var(--t2) var(--e2)}
 .qc:hover .qg{transform:translateX(-4px)}
-/* privacy + footer */
-.pv{display:flex;align-items:flex-start;gap:11px;padding:14px 16px;color:var(--tx2)}
-.pv svg{color:var(--ac)}
+.pv{display:flex;align-items:flex-start;gap:11px;padding:14px 16px}
+.pv svg{color:var(--ac);flex:none;margin-top:2px}
 .pv div{display:flex;flex-direction:column;gap:1px}
 .pv b{font-size:13px;font-weight:600;color:var(--tx)}
 .pv span{font-size:12.2px;color:var(--tx3)}
-.foot{display:flex;flex-direction:column;align-items:center;gap:9px;padding-top:6px;font-size:12px;color:var(--tx3)}
-.dev{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;color:var(--tx2)}
+.foot{display:flex;flex-direction:column;align-items:center;gap:12px;padding-top:8px}
+.dev{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:600;color:var(--tx2)}
 .dev b{color:var(--tx);font-weight:700}
-.cof{color:var(--tx3)}
-.lk{display:flex;gap:7px;flex-wrap:wrap;justify-content:center}
-.lk a{display:inline-flex;align-items:center;gap:6px;height:31px;padding:0 13px;border-radius:var(--pill);font-size:12.2px;font-weight:600;color:var(--tx2);background:var(--s2);border:1px solid var(--ln);transition:all var(--t1) var(--e)}
-.lk a:hover{color:var(--tx);background:var(--s3);border-color:var(--ln2)}
+.lk{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.lk a{display:inline-flex;align-items:center;gap:6px;height:34px;padding:0 15px;border-radius:var(--pill);font-size:12.5px;font-weight:600;color:var(--tx2);background:var(--glass-bg);border:1px solid var(--glass-bd);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 2px 8px rgba(0,0,0,.16),inset 0 1px 0 rgba(255,255,255,.07);transition:all var(--t2) var(--e2)}
+.lk a:hover{color:var(--tx);background:var(--glass-hv);border-color:var(--ln2);transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,0,0,.2),inset 0 1px 0 rgba(255,255,255,.1)}
+.lk a:active{transform:translateY(0)}
+.copy{font-size:11.5px;color:var(--tx3)}
 @media(min-width:640px){.wrap{padding:28px 24px 56px;gap:16px}.sec,.feat{padding:20px}.ah{padding:17px 20px}.inr{padding:17px 20px 20px}.g2{grid-template-columns:1fr 1fr;gap:16px}.qk{grid-template-columns:1fr 1fr}#inp{min-height:170px}#out{min-height:210px}.bt h1{font-size:20px}}
 @media(min-width:900px){.wrap{padding:34px 28px 64px}.sec,.feat{padding:22px}#inp{min-height:190px}#out{min-height:240px}}
 @media(max-width:430px){.wrap{padding:16px 13px 38px;gap:12px}.sec,.feat{padding:15px}.ah{padding:14px 15px}.inr{padding:15px}.bl{width:100%}.at small{display:none}.bt h1{font-size:17px}}
@@ -143,17 +159,16 @@ html[data-theme=light] .bp,html[data-theme=light] .b.ok{color:#fff}
 </head>
 <body>
 <div class="bgw"><i></i><i></i></div>
-
 <div class="wrap">
 
   <header class="hd">
     <div class="bt">
       <h1>بهینه‌ساز کانفیگ</h1>
-      <small>افزودن Fragment و Cipher Suites به VLESS</small>
+      <small>افزودن Fragment و Cipher Suites به کانفیگ‌های VPN</small>
     </div>
     <button class="ib" id="th" type="button" aria-label="تغییر تم">
-      <svg class="sn" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.6v2.2M12 19.2v2.2M2.6 12h2.2M19.2 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M18.7 5.3l-1.6 1.6M6.9 17.1l-1.6 1.6"/></svg>
-      <svg class="mn" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linejoin="round"><path d="M20 14.2A8.2 8.2 0 019.8 4 8.4 8.4 0 1020 14.2z"/></svg>
+      <svg class="sn" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      <svg class="mn" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
     </button>
   </header>
 
@@ -167,33 +182,45 @@ html[data-theme=light] .bp,html[data-theme=light] .b.ok{color:#fff}
     </div>
     <div class="fa2">
       <a class="b bp" href="https://github.com/patterniha/v2rayNG/releases/tag/2.2.6-P2" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v10"/><path d="M8 11l4 4 4-4"/><path d="M5 19h14"/></svg>
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
         دانلود
       </a>
-      <a class="b" href="https://github.com/patterniha" target="_blank" rel="noopener">صفحهٔ سازنده</a>
+      <a class="b" href="https://github.com/patterniha" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        صفحهٔ سازنده
+      </a>
     </div>
   </section>
 
   <section class="card sec" id="dz">
     <div class="st">
-      <span class="si"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4h9a3 3 0 013 3v9"/><rect x="4" y="8" width="12" height="12" rx="2.6"/></svg></span>
+      <span class="si"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg></span>
       <h2>کانفیگ‌های ورودی</h2>
       <span class="cnt" id="cnt">۰ خط</span>
       <div class="acts">
-        <button class="b bs" id="pst" type="button">چسباندن</button>
-        <button class="b bs" id="fbt" type="button">فایل</button>
-        <button class="b bs bd" id="clr" type="button">پاک کردن</button>
+        <button class="b bs" id="pst" type="button">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
+          چسباندن
+        </button>
+        <button class="b bs" id="fbt" type="button">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>
+          فایل
+        </button>
+        <button class="b bs" id="clr" type="button">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 011-1h4a1 1 0 011 1v2"/></svg>
+          پاک کردن
+        </button>
       </div>
     </div>
-    <textarea class="ta" id="inp" spellcheck="false" placeholder="هر خط یک کانفیگ vless — یا لینک ساب را بگذار تا خودش همهٔ کانفیگ‌ها را استخراج کند."></textarea>
+    <textarea class="ta" id="inp" spellcheck="false" placeholder="هر خط یک کانفیگ — vless، trojan، vmess، ss — یا لینک ساب را بگذار تا خودش استخراج کند."></textarea>
     <input type="file" id="fin" accept=".txt,text/plain" hidden>
     <div class="row">
       <span class="nt">
-        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V4"/><path d="M8.5 7.5L12 4l3.5 3.5"/><path d="M4.5 15v3a2 2 0 002 2h11a2 2 0 002-2v-3"/></svg>
-        فایل ‎.txt‎ · لینک ساب · بدون محدودیت تعداد
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        فایل .txt · لینک ساب · بدون محدودیت
       </span>
       <button class="b bp bl" id="go" type="button">
-        <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2.5L5 13.4h5.6L11 21.5l8-10.9h-5.6z"/></svg>
+        <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
         بهینه‌سازی
       </button>
     </div>
@@ -201,9 +228,9 @@ html[data-theme=light] .bp,html[data-theme=light] .b.ok{color:#fff}
 
   <section class="card acard" id="adv">
     <button class="ah" id="advb" type="button" aria-expanded="false">
-      <span class="si"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M4.2 14.2A8 8 0 014 12c0-.7.1-1.5.2-2.2M19.8 9.8c.1.7.2 1.5.2 2.2s-.1 1.5-.2 2.2M9.8 4.2A8 8 0 0112 4c.8 0 1.5.1 2.2.2M14.2 19.8c-.7.1-1.4.2-2.2.2s-1.5-.1-2.2-.2"/></svg></span>
+      <span class="si"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg></span>
       <span class="at"><b>تنظیمات پیشرفته</b><small>آدرس · Fingerprint · Cipher Suites · FinalMask</small></span>
-      <svg class="cr" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 9.5l6 6 6-6"/></svg>
+      <svg class="cr" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
     </button>
     <div class="acc"><div class="clip"><div class="inr">
       <div class="g2">
@@ -211,7 +238,10 @@ html[data-theme=light] .bp,html[data-theme=light] .b.ok{color:#fff}
           <label class="lb" for="adr">آدرس <span class="opt">اختیاری</span></label>
           <div class="inl">
             <input class="in" id="adr" spellcheck="false" placeholder="خالی = آدرس دست نمی‌خورد">
-            <button class="b bs bd" id="cadr" type="button">پاک</button>
+            <button class="b bs" id="cadr" type="button">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              پاک
+            </button>
           </div>
           <span class="hint">پیش‌فرض خالی است؛ IP کانفیگ اصلاً تغییر نمی‌کند.</span>
         </div>
@@ -223,7 +253,7 @@ html[data-theme=light] .bp,html[data-theme=light] .b.ok{color:#fff}
               <option value="firefox">firefox</option><option value="safari">safari</option>
               <option value="edge">edge</option><option value="random">random</option>
             </select>
-            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 9.5l6 6 6-6"/></svg>
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
           </div>
           <span class="hint">روی همهٔ کانفیگ‌ها ست می‌شود.</span>
         </div>
@@ -231,21 +261,36 @@ html[data-theme=light] .bp,html[data-theme=light] .b.ok{color:#fff}
       <div class="f"><label class="lb" for="cs">Cipher Suites <code>cs</code></label><textarea class="ta" id="cs" rows="4" spellcheck="false"></textarea></div>
       <div class="f"><label class="lb" for="fm">FinalMask <code>fm</code></label><textarea class="ta" id="fm" rows="5" spellcheck="false"></textarea><span class="hint" id="fmh"></span></div>
       <div class="row">
-        <span class="nt">فقط تنظیمات ذخیره می‌شود؛ کانفیگ‌ها هرگز ذخیره نمی‌شوند.</span>
-        <button class="b bs" id="rst" type="button">بازنشانی</button>
+        <div class="protos">
+          <i class="ptag ac">vless ✦ کامل</i><i class="ptag ac">trojan ✦ کامل</i>
+          <i class="ptag">vmess ✦ عبور</i><i class="ptag">ss ✦ عبور</i>
+        </div>
+        <button class="b bs" id="rst" type="button">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 101.85-4.11L1 10"/></svg>
+          بازنشانی
+        </button>
       </div>
     </div></div></div>
   </section>
 
   <section class="card sec" id="res" hidden>
     <div class="st">
-      <span class="si"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.6l4.2 4.2L19 7"/></svg></span>
+      <span class="si"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></span>
       <h2>خروجی</h2>
       <span class="cnt" id="ocnt">۰ کانفیگ</span>
       <div class="acts">
-        <button class="b bs bp" id="cpy" type="button">کپی همه</button>
-        <button class="b bs" id="dl" type="button">دانلود</button>
-        <button class="b bs bd" id="crs" type="button">پاک کردن</button>
+        <button class="b bs bp" id="cpy" type="button" disabled>
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          کپی همه
+        </button>
+        <button class="b bs" id="dl" type="button" disabled>
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          دانلود
+        </button>
+        <button class="b bs" id="crs" type="button">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6M14 11v6"/></svg>
+          پاک کردن
+        </button>
       </div>
     </div>
     <p class="sum" id="sum">—</p>
@@ -255,221 +300,450 @@ html[data-theme=light] .bp,html[data-theme=light] .b.ok{color:#fff}
 
   <div class="qk">
     <a class="qc q-fire" href="https://github.com/zeus-panel/ZEUS-PANEL" target="_blank" rel="noopener">
-      <span class="qi"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="M12 2.8s.9 3-1.4 5.3C8.3 10.4 6 11.9 6 15a6 6 0 0012 0c0-2.4-1.2-3.9-2.4-5.2-.4 1-1.1 1.7-2 2 .7-2.6-.4-6.4-3.6-9z"/></svg></span>
+      <span class="qi"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0011 17c1.38 0 2.5-1.12 2.5-2.5 0-1.5-1-2.5-2-3.5s-2-2-2-3.5A3.5 3.5 0 0113 4c0 2-1.5 3-2 4.5-.5 1.5 1 3 2.5 3s2.5-1 2.5-2.5c0-.5-.17-1-.5-1.5"/></svg></span>
       <span class="qt"><b>کانفیگ رایگان</b><small>ZEUS-PANEL</small></span>
-      <svg class="qg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>
+      <svg class="qg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>
     </a>
     <a class="qc q-code" href="https://github.com/ArasTey/cf-optimizor" target="_blank" rel="noopener">
-      <span class="qi"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M9 17l-5-5 5-5"/><path d="M15 7l5 5-5 5"/></svg></span>
+      <span class="qi"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg></span>
       <span class="qt"><b>سورس پروژه</b><small>ArasTey / cf-optimizor</small></span>
-      <svg class="qg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>
+      <svg class="qg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>
     </a>
   </div>
 
   <div class="card pv">
-    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="10.5" width="15" height="10" rx="2.6"/><path d="M8 10.5V7.8a4 4 0 118 0v2.7"/></svg>
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
     <div><b>پردازش کاملاً روی دستگاه خودت</b><span>کانفیگ‌ها در مرورگر پردازش می‌شوند و هیچ‌جا آپلود نمی‌شوند.</span></div>
   </div>
 
   <footer class="foot">
-    <p class="dev">
-      Developed by <b>Aras</b> with
-      <svg class="cof" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9h12v6a4 4 0 01-4 4H8a4 4 0 01-4-4z"/><path d="M16 10.5h1.6a2.4 2.4 0 010 4.8H16"/><path d="M7.5 5.4V3.6M11 5.4V3.6"/></svg>
-      coffee
-    </p>
+    <p class="dev">Developed by <b>ArasTey</b> With ☕️</p>
     <div class="lk">
-      <a href="https://t.me/imArasTey" target="_blank" rel="noopener">تلگرام</a>
-      <a href="https://github.com/ArasTey/cf-optimizor" target="_blank" rel="noopener">گیت‌هاب</a>
-      <a href="https://github.com/zeus-panel/ZEUS-PANEL" target="_blank" rel="noopener">ZEUS-PANEL</a>
+      <a href="https://t.me/imArasTey" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        تلگرام
+      </a>
+      <a href="https://github.com/ArasTey/cf-optimizor" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
+        گیت‌هاب
+      </a>
+      <a href="https://github.com/zeus-panel/ZEUS-PANEL" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        ZEUS-PANEL
+      </a>
     </div>
-    <span>© <span id="yr"></span></span>
+    <span class="copy">© <span id="yr"></span> — All rights reserved</span>
   </footer>
 
 </div>
-
 <script>
 (function(){
 'use strict';
-var FM='{"tcp": [{"type": "fragment", "settings": {"packets": "tlshello", "lengths": ["5","94", "1"], "delays": ["0"], "maxSplit": "0"}},{"type": "fragment", "settings": {"packets": "1-1", "lengths": ["109", "1"], "delays": ["1"], "maxSplit": "355"}}]}';
-var CS=['TLS_AES_256_GCM_SHA384','TLS_CHACHA20_POLY1305_SHA256','TLS_AES_128_GCM_SHA256',
-'TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384','TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384',
-'TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256','TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256',
-'TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256','TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256',
-'TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA','TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA',
-'TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256','TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256'].join(':');
-var DEF={adr:'',fp:'unsafe',cs:CS,fm:FM};
-var ORDER=['cs','path','security','alpn','encryption','fm','insecure','host','fp','type','allowInsecure','sni'];
-var UUID=/^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
-var KEY='arpam_opt',TKEY='vpn_theme';
 
-function $(i){return document.getElementById(i)}
-function fa(n){return String(n).replace(/\d/g,function(d){return '۰۱۲۳۴۵۶۷۸۹'[+d]})}
-function dec(s){try{return decodeURIComponent(s)}catch(e){return s}}
-function esc(s){return String(s).replace(/[&<>]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;'}[c]})}
+/* ── constants ─────────────────────────── */
+var FM_STR = '{"tcp":[{"type":"fragment","settings":{"packets":"tlshello","lengths":["5","94","1"],"delays":["0"],"maxSplit":"0"}},{"type":"fragment","settings":{"packets":"1-1","lengths":["109","1"],"delays":["1"],"maxSplit":"355"}}]}';
+var CS_STR = [
+  'TLS_AES_256_GCM_SHA384','TLS_CHACHA20_POLY1305_SHA256','TLS_AES_128_GCM_SHA256',
+  'TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384','TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384',
+  'TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256','TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256',
+  'TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256','TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256',
+  'TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA','TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA',
+  'TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256','TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256'
+].join(':');
+var DEF = {adr:'', fp:'unsafe', cs:CS_STR, fm:FM_STR};
+var ORDER = ['cs','path','security','alpn','encryption','fm','insecure','host','fp','type','allowInsecure','sni'];
+var UUID_RE = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
+var PROTOS = /^(vless|vmess|trojan|ss|hysteria2?|tuic|naive\+https?|wireguard):\/\//i;
+var SKEY = 'arpam_opt', TKEY = 'vpn_theme';
 
-function pq(q){var o=[];if(!q)return o;
-  q.split('&').forEach(function(p){if(!p)return;var i=p.indexOf('=');
-    o.push({k:dec(i<0?p:p.slice(0,i)),v:i<0?'':dec(p.slice(i+1))})});return o}
-function parse(raw){
-  var l=String(raw||'').trim();
-  if(!/^vless:\/\//i.test(l))throw new Error('کانفیگ VLESS معتبر نیست');
-  var b=l.slice(8),f='',h=b.indexOf('#');
-  if(h>=0){f=b.slice(h+1);b=b.slice(0,h)}
-  var q='',x=b.indexOf('?');
-  if(x>=0){q=b.slice(x+1);b=b.slice(0,x)}
-  var a=b.lastIndexOf('@');
-  if(a<0)throw new Error('جداکنندهٔ @ وجود ندارد');
-  var id=dec(b.slice(0,a)).trim(),au=b.slice(a+1).trim();
-  if(!UUID.test(id))throw new Error('UUID نامعتبر');
-  if(!au)throw new Error('آدرس خالی است');
-  var host=au,port='';
-  if(au.charAt(0)==='['){var c=au.indexOf(']');
-    if(c<0)throw new Error('IPv6 نامعتبر');
-    host=au.slice(0,c+1);if(au.charAt(c+1)===':')port=au.slice(c+2);
-  }else{var c2=au.lastIndexOf(':');if(c2>0){host=au.slice(0,c2);port=au.slice(c2+1)}}
-  if(port&&!/^\d{1,5}$/.test(port))throw new Error('پورت نامعتبر');
-  return{id:id,host:host,port:port,p:pq(q),f:f}}
-function set(p,k,v){var lk=k.toLowerCase(),f=false;
-  for(var i=p.length-1;i>=0;i--){if(p[i].k.toLowerCase()===lk){
-    if(f){p.splice(i,1);continue}p[i].k=k;p[i].v=v;f=true}}
-  if(!f)p.push({k:k,v:v})}
-function sort(p){var ix={};ORDER.forEach(function(k,i){ix[k]=i});
-  var a=[],b=[];p.forEach(function(x){(ix[x.k.toLowerCase()]!==undefined?a:b).push(x)});
-  a.sort(function(m,n){return ix[m.k.toLowerCase()]-ix[n.k.toLowerCase()]});return a.concat(b)}
-function build(c){
-  var qs=sort(c.p).map(function(x){return encodeURIComponent(x.k)+'='+encodeURIComponent(x.v)}).join('&');
-  return 'vless://'+c.id+'@'+c.host+(c.port?':'+c.port:'')+(qs?'?'+qs:'')+(c.f?'#'+c.f:'')}
-function fmOf(t){t=String(t||'').trim()||FM;var o;
-  try{o=JSON.parse(t)}catch(e){throw new Error('FinalMask JSON نامعتبر است')}
-  return JSON.stringify(o)}
-function optimize(raw,o){var c=parse(raw),v=fmOf(o.fm);
-  if(o.adr)c.host=o.adr;
-  set(c.p,'fp',o.fp||DEF.fp);set(c.p,'cs',o.cs||DEF.cs);set(c.p,'fm',v);
-  return build(c)}
+/* ── utils ─────────────────────────────── */
+function $(id){ return document.getElementById(id); }
+function fa(n){ return String(n).replace(/\d/g, function(d){ return '۰۱۲۳۴۵۶۷۸۹'[+d]; }); }
+function dec(s){ try{ return decodeURIComponent(s); }catch(e){ return s; } }
+function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
 
-function b64(s){try{
-  var t=s.replace(/[\r\n\s]/g,'').replace(/-/g,'+').replace(/_/g,'/');
-  while(t.length%4)t+='=';
-  var bin=atob(t),o='';
-  for(var i=0;i<bin.length;i++)o+='%'+('00'+bin.charCodeAt(i).toString(16)).slice(-2);
-  return decodeURIComponent(o)}catch(e){return ''}}
-function extract(text){var t=String(text||'');
-  if(t.indexOf('vless://')<0){var d=b64(t);if(d.indexOf('vless://')>=0)t=d}
-  var m=t.match(/vless:\/\/[^\s"'<>]+/g);return m||[]}
-function proxyList(u){var e=encodeURIComponent(u);
-  return [u,'https://api.'+'allorigins.win/raw?url='+e,'https://corsproxy.'+'io/?'+e,'https://r.'+'jina.ai/'+u]}
-function fetchSub(u){var list=proxyList(u),i=0;
+/* ── query string ───────────────────────── */
+function pq(q){
+  var o = [];
+  if(!q) return o;
+  q.split('&').forEach(function(p){
+    if(!p) return;
+    var i = p.indexOf('=');
+    o.push({ k: dec(i < 0 ? p : p.slice(0, i)), v: i < 0 ? '' : dec(p.slice(i+1)) });
+  });
+  return o;
+}
+function setParam(p, k, v){
+  var lk = k.toLowerCase(), found = false;
+  for(var i = p.length - 1; i >= 0; i--){
+    if(p[i].k.toLowerCase() === lk){
+      if(found){ p.splice(i, 1); continue; }
+      p[i] = { k:k, v:v }; found = true;
+    }
+  }
+  if(!found) p.push({ k:k, v:v });
+}
+function buildQS(p){
+  var idx = {};
+  ORDER.forEach(function(k, i){ idx[k] = i; });
+  var a = [], b = [];
+  p.forEach(function(x){ (idx[x.k.toLowerCase()] !== undefined ? a : b).push(x); });
+  a.sort(function(m, n){ return idx[m.k.toLowerCase()] - idx[n.k.toLowerCase()]; });
+  return a.concat(b).map(function(x){ return encodeURIComponent(x.k) + '=' + encodeURIComponent(x.v); }).join('&');
+}
+
+/* ── parsers ───────────────────────────── */
+function parseAuthority(au){
+  var host = au, port = '';
+  if(au.charAt(0) === '['){
+    var c = au.indexOf(']');
+    if(c < 0) throw new Error('IPv6 نامعتبر');
+    host = au.slice(0, c+1);
+    if(au.charAt(c+1) === ':') port = au.slice(c+2);
+  } else {
+    var c2 = au.lastIndexOf(':');
+    if(c2 > 0){ host = au.slice(0, c2); port = au.slice(c2+1); }
+  }
+  return { host:host, port:port };
+}
+function parseVless(raw){
+  var b = raw.slice(8), frag = '', h = b.indexOf('#');
+  if(h >= 0){ frag = b.slice(h+1); b = b.slice(0, h); }
+  var q = '', x = b.indexOf('?');
+  if(x >= 0){ q = b.slice(x+1); b = b.slice(0, x); }
+  var a = b.lastIndexOf('@');
+  if(a < 0) throw new Error('جداکنندهٔ @ وجود ندارد');
+  var id = dec(b.slice(0, a)).trim(), au = b.slice(a+1).trim();
+  if(!UUID_RE.test(id)) throw new Error('UUID نامعتبر');
+  var hp = parseAuthority(au);
+  return { proto:'vless', id:id, host:hp.host, port:hp.port, p:pq(q), f:frag };
+}
+function parseTrojan(raw){
+  var b = raw.slice(9), frag = '', h = b.indexOf('#');
+  if(h >= 0){ frag = b.slice(h+1); b = b.slice(0, h); }
+  var q = '', x = b.indexOf('?');
+  if(x >= 0){ q = b.slice(x+1); b = b.slice(0, x); }
+  var a = b.lastIndexOf('@');
+  if(a < 0) throw new Error('جداکنندهٔ @ وجود ندارد');
+  var pass = dec(b.slice(0, a)).trim(), au = b.slice(a+1).trim();
+  if(!pass) throw new Error('رمز عبور خالی است');
+  var hp = parseAuthority(au);
+  return { proto:'trojan', pass:pass, host:hp.host, port:hp.port, p:pq(q), f:frag };
+}
+function buildVless(c){
+  var qs = buildQS(c.p);
+  return 'vless://' + c.id + '@' + c.host + (c.port ? ':'+c.port : '') + (qs ? '?'+qs : '') + (c.f ? '#'+c.f : '');
+}
+function buildTrojan(c){
+  var qs = buildQS(c.p);
+  return 'trojan://' + encodeURIComponent(c.pass) + '@' + c.host + (c.port ? ':'+c.port : '') + (qs ? '?'+qs : '') + (c.f ? '#'+c.f : '');
+}
+
+/* ── FinalMask ─────────────────────────── */
+function fmOf(raw){
+  var t = String(raw || '').trim();
+  if(!t) t = FM_STR;
+  try{ return JSON.stringify(JSON.parse(t)); }
+  catch(e){ throw new Error('FinalMask JSON نامعتبر است'); }
+}
+
+/* ── core optimizer ────────────────────── */
+function applyParams(c, o){
+  var v = fmOf(o.fm);
+  if(o.adr) c.host = o.adr;
+  setParam(c.p, 'fp', o.fp || DEF.fp);
+  setParam(c.p, 'cs', o.cs || DEF.cs);
+  setParam(c.p, 'fm', v);
+}
+function optimize(raw, o){
+  var l = String(raw || '').trim();
+  if(/^vless:\/\//i.test(l)){
+    var cv = parseVless(l); applyParams(cv, o); return buildVless(cv);
+  }
+  if(/^trojan:\/\//i.test(l)){
+    var ct = parseTrojan(l); applyParams(ct, o); return buildTrojan(ct);
+  }
+  if(PROTOS.test(l)) return l; // pass-through
+  throw new Error('پروتکل ناشناخته');
+}
+
+/* ── base64 decode for subs ────────────── */
+function b64decode(s){
+  try{
+    var t = s.replace(/[\r\n\s]/g,'').replace(/-/g,'+').replace(/_/g,'/');
+    while(t.length % 4) t += '=';
+    var bin = atob(t), o = '';
+    for(var i = 0; i < bin.length; i++) o += '%' + ('00' + bin.charCodeAt(i).toString(16)).slice(-2);
+    return decodeURIComponent(o);
+  } catch(e){ return ''; }
+}
+function extract(text){
+  var t = String(text || '');
+  if(!PROTOS.test(t)){
+    var d = b64decode(t);
+    if(PROTOS.test(d)) t = d;
+  }
+  return t.match(/(vless|vmess|trojan|ss|hysteria2?|tuic):\/\/+/gi) || [];
+}
+
+/* ── CORS proxies ──────────────────────── */
+function proxyList(u){
+  var e = encodeURIComponent(u);
+  return [
+    u,
+    'https://api.' + 'allorigins.win/raw?url=' + e,
+    'https://corsproxy.' + 'io/?' + e,
+    'https://r.' + 'jina.ai/' + u
+  ];
+}
+function fetchSub(url){
+  var list = proxyList(url), idx = 0;
   function next(){
-    if(i>=list.length)return Promise.reject(new Error('fail'));
-    return fetch(list[i++],{redirect:'follow'})
-      .then(function(r){if(!r.ok)throw 0;return r.text()})
-      .then(function(t){var c=extract(t);if(!c.length)throw 0;return c})
-      .catch(function(){return next()})}
-  return next()}
+    if(idx >= list.length) return Promise.reject(new Error('همهٔ پروکسی‌ها ناموفق'));
+    return fetch(list[idx++], { redirect:'follow' })
+      .then(function(r){ if(!r.ok) throw new Error('HTTP ' + r.status); return r.text(); })
+      .then(function(t){ var c = extract(t); if(!c.length) throw new Error('کانفیگ پیدا نشد'); return c; })
+      .catch(function(){ return next(); });
+  }
+  return next();
+}
 
-function load(){var s={};
-  try{s=JSON.parse(localStorage.getItem(KEY)||'{}')||{}}catch(e){s={}}
-  var a=(typeof s.adr==='string')?s.adr:'';if(a==='188.114.97.6')a='';
-  var f=(typeof s.fm==='string'&&s.fm.indexOf('"packets"')>=0)?s.fm:DEF.fm;
-  return{adr:a,fp:s.fp||DEF.fp,cs:s.cs||DEF.cs,fm:f}}
-function save(o){try{localStorage.setItem(KEY,JSON.stringify(o))}catch(e){}}
-function flash(btn,text,cls){
-  if(!btn)return;
-  if(btn._t){clearTimeout(btn._t);btn.innerHTML=btn._o;btn.classList.remove('ok','no')}
-  btn._o=btn.innerHTML;btn.textContent=text;btn.classList.add(cls||'ok');
-  btn._t=setTimeout(function(){btn.innerHTML=btn._o;btn.classList.remove('ok','no');btn._t=null},1400)}
-function copy(t){
-  if(navigator.clipboard&&window.isSecureContext)
-    return navigator.clipboard.writeText(t).then(function(){return true}).catch(leg);
-  return Promise.resolve(leg());
-  function leg(){var a=document.createElement('textarea');a.value=t;a.style.cssText='position:fixed;top:-9999px';
-    document.body.appendChild(a);a.select();var k=false;try{k=document.execCommand('copy')}catch(e){}
-    document.body.removeChild(a);return k}}
+/* ── settings persistence ──────────────── */
+function loadSettings(){
+  var s = {};
+  try{ s = JSON.parse(localStorage.getItem(SKEY) || '{}') || {}; } catch(e){ s = {}; }
+  // migrate old cdnIp key
+  var adr = (typeof s.adr === 'string') ? s.adr : '';
+  if(adr === '188.114.97.6') adr = '';
+  // validate fm: must parse as JSON
+  var fm = DEF.fm;
+  if(typeof s.fm === 'string' && s.fm.trim()){
+    try{ JSON.parse(s.fm); fm = s.fm.trim(); } catch(e){ fm = DEF.fm; }
+  }
+  return { adr:adr, fp:s.fp || DEF.fp, cs:s.cs || DEF.cs, fm:fm };
+}
+function saveSettings(o){
+  try{ localStorage.setItem(SKEY, JSON.stringify(o)); } catch(e){}
+}
 
-var st=load();
-var inp=$('inp'),out=$('out'),res=$('res'),sum=$('sum'),errs=$('errs'),cnt=$('cnt'),ocnt=$('ocnt'),
-    adr=$('adr'),fp=$('fp'),cs=$('cs'),fm=$('fm'),fmh=$('fmh'),adv=$('adv'),advb=$('advb'),go=$('go'),dz=$('dz');
-adr.value=st.adr;fp.value=st.fp;cs.value=st.cs;fm.value=st.fm;
-$('yr').textContent=fa(new Date().getFullYear());
+/* ── flash helper ──────────────────────── */
+function flash(btn, text, cls){
+  if(!btn || btn._busy) return;
+  btn._busy = true;
+  btn._saved = btn.innerHTML;
+  btn.textContent = text;
+  btn.classList.add(cls || 'ok');
+  btn._timer = setTimeout(function(){
+    btn.innerHTML = btn._saved;
+    btn.classList.remove('ok', 'no');
+    btn._busy = false;
+  }, 1400);
+}
 
-function opts(){return{adr:adr.value.trim(),fp:fp.value,cs:cs.value.trim()||DEF.cs,fm:fm.value.trim()||DEF.fm}}
-function persist(){save(opts())}
-function chkFm(){var v=fm.value.trim();
-  if(!v){fmh.textContent='خالی — مقدار پیش‌فرض استفاده می‌شود';fmh.classList.remove('no');return true}
-  try{JSON.parse(v);fmh.textContent='JSON معتبر است';fmh.classList.remove('no');return true}
-  catch(e){fmh.textContent='JSON نامعتبر';fmh.classList.add('no');return false}}
-function count(){var n=inp.value.split(/\r?\n/).filter(function(l){return l.trim()}).length;cnt.textContent=fa(n)+' خط'}
-adr.addEventListener('input',persist);cs.addEventListener('input',persist);
-fp.addEventListener('change',persist);fm.addEventListener('input',function(){chkFm();persist()});
-inp.addEventListener('input',count);chkFm();count();
+/* ── clipboard ─────────────────────────── */
+function copyText(t){
+  if(navigator.clipboard && window.isSecureContext)
+    return navigator.clipboard.writeText(t).then(function(){ return true; }).catch(function(){ return legacyCopy(t); });
+  return Promise.resolve(legacyCopy(t));
+}
+function legacyCopy(t){
+  var el = document.createElement('textarea');
+  el.value = t; el.style.cssText = 'position:fixed;top:-9999px;left:-9999px';
+  document.body.appendChild(el); el.select();
+  var ok = false; try{ ok = document.execCommand('copy'); } catch(e){}
+  document.body.removeChild(el); return ok;
+}
 
-$('th').addEventListener('click',function(){
-  var h=document.documentElement,n=(h.getAttribute('data-theme')==='light')?'dark':'light';
-  h.classList.add('tz');h.setAttribute('data-theme',n);
-  $('mtc').setAttribute('content',n==='light'?'#f3f5f9':'#0b0b10');
-  try{localStorage.setItem(TKEY,n)}catch(e){}
-  setTimeout(function(){h.classList.remove('tz')},430)});
-advb.addEventListener('click',function(){
-  var o=adv.classList.toggle('open');advb.setAttribute('aria-expanded',o?'true':'false')});
-$('cadr').addEventListener('click',function(){adr.value='';persist();flash(this,'انجام شد')});
-$('rst').addEventListener('click',function(){
-  adr.value=DEF.adr;fp.value=DEF.fp;cs.value=DEF.cs;fm.value=DEF.fm;chkFm();persist();flash(this,'بازنشانی شد')});
-$('clr').addEventListener('click',function(){inp.value='';count();inp.focus();flash(this,'پاک شد')});
-$('pst').addEventListener('click',function(){var b=this;
-  if(navigator.clipboard&&navigator.clipboard.readText)
-    navigator.clipboard.readText().then(function(t){
-      if(t){inp.value=(inp.value.trim()?inp.value.trim()+'\n':'')+t.trim();count();flash(b,'اضافه شد')}
-      else flash(b,'خالی','no')}).catch(function(){inp.focus();flash(b,'Ctrl+V','no')});
-  else{inp.focus();flash(b,'Ctrl+V','no')}});
-$('fbt').addEventListener('click',function(){$('fin').click()});
-$('fin').addEventListener('change',function(){var f=this.files&&this.files[0];this.value='';if(f)readFile(f)});
-function readFile(f){var r=new FileReader();
-  r.onload=function(){inp.value=(inp.value.trim()?inp.value.trim()+'\n':'')+String(r.result||'').trim();count();run()};
-  r.readAsText(f)}
-['dragenter','dragover'].forEach(function(ev){dz.addEventListener(ev,function(e){e.preventDefault();inp.classList.add('drag')})});
-['dragleave','drop'].forEach(function(ev){dz.addEventListener(ev,function(e){e.preventDefault();inp.classList.remove('drag')})});
-dz.addEventListener('drop',function(e){
-  var f=e.dataTransfer&&e.dataTransfer.files&&e.dataTransfer.files[0];
-  if(f){readFile(f);return}
-  var t=e.dataTransfer&&e.dataTransfer.getData('text');
-  if(t){inp.value=t.trim();count();run()}});
-inp.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&e.key==='Enter'){e.preventDefault();run()}});
-go.addEventListener('click',run);
-$('cpy').addEventListener('click',function(){var b=this;if(!out.value)return;
-  copy(out.value).then(function(k){flash(b,k?'کپی شد':'ناموفق',k?'ok':'no')})});
-$('dl').addEventListener('click',function(){if(!out.value)return;
-  var bl=new Blob([out.value+'\n'],{type:'text/plain;charset=utf-8'}),u=URL.createObjectURL(bl),a=document.createElement('a');
-  a.href=u;a.download='configs-'+Date.now()+'.txt';document.body.appendChild(a);a.click();document.body.removeChild(a);
-  setTimeout(function(){URL.revokeObjectURL(u)},1200);flash(this,'ذخیره شد')});
-$('crs').addEventListener('click',function(){
-  out.value='';errs.innerHTML='';sum.textContent='—';ocnt.textContent='۰ کانفیگ';res.hidden=true});
+/* ── DOM refs ──────────────────────────── */
+var inp  = $('inp'),  out   = $('out'),
+    res  = $('res'),  sumEl = $('sum'),
+    errs = $('errs'), cnt   = $('cnt'),
+    ocnt = $('ocnt'), adr   = $('adr'),
+    fp   = $('fp'),   cs    = $('cs'),
+    fm   = $('fm'),   fmh   = $('fmh'),
+    adv  = $('adv'),  advb  = $('advb'),
+    go   = $('go'),   dz    = $('dz'),
+    cpy  = $('cpy'),  dl    = $('dl');
 
+/* ── init ──────────────────────────────── */
+var st = loadSettings();
+adr.value = st.adr; fp.value = st.fp; cs.value = st.cs; fm.value = st.fm;
+$('yr').textContent = fa(new Date().getFullYear());
+
+function getOpts(){ return { adr:adr.value.trim(), fp:fp.value, cs:cs.value.trim() || DEF.cs, fm:fm.value.trim() || DEF.fm }; }
+function persist(){ saveSettings(getOpts()); }
+
+function validateFm(){
+  var v = fm.value.trim();
+  if(!v){ fmh.textContent = 'خالی — مقدار پیش‌فرض استفاده می‌شود'; fmh.classList.remove('no'); return true; }
+  try{ JSON.parse(v); fmh.textContent = 'JSON معتبر'; fmh.classList.remove('no'); return true; }
+  catch(e){ fmh.textContent = 'JSON نامعتبر'; fmh.classList.add('no'); return false; }
+}
+function updateCount(){
+  var n = inp.value.split(/\r?\n/).filter(function(l){ return l.trim(); }).length;
+  cnt.textContent = fa(n) + ' خط';
+}
+function setOutputBtns(enabled){ cpy.disabled = dl.disabled = !enabled; }
+
+/* ── event listeners ───────────────────── */
+adr.addEventListener('input', persist);
+cs.addEventListener('input', persist);
+fp.addEventListener('change', persist);
+fm.addEventListener('input', function(){ validateFm(); persist(); });
+inp.addEventListener('input', updateCount);
+validateFm(); updateCount();
+
+$('th').addEventListener('click', function(){
+  var h = document.documentElement;
+  var next = h.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+  h.classList.add('tz');
+  h.setAttribute('data-theme', next);
+  $('mtc').setAttribute('content', next === 'light' ? '#f3f5f9' : '#0b0b10');
+  try{ localStorage.setItem(TKEY, next); } catch(e){}
+  setTimeout(function(){ h.classList.remove('tz'); }, 430);
+});
+
+advb.addEventListener('click', function(){
+  var open = adv.classList.toggle('open');
+  advb.setAttribute('aria-expanded', open ? 'true' : 'false');
+});
+
+$('cadr').addEventListener('click', function(){ adr.value = ''; persist(); flash(this, 'پاک شد'); });
+$('rst').addEventListener('click', function(){
+  adr.value = DEF.adr; fp.value = DEF.fp; cs.value = DEF.cs; fm.value = DEF.fm;
+  validateFm(); persist(); flash(this, 'بازنشانی شد');
+});
+$('clr').addEventListener('click', function(){ inp.value = ''; updateCount(); inp.focus(); flash(this, 'پاک شد'); });
+
+$('pst').addEventListener('click', function(){
+  var btn = this;
+  if(!navigator.clipboard || !navigator.clipboard.readText){ inp.focus(); flash(btn, 'Ctrl+V', 'no'); return; }
+  navigator.clipboard.readText()
+    .then(function(t){
+      if(t){ inp.value = (inp.value.trim() ? inp.value.trim() + '\n' : '') + t.trim(); updateCount(); flash(btn, 'اضافه شد'); }
+      else flash(btn, 'کلیپ‌بورد خالی', 'no');
+    })
+    .catch(function(){ inp.focus(); flash(btn, 'Ctrl+V', 'no'); });
+});
+
+$('fbt').addEventListener('click', function(){ $('fin').click(); });
+$('fin').addEventListener('change', function(){
+  var f = this.files && this.files[0]; this.value = '';
+  if(f) readFile(f);
+});
+function readFile(f){
+  var r = new FileReader();
+  r.onload = function(){
+    var txt = String(r.result || '').trim();
+    inp.value = (inp.value.trim() ? inp.value.trim() + '\n' : '') + txt;
+    updateCount(); run();
+  };
+  r.readAsText(f);
+}
+
+['dragenter','dragover'].forEach(function(ev){
+  dz.addEventListener(ev, function(e){ e.preventDefault(); inp.classList.add('drag'); });
+});
+['dragleave','drop'].forEach(function(ev){
+  dz.addEventListener(ev, function(e){ e.preventDefault(); inp.classList.remove('drag'); });
+});
+dz.addEventListener('drop', function(e){
+  var f = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
+  if(f){ readFile(f); return; }
+  var t = e.dataTransfer && e.dataTransfer.getData('text');
+  if(t){ inp.value = t.trim(); updateCount(); run(); }
+});
+
+inp.addEventListener('keydown', function(e){
+  if((e.ctrlKey || e.metaKey) && e.key === 'Enter'){ e.preventDefault(); run(); }
+});
+go.addEventListener('click', run);
+
+cpy.addEventListener('click', function(){
+  var btn = this;
+  if(!out.value) return;
+  copyText(out.value).then(function(ok){ flash(btn, ok ? 'کپی شد' : 'ناموفق', ok ? 'ok' : 'no'); });
+});
+dl.addEventListener('click', function(){
+  if(!out.value) return;
+  var blob = new Blob([out.value + '\n'], { type:'text/plain;charset=utf-8' });
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url; a.download = 'configs-' + Date.now() + '.txt';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  setTimeout(function(){ URL.revokeObjectURL(url); }, 1500);
+  flash(this, 'ذخیره شد');
+});
+$('crs').addEventListener('click', function(){
+  out.value = ''; errs.innerHTML = ''; sumEl.textContent = '—';
+  ocnt.textContent = '۰ کانفیگ'; res.hidden = true; setOutputBtns(false);
+});
+
+/* ── main run ──────────────────────────── */
 function run(){
-  var raw=inp.value.trim();
-  if(!raw){flash(go,'ورودی خالی است','no');inp.focus();return}
-  if(!chkFm()){if(!adv.classList.contains('open'))advb.click();fm.focus();return}
-  var lines=raw.split(/\r?\n/).map(function(l){return l.trim()}).filter(Boolean);
-  var subs=[],direct=[];
-  lines.forEach(function(l){(/^https?:\/\//i.test(l)?subs:direct).push(l)});
-  var failed=[];
-  go.disabled=true;go._h=go.innerHTML;go.textContent=subs.length?'در حال دریافت ساب…':'در حال پردازش…';
-  Promise.all(subs.map(function(u){return fetchSub(u).catch(function(){failed.push(u);return []})}))
-    .then(function(sets){var all=direct.slice();sets.forEach(function(a){all=all.concat(a)});finish(all,failed)})
-    .catch(function(){finish(direct,failed)})
-    .then(function(){go.disabled=false;go.innerHTML=go._h});
+  if(go._running) return;
+  var raw = inp.value.trim();
+  if(!raw){ flash(go, 'ورودی خالی است', 'no'); inp.focus(); return; }
+  if(!validateFm()){ if(!adv.classList.contains('open')) advb.click(); fm.focus(); return; }
+
+  var lines = raw.split(/\r?\n/).map(function(l){ return l.trim(); }).filter(Boolean);
+  var subs = [], direct = [];
+  lines.forEach(function(l){ (/^https?:\/\//i.test(l) ? subs : direct).push(l); });
+
+  var failed = [];
+  go._running = true;
+  go._savedHTML = go.innerHTML;
+  go.disabled = true;
+  go.textContent = subs.length ? 'در حال دریافت ساب…' : 'در حال پردازش…';
+
+  Promise.all(
+    subs.map(function(u){
+      return fetchSub(u).catch(function(e){ failed.push(u + ' — ' + e.message); return []; });
+    })
+  ).then(function(sets){
+    var all = direct.slice();
+    sets.forEach(function(s){ all = all.concat(s); });
+    finish(all, failed);
+  }).catch(function(){
+    finish(direct, failed);
+  }).then(function(){
+    go.innerHTML = go._savedHTML;
+    go.disabled = false;
+    go._running = false;
+  });
 }
-function finish(all,failed){
-  var o=opts(),ok=[],bad=[];
-  all.forEach(function(l,i){try{ok.push(optimize(l,o))}catch(e){bad.push('خط '+fa(i+1)+' — '+e.message)}});
-  failed.forEach(function(u){bad.push('ساب دریافت نشد: '+u)});
-  out.value=ok.join('\n');
-  ocnt.textContent=fa(ok.length)+' کانفیگ';
-  errs.innerHTML=bad.map(function(t){return '<div class="er">'+esc(t)+'</div>'}).join('');
-  sum.textContent=ok.length?(fa(ok.length)+' کانفیگ بهینه شد'+(bad.length?' · '+fa(bad.length)+' خطا':'')):'هیچ کانفیگ معتبری پیدا نشد';
-  res.hidden=false;
-  $('cpy').disabled=$('dl').disabled=!ok.length;
-  res.scrollIntoView({behavior:'smooth',block:'nearest'});
+
+function finish(all, failed){
+  var o = getOpts(), ok = [], bad = [], passthru = 0;
+  all.forEach(function(l, i){
+    try{
+      var result = optimize(l, o);
+      ok.push(result);
+      if(PROTOS.test(l) && !/^(vless|trojan):\/\//i.test(l)) passthru++;
+    } catch(e){
+      bad.push('خط ' + fa(i+1) + ' — ' + e.message);
+    }
+  });
+  failed.forEach(function(u){ bad.push('ساب دریافت نشد: ' + u); });
+
+  out.value = ok.join('\n');
+  ocnt.textContent = fa(ok.length) + ' کانفیگ';
+  errs.innerHTML = bad.map(function(t){ return '<div class="er">' + esc(t) + '</div>'; }).join('');
+
+  var s = '';
+  if(ok.length){
+    s = fa(ok.length) + ' کانفیگ بهینه شد';
+    if(passthru) s += ' · ' + fa(passthru) + ' عبور (vmess/ss)';
+    if(bad.length) s += ' · ' + fa(bad.length) + ' خطا';
+  } else {
+    s = 'هیچ کانفیگ معتبری پیدا نشد';
+  }
+  sumEl.textContent = s;
+  setOutputBtns(ok.length > 0);
+  res.hidden = false;
+  res.scrollIntoView({ behavior:'smooth', block:'nearest' });
 }
+
 })();
 </script>
 </body>
