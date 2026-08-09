@@ -135,7 +135,6 @@ html[data-theme=light] .b.ok{color:#fff!important}
 .lk a:hover{color:var(--tx);background:var(--glass-hv);border-color:var(--ln2);transform:translateY(-2px)}
 .lk a:active{transform:translateY(0)}
 .copy{font-size:11.5px;color:var(--tx3)}
-/* ── تغییرات رنگ footer ── */
 .dev-link{color:var(--cy);font-weight:700;text-decoration:none;border-bottom:1px solid rgba(34,211,238,.3);transition:opacity var(--t1) var(--e)}
 .dev-link:hover{opacity:.75}
 .lk a.tg-lk{color:var(--cy)}
@@ -328,7 +327,6 @@ html[data-theme=light] .b.ok{color:#fff!important}
   </div>
 </section>
 
-<!-- ✅ FOOTER با تغییرات اعمال‌شده -->
 <footer class="foot">
   <p class="dev" dir="ltr">Developed by <a href="https://t.me/imArasTey" target="_blank" rel="noopener" class="dev-link">ArasTey</a> With ☕️</p>
   <div class="lk">
@@ -350,7 +348,6 @@ html[data-theme=light] .b.ok{color:#fff!important}
 (function(){
 'use strict';
 
-/* ── constants ── */
 var FM_STR='{"tcp":[{"type":"fragment","settings":{"packets":"tlshello","lengths":["5","94","1"],"delays":["0"],"maxSplit":"0"}},{"type":"fragment","settings":{"packets":"1-1","lengths":["109","1"],"delays":["1"],"maxSplit":"355"}}]}';
 var CS_STR=['TLS_AES_256_GCM_SHA384','TLS_CHACHA20_POLY1305_SHA256','TLS_AES_128_GCM_SHA256',
   'TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384','TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384',
@@ -366,13 +363,11 @@ var SKEY='arpam_opt',TKEY='vpn_theme';
 var GH_API='https://api.github.com/repos/patterniha/v2rayNG/releases/latest';
 var GH_LATEST='https://github.com/patterniha/v2rayNG/releases/latest';
 
-/* ── utils ── */
 function $(id){return document.getElementById(id);}
 function fa(n){return String(n).replace(/\d/g,function(d){return'۰۱۲۳۴۵۶۷۸۹'[+d];});}
 function dec(s){try{return decodeURIComponent(s);}catch(e){return s;}}
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
 
-/* ── GitHub release fetch ── */
 function fetchLatestRelease(){
   var verEl=$('ver'),dlBtn=$('dlBtn');
   fetch(GH_API,{headers:{Accept:'application/vnd.github.v3+json'}})
@@ -389,7 +384,6 @@ function fetchLatestRelease(){
     .catch(function(){verEl.textContent='latest';verEl.classList.remove('loading');});
 }
 
-/* ── query string helpers ── */
 function pq(q){
   var o=[];if(!q)return o;
   q.split('&').forEach(function(p){if(!p)return;var i=p.indexOf('=');o.push({k:dec(i<0?p:p.slice(0,i)),v:i<0?'':dec(p.slice(i+1))});});
@@ -410,7 +404,6 @@ function buildQS(p){
   return a.concat(b).map(function(x){return encodeURIComponent(x.k)+'='+encodeURIComponent(x.v);}).join('&');
 }
 
-/* ── parsers ── */
 function parseAuth(au){
   var host=au,port='';
   if(au.charAt(0)==='['){
@@ -464,11 +457,10 @@ function optimize(raw,o){
   var l=String(raw||'').trim();
   if(/^vless:\/\//i.test(l)){var cv=parseVless(l);applyParams(cv,o);return buildVless(cv);}
   if(/^trojan:\/\//i.test(l)){var ct=parseTrojan(l);applyParams(ct,o);return buildTrojan(ct);}
-  if(PROTO_START.test(l))return l; /* pass-through */
+  if(PROTO_START.test(l))return l;
   throw new Error('پروتکل ناشناخته');
 }
 
-/* ── base64 decoder ── */
 function b64decode(s){
   try{
     var t=s.replace(/[\r\n\t ]/g,'').replace(/-/g,'+').replace(/_/g,'/');
@@ -479,7 +471,6 @@ function b64decode(s){
   }catch(e){return'';}
 }
 
-/* ── extract ── */
 function extractLines(text){
   var found=[];
   text.split(/\r?\n/).forEach(function(line){
@@ -500,7 +491,6 @@ function extract(text){
   return[];
 }
 
-/* ── CORS proxy fetch chain ── */
 function proxyList(u){
   var e=encodeURIComponent(u);
   return[
@@ -530,7 +520,6 @@ function fetchSub(url){
   return next();
 }
 
-/* ── settings ── */
 function loadSettings(){
   var s={};try{s=JSON.parse(localStorage.getItem(SKEY)||'{}')||{};}catch(e){s={};}
   var fm=DEF.fm;
@@ -539,14 +528,12 @@ function loadSettings(){
 }
 function saveSettings(o){try{localStorage.setItem(SKEY,JSON.stringify(o));}catch(e){}}
 
-/* ── flash feedback ── */
 function flash(btn,text,cls){
   if(!btn||btn._busy)return;btn._busy=true;btn._saved=btn.innerHTML;
   btn.textContent=text;btn.classList.add(cls||'ok');
   setTimeout(function(){btn.innerHTML=btn._saved;btn.classList.remove('ok','no');btn._busy=false;},1400);
 }
 
-/* ── clipboard ── */
 function copyText(t){
   if(navigator.clipboard&&window.isSecureContext)
     return navigator.clipboard.writeText(t).then(function(){return true;}).catch(function(){return legacyCopy(t);});
@@ -560,14 +547,12 @@ function legacyCopy(t){
   document.body.removeChild(el);return ok;
 }
 
-/* ── DOM refs ── */
 var inp=$('inp'),out=$('out'),res=$('res'),sumEl=$('sum'),errs=$('errs'),
     cnt=$('cnt'),ocnt=$('ocnt'),
     adr=$('adr'),fp=$('fp'),cs=$('cs'),fm=$('fm'),fmh=$('fmh'),
     adv=$('adv'),advb=$('advb'),go=$('go'),dz=$('dz'),
     cpy=$('cpy'),dl=$('dl');
 
-/* ── init ── */
 var st=loadSettings();
 adr.value=st.adr;fp.value=st.fp;cs.value=st.cs;fm.value=st.fm;
 $('yr').textContent=fa(new Date().getFullYear());
@@ -587,7 +572,6 @@ function updateCount(){
 }
 function setOutputBtns(en){cpy.disabled=dl.disabled=!en;}
 
-/* ── event listeners ── */
 [adr,cs].forEach(function(el){el.addEventListener('input',persist);});
 fp.addEventListener('change',persist);
 fm.addEventListener('input',function(){validateFm();persist();});
@@ -669,7 +653,6 @@ $('crs').addEventListener('click',function(){
   ocnt.textContent='۰ کانفیگ';res.hidden=true;setOutputBtns(false);
 });
 
-/* ── run ── */
 function run(){
   if(go._running)return;
   var raw=inp.value.trim();
@@ -700,7 +683,6 @@ function run(){
   .then(function(){go.innerHTML=go._savedHTML;go.disabled=false;go._running=false;});
 }
 
-/* ── finish ── */
 function finish(all,failed){
   var o=getOpts(),ok=[],bad=[],passthru=0;
   all.forEach(function(l,i){
