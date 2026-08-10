@@ -169,7 +169,7 @@ html[data-theme=light] .b.ok{color:#fff!important}
   <div class="fm">
     <span class="lg" id="lg"><img src="https://github.com/patterniha.png?size=200" alt="patterniha" loading="lazy" onerror="this.remove();document.getElementById('lg').textContent='P'"></span>
     <span class="ft2">
-      <b>PattNG &nbsp;<span class="ver loading" id="ver">بررسی نسخه…</span></b>
+      <b>v2rayNG &nbsp;<span class="ver loading" id="ver">بررسی نسخه…</span></b>
       <small>ساخت <b>patterniha</b> — تنها نسخه‌ای که <code>cs</code> و <code>fm</code> پشتیبانی می‌کند</small>
     </span>
   </div>
@@ -849,7 +849,6 @@ function configToJson(line, index){
     routing: {
       domainStrategy: "AsIs",
       rules: [
-        { network: "udp", outboundTag: "block", port: "443", type: "field" },
         { domain: ["geosite:google"], outboundTag: "proxy", type: "field" },
         { ip: ["ext:geoip-only-cn-private.dat:private"], outboundTag: "direct", type: "field" },
         { domain: ["geosite:private"], outboundTag: "direct", type: "field" },
