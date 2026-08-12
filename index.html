@@ -501,33 +501,77 @@ function extract(text){
   return[];
 }
 
-function proxyList(u){
-  var e=encodeURIComponent(u);
-  return[
-    u,
-    'https://api.'+'allorigins.win/raw?url='+e,
-    'https://corsproxy.'+'io/?'+e,
-    'https://r.'+'jina.ai/'+u
-  ];
+function fetchWithTimeout(u,ms){
+  return new Promise(function(resolve,reject){
+    var timeout=setTimeout(function(){reject(new Error('timeout'));},ms);
+    fetch(u).then(function(r){
+      clearTimeout(timeout);
+      resolve(r);
+    }).catch(function(e){
+      clearTimeout(timeout);
+      reject(e);
+    });
+  });
 }
+
 function fetchSub(url){
-  var list=proxyList(url),idx=0;
-  function next(){
-    if(idx>=list.length)return Promise.reject(new Error('همهٔ پروکسی‌ها ناموفق'));
-    var cur=list[idx++];
-    return fetch(cur,{redirect:'follow'})
-      .then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.text();})
-      .then(function(t){
-        var c=extract(t);
-        if(!c.length)throw new Error('کانفیگ پیدا نشد');
-        return c;
-      })
-      .catch(function(e){
-        if(idx<list.length)return next();
-        throw e;
-      });
+  var CORS_PROXIES=[
+    'https://corsproxy.io/?',
+    'https://api.allorigins.win/raw?url='
+  ];
+
+  function tryFetch(u){
+    return fetchWithTimeout(u,12000).then(function(r){
+      if(!r.ok)throw new Error('HTTP '+r.status);
+      return r.text();
+    });
   }
-  return next();
+
+  function tryAll(proxies,idx){
+    if(idx>=proxies.length)return Promise.reject(new Error('all proxies failed'));
+    return tryFetch(proxies[idx]+encodeURIComponent(url)).catch(function(){
+      return tryAll(proxies,idx+1);
+    });
+  }
+
+  return tryFetch(url).catch(function(){
+    return tryAll(CORS_PROXIES,0);
+  }).then(function(txt){
+    var all=[];
+    var trimmed=txt.trim();
+
+    if(trimmed.charAt(0)==='{'||trimmed.charAt(0)==='['){
+      try{
+        var json=JSON.parse(trimmed);
+        var walk=function(obj){
+          if(!obj)return;
+          if(typeof obj==='string'){
+            if(PROTO_START.test(obj))all.push(obj);
+            else{
+              var d=b64decode(obj);
+              if(d)extractLines(d).forEach(function(l){all.push(l);});
+              else extractLines(obj).forEach(function(l){all.push(l);});
+            }
+          }else if(Array.isArray(obj)){
+            obj.forEach(function(v){walk(v);});
+          }else if(typeof obj==='object'){
+            Object.values(obj).forEach(function(v){walk(v);});
+          }
+        };
+        walk(json);
+        if(all.length)return all;
+      }catch(e){}
+    }
+
+    extractLines(trimmed).forEach(function(l){all.push(l);});
+    var d=b64decode(trimmed);
+    if(d)extractLines(d).forEach(function(l){all.push(l);});
+
+    var seen={},unique=[];
+    all.forEach(function(l){if(!seen[l]){seen[l]=1;unique.push(l);}});
+    if(!unique.length)throw new Error('کانفیگ پیدا نشد');
+    return unique;
+  });
 }
 
 function loadSettings(){
@@ -789,7 +833,7 @@ function configToJson(line, index){
     streamSettings.tcpSettings = { header: { type: "none" } };
   }
 
-  var template = {
+  return {
     dns: {
       hosts: {
         "domain:googleapis.cn": "googleapis.com",
@@ -861,7 +905,6 @@ function configToJson(line, index){
       ]
     }
   };
-  return JSON.stringify(template, null, 2);
 }
 
 jsonBtn.addEventListener('click', function(){
@@ -869,18 +912,18 @@ jsonBtn.addEventListener('click', function(){
 
   if(!isJsonMode){
     var lines = savedNormalOutput.split('\n').filter(function(l){ return l.trim(); });
-    var jsons = [];
+    var configs = [];
     lines.forEach(function(line, i){
-      var j = configToJson(line, i);
-      if(j) jsons.push(j);
+      var obj = configToJson(line, i);
+      if(obj) configs.push(obj);
     });
-    if(!jsons.length) { flash(jsonBtn, 'کانفیگ معتبر برای JSON یافت نشد', 'no'); return; }
-    out.value = jsons.join('\n\n');
-    ocnt.textContent = fa(jsons.length) + ' JSON';
-    sumEl.textContent = fa(jsons.length) + ' کانفیگ به فرمت JSON نمایش داده شد';
+    if(!configs.length) { flash(jsonBtn, 'کانفیگ معتبر برای JSON یافت نشد', 'no'); return; }
+    out.value = JSON.stringify(configs, null, 2);
+    ocnt.textContent = fa(configs.length) + ' JSON';
+    sumEl.textContent = fa(configs.length) + ' کانفیگ به فرمت JSON (آرایه) نمایش داده شد';
     jsonBtn.innerHTML = '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 9 12 4 7"/><line x1="12" y1="19" x2="20" y2="19"/></svg> تبدیل به حالت عادی';
     isJsonMode = true;
-    flash(jsonBtn, 'JSON نمایش داده شد');
+    flash(jsonBtn, 'JSON آرایه‌ای آماده شد');
   } else {
     out.value = savedNormalOutput;
     var cntLines = savedNormalOutput.split('\n').filter(function(l){ return l.trim(); }).length;
