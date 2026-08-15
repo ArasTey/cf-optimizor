@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<html lang="fa" dir="rtl" data-theme="dark" data-author="ArasTey">
+<html lang="fa" dir="rtl" data-theme="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" id="mtc" content="#0b0b10">
-<meta name="author" content="ArasTey">
 <title>بهینه‌ساز کانفیگ</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%2310b981'/%3E%3Cpath d='M10 16l4 4 8-8' stroke='%23fff' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -66,7 +65,6 @@ html[data-theme=light] .bp,html[data-theme=light] .bp:hover{color:#fff}
 #clr,#crs,#cadr{color:var(--rd)}#clr:hover,#crs:hover,#cadr:hover{background:var(--rd0);border-color:var(--rd1);color:var(--rd)}
 #dl{color:var(--cy)}#dl:hover{background:var(--cy0);border-color:var(--cy1);color:var(--cy)}
 #jsonBtn{color:var(--vi)}#jsonBtn:hover{background:var(--vi0);border-color:var(--vi1);color:var(--vi)}
-#liteBtn{color:var(--am)}#liteBtn:hover{background:var(--am0);border-color:var(--am1);color:var(--am)}
 #rst{color:var(--am)}#rst:hover{background:var(--am0);border-color:var(--am1);color:var(--am)}
 .b[disabled]{opacity:.38;pointer-events:none}
 .b.ok{color:#04120c!important;background:var(--ac)!important;border-color:var(--ac)!important}
@@ -295,10 +293,6 @@ html[data-theme=light] .b.ok{color:#fff!important}
         <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17v1a2 2 0 002 2h12a2 2 0 002-2v-1"/><polyline points="8 12 12 8 16 12"/><line x1="12" y1="16" x2="12" y2="8"/></svg>
         خروجی JSON
       </button>
-      <button class="b bs" id="liteBtn" type="button" disabled>
-        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-        حالت Aras
-      </button>
       <button class="b bs" id="crs" type="button">
         <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6M14 11v6"/></svg>
         پاک کردن
@@ -338,7 +332,7 @@ html[data-theme=light] .b.ok{color:#fff!important}
     <div class="step"><span class="snum">۲</span><div class="sc"><b>کانفیگ یا لینک ساب را وارد کن</b><p>لینک ساب، فرمت ZEUS، کد base64، یا کانفیگ مستقیم — هر فرمتی را بچسبان، ابزار خودش استخراج می‌کند.</p></div></div>
     <div class="step"><span class="snum">۳</span><div class="sc"><b>روی «بهینه‌سازی» بزن</b><p>Fragment، Cipher Suites و Fingerprint به‌صورت خودکار اضافه می‌شوند. تنظیمات پیش‌فرض بهینه هستند.</p></div></div>
     <div class="step"><span class="snum">۴</span><div class="sc"><b>خروجی را کپی یا دانلود کن</b><p>«کپی همه» را بزن یا فایل <code>.txt</code> را دانلود کن. برای دریافت JSON نیز دکمه «خروجی JSON» را بزن.</p></div></div>
-    <div class="step"><span class="snum">۵</span><div class="sc"><b>حالت Aras برای اینستاگرام</b><p>برای استفاده در اینستاگرام، دکمه «حالت Aras» را بزنید تا کانفیگ سبک با یک کلیک ساخته شود. دوباره بزنید تا برگردید.</p></div></div>
+    <div class="step"><span class="snum">۵</span><div class="sc"><b>در v2rayNG ایمپورت کن</b><p>منوی سه‌نقطه ← <b>Import config from clipboard</b>. همهٔ کانفیگ‌ها یک‌جا وارد می‌شوند.</p></div></div>
   </div>
   <div class="gnote">
     <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
@@ -362,14 +356,10 @@ html[data-theme=light] .b.ok{color:#fff!important}
   <span class="copy">© <span id="yr"></span> — All rights reserved</span>
 </footer>
 
-<div id="sig" style="display:none">ArasTey-cf-optimizor-2026</div>
 </div>
 <script>
 (function(){
 'use strict';
-
-var _AUTHOR_ = 'ArasTey';
-document.documentElement.setAttribute('data-owner', _AUTHOR_);
 
 var FM_STR='{"tcp":[{"type":"fragment","settings":{"packets":"tlshello","lengths":["5","94","1"],"delays":["0"],"maxSplit":"0"}},{"type":"fragment","settings":{"packets":"1-1","lengths":["109","1"],"delays":["1"],"maxSplit":"355"}}]}';
 var CS_STR=['TLS_AES_256_GCM_SHA384','TLS_CHACHA20_POLY1305_SHA256','TLS_AES_128_GCM_SHA256',
@@ -378,9 +368,6 @@ var CS_STR=['TLS_AES_256_GCM_SHA384','TLS_CHACHA20_POLY1305_SHA256','TLS_AES_128
   'TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256','TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256',
   'TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA','TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA',
   'TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256','TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256'].join(':');
-var LITE_CS='TLS_AES_128_GCM_SHA256:TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256';
-var LITE_FM='{"tcp":[{"type":"fragment","settings":{"packets":"tlshello","lengths":["1-1"],"delays":["0"],"maxSplit":"0"}}]}';
-var LITE_FP='chrome';
 var DEF={adr:'',fp:'unsafe',cs:CS_STR,fm:FM_STR};
 var ORDER=['cs','path','security','alpn','encryption','fm','insecure','host','fp','type','allowInsecure','sni'];
 var UUID_RE=/^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
@@ -621,7 +608,7 @@ var inp=$('inp'),out=$('out'),res=$('res'),sumEl=$('sum'),errs=$('errs'),
     cnt=$('cnt'),ocnt=$('ocnt'),
     adr=$('adr'),fp=$('fp'),cs=$('cs'),fm=$('fm'),fmh=$('fmh'),
     adv=$('adv'),advb=$('advb'),go=$('go'),dz=$('dz'),
-    cpy=$('cpy'),dl=$('dl'),jsonBtn=$('jsonBtn'),liteBtn=$('liteBtn');
+    cpy=$('cpy'),dl=$('dl'),jsonBtn=$('jsonBtn');
 
 var st=loadSettings();
 adr.value=st.adr;fp.value=st.fp;cs.value=st.cs;fm.value=st.fm;
@@ -640,18 +627,12 @@ function updateCount(){
   var n=inp.value.split(/\r?\n/).filter(function(l){return l.trim();}).length;
   cnt.textContent=fa(n)+' خط';
 }
-function setOutputBtns(en){cpy.disabled=dl.disabled=jsonBtn.disabled=liteBtn.disabled=!en;}
+function setOutputBtns(en){cpy.disabled=dl.disabled=jsonBtn.disabled=!en;}
 
-var savedNormalOutput='',savedLiteOutput='',isJsonMode=false,isLiteMode=false,jsonBaseOutput='',lastSourceConfigs=[],lastFailed=[];
-
+var savedNormalOutput='',isJsonMode=false;
 function resetJsonToggle(){
   isJsonMode=false;
   jsonBtn.innerHTML='<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17v1a2 2 0 002 2h12a2 2 0 002-2v-1"/><polyline points="8 12 12 8 16 12"/><line x1="12" y1="16" x2="12" y2="8"/></svg> خروجی JSON';
-}
-
-function resetLiteToggle(){
-  isLiteMode=false;
-  liteBtn.innerHTML='<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> حالت Aras';
 }
 
 [adr,cs].forEach(function(el){el.addEventListener('input',persist);});
@@ -733,10 +714,7 @@ dl.addEventListener('click',function(){
 $('crs').addEventListener('click',function(){
   out.value='';errs.innerHTML='';sumEl.textContent='—';
   ocnt.textContent='۰ کانفیگ';res.hidden=true;setOutputBtns(false);
-  savedNormalOutput='';savedLiteOutput='';isJsonMode=false;isLiteMode=false;jsonBaseOutput='';
-  lastSourceConfigs=[];lastFailed=[];
-  resetJsonToggle();
-  resetLiteToggle();
+  savedNormalOutput='';isJsonMode=false;resetJsonToggle();
 });
 
 function run(){
@@ -763,44 +741,35 @@ function run(){
     sets.forEach(function(s){all=all.concat(s);});
     var seen={},unique=[];
     all.forEach(function(l){if(!seen[l]){seen[l]=1;unique.push(l);}});
-    lastSourceConfigs=unique.slice();
-    lastFailed=failed.slice();
-    renderResults(unique,failed,getOpts(),false);
+    finish(unique,failed);
   })
-  .catch(function(){
-    lastSourceConfigs=directConfigs.slice();
-    lastFailed=failed.slice();
-    renderResults(directConfigs,failed,getOpts(),false);
-  })
+  .catch(function(){finish(directConfigs,failed);})
   .then(function(){go.innerHTML=go._savedHTML;go.disabled=false;go._running=false;});
 }
 
-function renderResults(configs,failed,opts,isLite){
-  var ok=[],bad=[],passthru=0;
-  configs.forEach(function(l,i){
+function finish(all,failed){
+  var o=getOpts(),ok=[],bad=[],passthru=0;
+  all.forEach(function(l,i){
     try{
-      var r=optimize(l,opts);ok.push(r);
+      var r=optimize(l,o);ok.push(r);
       if(PROTO_START.test(l)&&!/^(vless|trojan):\/\//i.test(l))passthru++;
     }catch(e){bad.push('خط '+fa(i+1)+' — '+e.message);}
   });
   failed.forEach(function(u){bad.push('ساب دریافت نشد: '+u);});
-  var output=ok.join('\n');
-  out.value=output;
-  if(isLite){savedLiteOutput=output;}
-  else{
-    savedNormalOutput=output;
-    resetLiteToggle();
-  }
+  var normalOut=ok.join('\n');
+  out.value=normalOut;
+  savedNormalOutput=normalOut;
   ocnt.textContent=fa(ok.length)+' کانفیگ';
   errs.innerHTML=bad.map(function(t){return'<div class="er">'+esc(t)+'</div>';}).join('');
   var s=ok.length
-    ?(fa(ok.length)+(isLite?' کانفیگ Aras':' کانفیگ')+' بهینه شد'+(passthru?' · '+fa(passthru)+' عبور':'')+(bad.length?' · '+fa(bad.length)+' خطا':''))
+    ?(fa(ok.length)+' کانفیگ بهینه شد'+(passthru?' · '+fa(passthru)+' عبور':'')+(bad.length?' · '+fa(bad.length)+' خطا':''))
     :'هیچ کانفیگ معتبری پیدا نشد';
   sumEl.textContent=s;
   setOutputBtns(ok.length>0);
   res.hidden=false;
   isJsonMode=false;
   resetJsonToggle();
+  res.scrollIntoView({behavior:'smooth',block:'nearest'});
 }
 
 function configToJson(line, index){
@@ -942,18 +911,16 @@ function configToJson(line, index){
 }
 
 jsonBtn.addEventListener('click', function(){
-  var base = isLiteMode ? savedLiteOutput : savedNormalOutput;
-  if(!base) { flash(jsonBtn, 'خروجی خالی است', 'no'); return; }
+  if(!savedNormalOutput) { flash(jsonBtn, 'خروجی خالی است', 'no'); return; }
 
   if(!isJsonMode){
-    var lines = base.split('\n').filter(function(l){ return l.trim(); });
+    var lines = savedNormalOutput.split('\n').filter(function(l){ return l.trim(); });
     var configs = [];
     lines.forEach(function(line, i){
       var obj = configToJson(line, i);
       if(obj) configs.push(obj);
     });
     if(!configs.length) { flash(jsonBtn, 'کانفیگ معتبر برای JSON یافت نشد', 'no'); return; }
-    jsonBaseOutput = base;
     out.value = JSON.stringify(configs, null, 2);
     ocnt.textContent = fa(configs.length) + ' JSON';
     sumEl.textContent = fa(configs.length) + ' کانفیگ به فرمت JSON (آرایه) نمایش داده شد';
@@ -961,36 +928,13 @@ jsonBtn.addEventListener('click', function(){
     isJsonMode = true;
     flash(jsonBtn, 'JSON آرایه‌ای آماده شد');
   } else {
-    out.value = jsonBaseOutput;
-    var cntLines = jsonBaseOutput.split('\n').filter(function(l){ return l.trim(); }).length;
+    out.value = savedNormalOutput;
+    var cntLines = savedNormalOutput.split('\n').filter(function(l){ return l.trim(); }).length;
     ocnt.textContent = fa(cntLines) + ' کانفیگ';
     sumEl.textContent = fa(cntLines) + ' کانفیگ بهینه شده';
     resetJsonToggle();
     isJsonMode = false;
     flash(jsonBtn, 'حالت عادی');
-  }
-  res.scrollIntoView({behavior:'smooth',block:'nearest'});
-});
-
-liteBtn.addEventListener('click', function(){
-  if(!lastSourceConfigs.length) { flash(liteBtn, 'ابتدا بهینه‌سازی را بزنید', 'no'); return; }
-  if(!isLiteMode){
-    var arasOpts = { adr: adr.value.trim(), fp: LITE_FP, cs: LITE_CS, fm: LITE_FM };
-    renderResults(lastSourceConfigs, lastFailed, arasOpts, true);
-    isLiteMode = true;
-    liteBtn.innerHTML = '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 9 12 4 7"/><line x1="12" y1="19" x2="20" y2="19"/></svg> حالت عادی';
-    flash(liteBtn, 'حالت Aras فعال شد');
-  } else {
-    out.value = savedNormalOutput;
-    var cntLines = savedNormalOutput.split('\n').filter(function(l){ return l.trim(); }).length;
-    ocnt.textContent = fa(cntLines) + ' کانفیگ';
-    sumEl.textContent = fa(cntLines) + ' کانفیگ بهینه شده';
-    isLiteMode = false;
-    resetLiteToggle();
-    isJsonMode = false;
-    resetJsonToggle();
-    jsonBaseOutput = '';
-    flash(liteBtn, 'حالت عادی');
   }
   res.scrollIntoView({behavior:'smooth',block:'nearest'});
 });
