@@ -151,10 +151,37 @@ html[data-theme=light] .b.ok{color:#fff!important}
 @media(min-width:900px){.wrap{padding:34px 28px 72px}.sec,.feat,.guide{padding:22px 24px}#inp{min-height:190px}#out{min-height:240px}}
 @media(max-width:430px){.wrap{padding:16px 13px 46px;gap:12px}.sec,.feat,.guide{padding:15px}.ah{padding:14px 15px}.inr{padding:15px}.bl{width:100%}.at small{display:none}.bt h1{font-size:17px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{transition-duration:.01ms!important}}
+/* Modal Notice */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.65);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;z-index:999;padding:18px;animation:fadeIn .25s var(--e)}
+.modal-card{background:var(--s1);border:1px solid var(--ln2);border-radius:var(--r);box-shadow:var(--sh);max-width:520px;width:100%;padding:24px 20px;text-align:center;animation:slideUp .35s var(--e2)}
+.modal-card .mi{width:56px;height:56px;border-radius:50%;background:var(--am0);border:1px solid var(--am1);display:grid;place-items:center;margin:0 auto 14px}
+.modal-card .mi svg{color:var(--am);width:28px;height:28px}
+.modal-card h3{font-size:16px;font-weight:700;margin-bottom:8px;color:var(--tx)}
+.modal-card p{font-size:13px;color:var(--tx2);margin-bottom:16px;line-height:1.9}
+.modal-card .modal-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.modal-card .b{min-width:120px}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes slideUp{from{transform:translateY(30px);opacity:0}to{transform:translateY(0);opacity:1}}
 </style>
 </head>
 <body>
 <div class="bgw"><i></i><i></i></div>
+
+<!-- توجه بزرگ -->
+<div class="modal-overlay" id="noticeModal">
+  <div class="modal-card">
+    <div class="mi">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+    </div>
+    <h3>لطفاً اول توضیحات و راهنما را بخوانید</h3>
+    <p>اگر پس از مطالعهٔ کامل آموزش‌ها و بررسی کانال، همچنان مشکل داشتید، به پشتیبانی پیام دهید.</p>
+    <div class="modal-actions">
+      <a class="b bl bp" href="https://t.me/imArasTey" target="_blank" rel="noopener">مشاهده کانال</a>
+      <button class="b bl" id="closeNotice">متوجه شدم</button>
+    </div>
+  </div>
+</div>
+
 <div class="wrap">
 
 <header class="hd">
@@ -381,6 +408,11 @@ function fa(n){return String(n).replace(/\d/g,function(d){return'۰۱۲۳۴۵۶�
 function dec(s){try{return decodeURIComponent(s);}catch(e){return s;}}
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
 
+// Modal Close
+document.getElementById('closeNotice').addEventListener('click', function(){
+  document.getElementById('noticeModal').style.display = 'none';
+});
+
 function fetchLatestRelease(){
   var verEl=$('ver'),dlBtn=$('dlBtn');
   fetch(GH_API,{headers:{Accept:'application/vnd.github.v3+json'}})
@@ -507,13 +539,7 @@ function extract(text){
 function fetchWithTimeout(u,ms){
   return new Promise(function(resolve,reject){
     var timeout=setTimeout(function(){reject(new Error('timeout'));},ms);
-    fetch(u).then(function(r){
-      clearTimeout(timeout);
-      resolve(r);
-    }).catch(function(e){
-      clearTimeout(timeout);
-      reject(e);
-    });
+    fetch(u).then(function(r){clearTimeout(timeout);resolve(r);}).catch(function(e){clearTimeout(timeout);reject(e);});
   });
 }
 
@@ -940,19 +966,19 @@ jsonBtn.addEventListener('click', function(){
 
   if(!isJsonMode){
     var lines = savedNormalOutput.split('\n').filter(function(l){ return l.trim(); });
-    var configs = [];
+    var jsonObjects = [];
     lines.forEach(function(line, i){
       var obj = configToJson(line, i);
-      if(obj) configs.push(obj);
+      if(obj) jsonObjects.push(obj);
     });
-    if(!configs.length) { flash(jsonBtn, 'کانفیگ معتبر برای JSON یافت نشد', 'no'); return; }
-    savedJsonOutput = JSON.stringify(configs, null, 2);
+    if(!jsonObjects.length) { flash(jsonBtn, 'کانفیگ معتبر برای JSON یافت نشد', 'no'); return; }
+    savedJsonOutput = jsonObjects.map(function(obj){ return JSON.stringify(obj, null, 2); }).join('\n\n');
     out.value = truncateForDisplay(savedJsonOutput, 5);
-    ocnt.textContent = fa(configs.length) + ' JSON';
-    sumEl.textContent = fa(configs.length) + ' کانفیگ به فرمت JSON (آرایه) نمایش داده شد';
+    ocnt.textContent = fa(jsonObjects.length) + ' JSON';
+    sumEl.textContent = fa(jsonObjects.length) + ' کانفیگ به فرمت JSON (جدا شده) نمایش داده شد';
     jsonBtn.innerHTML = '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 9 12 4 7"/><line x1="12" y1="19" x2="20" y2="19"/></svg> تبدیل به حالت عادی';
     isJsonMode = true;
-    flash(jsonBtn, 'JSON آرایه‌ای آماده شد');
+    flash(jsonBtn, 'JSON آماده شد');
   } else {
     out.value = truncateForDisplay(savedNormalOutput, 3);
     var cntLines = savedNormalOutput.split('\n').filter(function(l){ return l.trim(); }).length;
