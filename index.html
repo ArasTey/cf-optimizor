@@ -518,61 +518,74 @@ function fetchWithTimeout(u,ms){
 }
 
 function fetchSub(url){
-  var CORS_PROXIES=[
-    'https://corsproxy.io/?',
-    'https://api.allorigins.win/raw?url='
+  var proxies = [
+    { prefix: '', label: 'direct' },
+    { prefix: 'https://corsproxy.io/?', label: 'corsproxy.io' },
+    { prefix: 'https://api.allorigins.win/raw?url=', label: 'allorigins' },
+    { prefix: 'https://proxy.cors.sh/', label: 'cors.sh' },
+    { prefix: 'https://cors-anywhere.herokuapp.com/', label: 'cors-anywhere' },
+    { prefix: 'https://thingproxy.freeboard.io/fetch/', label: 'thingproxy' },
+    { prefix: 'https://r.jina.ai/', label: 'jina.ai' }
   ];
 
-  function tryFetch(u){
-    return fetchWithTimeout(u,12000).then(function(r){
-      if(!r.ok)throw new Error('HTTP '+r.status);
-      return r.text();
+  function attemptFetch(targetUrl, retriesLeft) {
+    return fetchWithTimeout(targetUrl, 10000)
+      .then(function(r) {
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        return r.text();
+      })
+      .catch(function(err) {
+        if (retriesLeft > 0) {
+          return new Promise(function(res) { setTimeout(res, 800); })
+            .then(function() { return attemptFetch(targetUrl, retriesLeft - 1); });
+        }
+        throw err;
+      });
+  }
+
+  function tryProxy(idx) {
+    if (idx >= proxies.length) return Promise.reject(new Error('all proxies failed'));
+    var p = proxies[idx];
+    var target = p.prefix ? p.prefix + encodeURIComponent(url) : url;
+    return attemptFetch(target, 2).catch(function() {
+      return tryProxy(idx + 1);
     });
   }
 
-  function tryAll(proxies,idx){
-    if(idx>=proxies.length)return Promise.reject(new Error('all proxies failed'));
-    return tryFetch(proxies[idx]+encodeURIComponent(url)).catch(function(){
-      return tryAll(proxies,idx+1);
-    });
-  }
+  return tryProxy(0).then(function(txt) {
+    var all = [];
+    var trimmed = txt.trim();
 
-  return tryFetch(url).catch(function(){
-    return tryAll(CORS_PROXIES,0);
-  }).then(function(txt){
-    var all=[];
-    var trimmed=txt.trim();
-
-    if(trimmed.charAt(0)==='{'||trimmed.charAt(0)==='['){
-      try{
-        var json=JSON.parse(trimmed);
-        var walk=function(obj){
-          if(!obj)return;
-          if(typeof obj==='string'){
-            if(PROTO_START.test(obj))all.push(obj);
-            else{
-              var d=b64decode(obj);
-              if(d)extractLines(d).forEach(function(l){all.push(l);});
-              else extractLines(obj).forEach(function(l){all.push(l);});
+    if (trimmed.charAt(0) === '{' || trimmed.charAt(0) === '[') {
+      try {
+        var json = JSON.parse(trimmed);
+        var walk = function(obj) {
+          if (!obj) return;
+          if (typeof obj === 'string') {
+            if (PROTO_START.test(obj)) all.push(obj);
+            else {
+              var d = b64decode(obj);
+              if (d) extractLines(d).forEach(function(l){ all.push(l); });
+              else extractLines(obj).forEach(function(l){ all.push(l); });
             }
-          }else if(Array.isArray(obj)){
-            obj.forEach(function(v){walk(v);});
-          }else if(typeof obj==='object'){
-            Object.values(obj).forEach(function(v){walk(v);});
+          } else if (Array.isArray(obj)) {
+            obj.forEach(function(v){ walk(v); });
+          } else if (typeof obj === 'object') {
+            Object.values(obj).forEach(function(v){ walk(v); });
           }
         };
         walk(json);
-        if(all.length)return all;
-      }catch(e){}
+        if (all.length) return all;
+      } catch (e) {}
     }
 
-    extractLines(trimmed).forEach(function(l){all.push(l);});
-    var d=b64decode(trimmed);
-    if(d)extractLines(d).forEach(function(l){all.push(l);});
+    extractLines(trimmed).forEach(function(l){ all.push(l); });
+    var d = b64decode(trimmed);
+    if (d) extractLines(d).forEach(function(l){ all.push(l); });
 
-    var seen={},unique=[];
-    all.forEach(function(l){if(!seen[l]){seen[l]=1;unique.push(l);}});
-    if(!unique.length)throw new Error('کانفیگ پیدا نشد');
+    var seen = {}, unique = [];
+    all.forEach(function(l){ if (!seen[l]) { seen[l] = 1; unique.push(l); } });
+    if (!unique.length) throw new Error('کانفیگ پیدا نشد');
     return unique;
   });
 }
@@ -604,6 +617,14 @@ function legacyCopy(t){
   document.body.removeChild(el);return ok;
 }
 
+function truncateForDisplay(text, maxLines) {
+  var lines = text.split('\n');
+  if (lines.length <= maxLines) return text;
+  var shown = lines.slice(0, maxLines).join('\n');
+  var remaining = lines.length - maxLines;
+  return shown + '\n... ' + fa(remaining) + ' کانفیگ دیگر (برای کپی کامل از دکمه کپی استفاده کنید)';
+}
+
 var inp=$('inp'),out=$('out'),res=$('res'),sumEl=$('sum'),errs=$('errs'),
     cnt=$('cnt'),ocnt=$('ocnt'),
     adr=$('adr'),fp=$('fp'),cs=$('cs'),fm=$('fm'),fmh=$('fmh'),
@@ -629,9 +650,10 @@ function updateCount(){
 }
 function setOutputBtns(en){cpy.disabled=dl.disabled=jsonBtn.disabled=!en;}
 
-var savedNormalOutput='',isJsonMode=false;
+var savedNormalOutput='',savedJsonOutput='',isJsonMode=false;
 function resetJsonToggle(){
   isJsonMode=false;
+  savedJsonOutput='';
   jsonBtn.innerHTML='<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17v1a2 2 0 002 2h12a2 2 0 002-2v-1"/><polyline points="8 12 12 8 16 12"/><line x1="12" y1="16" x2="12" y2="8"/></svg> خروجی JSON';
 }
 
@@ -700,12 +722,15 @@ inp.addEventListener('keydown',function(e){
 go.addEventListener('click',run);
 
 cpy.addEventListener('click',function(){
-  var btn=this;if(!out.value)return;
-  copyText(out.value).then(function(ok){flash(btn,ok?'کپی شد':'ناموفق',ok?'ok':'no');});
+  var btn=this;
+  var content = isJsonMode ? savedJsonOutput : savedNormalOutput;
+  if(!content)return;
+  copyText(content).then(function(ok){flash(btn,ok?'کپی شد':'ناموفق',ok?'ok':'no');});
 });
 dl.addEventListener('click',function(){
-  if(!out.value)return;
-  var blob=new Blob([out.value+'\n'],{type:'text/plain;charset=utf-8'}),url=URL.createObjectURL(blob);
+  var content = isJsonMode ? savedJsonOutput : savedNormalOutput;
+  if(!content)return;
+  var blob=new Blob([content+'\n'],{type:'text/plain;charset=utf-8'}),url=URL.createObjectURL(blob);
   var a=document.createElement('a');a.href=url;a.download='configs-'+Date.now()+'.txt';
   document.body.appendChild(a);a.click();document.body.removeChild(a);
   setTimeout(function(){URL.revokeObjectURL(url);},1500);
@@ -714,7 +739,7 @@ dl.addEventListener('click',function(){
 $('crs').addEventListener('click',function(){
   out.value='';errs.innerHTML='';sumEl.textContent='—';
   ocnt.textContent='۰ کانفیگ';res.hidden=true;setOutputBtns(false);
-  savedNormalOutput='';isJsonMode=false;resetJsonToggle();
+  savedNormalOutput='';savedJsonOutput='';isJsonMode=false;resetJsonToggle();
 });
 
 function run(){
@@ -756,9 +781,9 @@ function finish(all,failed){
     }catch(e){bad.push('خط '+fa(i+1)+' — '+e.message);}
   });
   failed.forEach(function(u){bad.push('ساب دریافت نشد: '+u);});
-  var normalOut=ok.join('\n');
-  out.value=normalOut;
-  savedNormalOutput=normalOut;
+  var full = ok.join('\n');
+  savedNormalOutput = full;
+  out.value = truncateForDisplay(full, 3);
   ocnt.textContent=fa(ok.length)+' کانفیگ';
   errs.innerHTML=bad.map(function(t){return'<div class="er">'+esc(t)+'</div>';}).join('');
   var s=ok.length
@@ -921,14 +946,15 @@ jsonBtn.addEventListener('click', function(){
       if(obj) configs.push(obj);
     });
     if(!configs.length) { flash(jsonBtn, 'کانفیگ معتبر برای JSON یافت نشد', 'no'); return; }
-    out.value = JSON.stringify(configs, null, 2);
+    savedJsonOutput = JSON.stringify(configs, null, 2);
+    out.value = truncateForDisplay(savedJsonOutput, 5);
     ocnt.textContent = fa(configs.length) + ' JSON';
     sumEl.textContent = fa(configs.length) + ' کانفیگ به فرمت JSON (آرایه) نمایش داده شد';
     jsonBtn.innerHTML = '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 9 12 4 7"/><line x1="12" y1="19" x2="20" y2="19"/></svg> تبدیل به حالت عادی';
     isJsonMode = true;
     flash(jsonBtn, 'JSON آرایه‌ای آماده شد');
   } else {
-    out.value = savedNormalOutput;
+    out.value = truncateForDisplay(savedNormalOutput, 3);
     var cntLines = savedNormalOutput.split('\n').filter(function(l){ return l.trim(); }).length;
     ocnt.textContent = fa(cntLines) + ' کانفیگ';
     sumEl.textContent = fa(cntLines) + ' کانفیگ بهینه شده';
