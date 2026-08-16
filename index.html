@@ -401,18 +401,62 @@ function fa(n){return String(n).replace(/\d/g,function(d){return'۰۱۲۳۴۵۶�
 function dec(s){try{return decodeURIComponent(s);}catch(e){return s;}}
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
 
+function detectArchitecture(){
+  var ua = navigator.userAgent.toLowerCase();
+  var platform = navigator.platform ? navigator.platform.toLowerCase() : '';
+  // ترتیب مهم است: arm64 اول، بعد armv7، بعد x86_64 و x86
+  if (ua.indexOf('arm64') !== -1 || platform.indexOf('arm64') !== -1 || ua.indexOf('aarch64') !== -1) {
+    return 'arm64-v8a';
+  }
+  if (ua.indexOf('armv7') !== -1 || ua.indexOf('armeabi-v7a') !== -1 || (ua.indexOf('android') !== -1 && ua.indexOf('arm') !== -1)) {
+    return 'armeabi-v7a';
+  }
+  if (ua.indexOf('x86_64') !== -1 || platform.indexOf('x86_64') !== -1 || ua.indexOf('amd64') !== -1) {
+    return 'x86_64';
+  }
+  if (ua.indexOf('x86') !== -1 || platform.indexOf('x86') !== -1) {
+    return 'x86';
+  }
+  return 'arm64-v8a'; // پیش‌فرض
+}
+
 function fetchLatestRelease(){
   var verEl=$('ver'),dlBtn=$('dlBtn');
   fetch(GH_API,{headers:{Accept:'application/vnd.github.v3+json'}})
     .then(function(r){if(!r.ok)throw 0;return r.json();})
     .then(function(d){
       var tag=d.tag_name||'',apk=null;
-      if(d.assets&&d.assets.length){
-        for(var i=0;i<d.assets.length;i++){if(/arm64/i.test(d.assets[i].name)&&/\.apk$/i.test(d.assets[i].name)){apk=d.assets[i].browser_download_url;break;}}
-        if(!apk)for(var j=0;j<d.assets.length;j++){if(/\.apk$/i.test(d.assets[j].name)){apk=d.assets[j].browser_download_url;break;}}
+      var arch=detectArchitecture();
+      var assets=d.assets||[];
+
+      // تابع کمکی برای یافتن APK مطابق معماری
+      function findApk(arch) {
+        for (var i=0;i<assets.length;i++){
+          var name=assets[i].name.toLowerCase();
+          if (name.indexOf(arch.toLowerCase()) !== -1 && /\.apk$/.test(name)) {
+            return assets[i].browser_download_url;
+          }
+        }
+        return null;
       }
+
+      // تلاش به ترتیب: معماری دقیق، سپس arm64، سپس هر APK
+      apk = findApk(arch) || findApk('arm64-v8a') || findApk('armeabi-v7a') || findApk('x86_64') || findApk('x86');
+      if (!apk && assets.length) {
+        for (var j=0;j<assets.length;j++){
+          if (/\.apk$/i.test(assets[j].name)) { apk=assets[j].browser_download_url; break; }
+        }
+      }
+
       verEl.textContent=tag||'latest';verEl.classList.remove('loading');
-      dlBtn.href=apk||(d.html_url||GH_LATEST);
+      if (apk) {
+        dlBtn.href=apk;
+        // نمایش معماری در کنار نسخه (اختیاری)
+        var archFa = arch === 'arm64-v8a' ? 'ARM64' : arch === 'armeabi-v7a' ? 'ARMv7' : arch === 'x86_64' ? 'x86_64' : 'x86';
+        verEl.textContent = (tag||'latest') + ' (' + archFa + ')';
+      } else {
+        dlBtn.href=d.html_url||GH_LATEST;
+      }
     })
     .catch(function(){verEl.textContent='latest';verEl.classList.remove('loading');});
 }
