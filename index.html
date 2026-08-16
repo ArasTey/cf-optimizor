@@ -156,7 +156,14 @@ html[data-theme=light] .b.ok{color:#fff!important}
 .notice-card p b{color:var(--tx)}
 .notice-sub{font-size:13px;color:var(--tx3)}
 .notice-card .b{margin-top:16px}
-@media(min-width:640px){.wrap{padding:28px 24px 64px;gap:16px}.sec,.feat,.guide{padding:20px 22px}.ah{padding:17px 20px}.inr{padding:17px 20px 20px}.g2{grid-template-columns:1fr 1fr;gap:16px}.qk{grid-template-columns:1fr 1fr}#inp{min-height:170px}#out{min-height:210px}.bt h1{font-size:20px}.steps{display:grid;grid-template-columns:1fr 1fr;gap:4px}.step{border-bottom:none;padding:14px 16px}.step:nth-child(odd){border-right:1px solid var(--ln)}}
+.app-grid{display:grid;grid-template-columns:1fr;gap:16px}
+.app-col b{display:block;margin-bottom:6px;font-size:14px;color:var(--tx)}
+.app-col ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:4px}
+.app-col li,.app-col span{font-size:12.5px;color:var(--tx2)}
+.app-col a{color:var(--ac);text-decoration:none;transition:opacity .15s}
+.app-col a:hover{opacity:.75}
+.app-col .note{font-size:11.5px;color:var(--tx3);margin-top:6px}
+@media(min-width:640px){.wrap{padding:28px 24px 64px;gap:16px}.sec,.feat,.guide{padding:20px 22px}.ah{padding:17px 20px}.inr{padding:17px 20px 20px}.g2{grid-template-columns:1fr 1fr;gap:16px}.qk{grid-template-columns:1fr 1fr}.app-grid{grid-template-columns:1fr 1fr 1fr}#inp{min-height:170px}#out{min-height:210px}.bt h1{font-size:20px}.steps{display:grid;grid-template-columns:1fr 1fr;gap:4px}.step{border-bottom:none;padding:14px 16px}.step:nth-child(odd){border-right:1px solid var(--ln)}}
 @media(min-width:900px){.wrap{padding:34px 28px 72px}.sec,.feat,.guide{padding:22px 24px}#inp{min-height:190px}#out{min-height:240px}}
 @media(max-width:430px){.wrap{padding:16px 13px 46px;gap:12px}.sec,.feat,.guide{padding:15px}.ah{padding:14px 15px}.inr{padding:15px}.bl{width:100%}.at small{display:none}.bt h1{font-size:17px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{transition-duration:.01ms!important}}
@@ -169,8 +176,8 @@ html[data-theme=light] .b.ok{color:#fff!important}
   <div class="notice-card">
     <div class="notice-icon">⚠️</div>
     <h3>توجه</h3>
-    <p>لطفاً ابتدا <b>توضیحات</b> و <b>کانال</b> را مطالعه کنید.<br>اگر مشکل حل نشد، به <b>پشتیبانی</b> پیام دهید.</p>
-    <p class="notice-sub">نسخه‌های آخر <b>V2Box</b> و <b>v2rayNG TUN</b> برای اندروید پشتیبانی می‌شوند.</p>
+    <p>لطفاً ابتدا <b>آموزش اپ‌ها</b> و <b>کانال</b> را مطالعه کنید.<br>اگر مشکل حل نشد، به <b>پشتیبانی</b> پیام دهید.</p>
+    <p class="notice-sub">استار ⭐ فراموش نشه</p>
     <button class="b bp" id="notice-close">متوجه شدم</button>
   </div>
 </div>
@@ -210,7 +217,7 @@ html[data-theme=light] .b.ok{color:#fff!important}
 
 <div class="card pv" style="border-color: var(--ac1); background: var(--ac0);">
   <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="var(--ac)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-  <div><b>دریافت مخصوص ویندوز و iOS</b><span>برنامه خود را به آخرین نسخه به‌روزرسانی کنید و از دکمه «خروجی JSON» استفاده نمایید.</span></div>
+  <div><b>دریافت مخصوص ویندوز و iOS</b><span>iOS: ابتدا حالت عادی، در صورت نیاز JSON — ویندوز: فقط JSON (v2rayN v7.24.7)</span></div>
 </div>
 
 <section class="card sec" id="dz">
@@ -342,21 +349,36 @@ html[data-theme=light] .b.ok{color:#fff!important}
   <div><b>پردازش کاملاً روی دستگاه خودت</b><span>کانفیگ‌ها در مرورگر پردازش می‌شوند و هیچ‌جا آپلود نمی‌شوند.</span></div>
 </div>
 
-<section class="card guide">
+<section class="card guide" id="apps">
   <div class="guide-hd">
-    <span class="si"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></span>
-    <h2>آموزش سریع — چطور استفاده کنم؟</h2>
+    <span class="si"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="4"/><line x1="6" y1="6" x2="18" y2="18"/><circle cx="9" cy="9" r="1"/><circle cx="15" cy="15" r="1"/></svg></span>
+    <h2>اپلیکیشن‌های پشتیبانی شده</h2>
   </div>
-  <div class="steps">
-    <div class="step"><span class="snum">۱</span><div class="sc"><b>اپ موردنیاز را دانلود کن</b><p>v2rayNG نسخهٔ <b>patterniha</b> را نصب کن. دکمهٔ «دانلود آخرین نسخه» همیشه لینک مستقیم APK می‌دهد.</p></div></div>
-    <div class="step"><span class="snum">۲</span><div class="sc"><b>کانفیگ یا لینک ساب را وارد کن</b><p>لینک ساب، فرمت ZEUS، کد base64، یا کانفیگ مستقیم — هر فرمتی را بچسبان، ابزار خودش استخراج می‌کند.</p></div></div>
-    <div class="step"><span class="snum">۳</span><div class="sc"><b>روی «بهینه‌سازی» بزن</b><p>Fragment، Cipher Suites و Fingerprint به‌صورت خودکار اضافه می‌شوند. تنظیمات پیش‌فرض بهینه هستند.</p></div></div>
-    <div class="step"><span class="snum">۴</span><div class="sc"><b>خروجی را کپی یا دانلود کن</b><p>«کپی همه» را بزن یا فایل <code>.txt</code> را دانلود کن. برای دریافت JSON نیز دکمه «خروجی JSON» را بزن.</p></div></div>
-    <div class="step"><span class="snum">۵</span><div class="sc"><b>در v2rayNG ایمپورت کن</b><p>منوی سه‌نقطه ← <b>Import config from clipboard</b>. همهٔ کانفیگ‌ها یک‌جا وارد می‌شوند.</p></div></div>
-  </div>
-  <div class="gnote">
-    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-    <span>تنها <code>vless://</code> و <code>trojan://</code> بهینه می‌شوند. بقیه عیناً منتقل می‌شوند.</span>
+  <div class="app-grid">
+    <div class="app-col">
+      <b>اندروید</b>
+      <ul>
+        <li><a href="https://github.com/patterniha/v2rayNG/releases/latest" target="_blank" rel="noopener">PattNG</a></li>
+        <li><a href="https://github.com/2dust/v2rayNG/releases/latest" target="_blank" rel="noopener">v2rayNG</a></li>
+        <li><a href="https://play.google.com/store/apps/details?id=com.v2raytun.android" target="_blank" rel="noopener">V2rayTun</a></li>
+      </ul>
+    </div>
+    <div class="app-col">
+      <b>iOS</b>
+      <ul>
+        <li><a href="https://apps.apple.com/app/streisand/id6450534064" target="_blank" rel="noopener">Streisand</a></li>
+        <li><a href="https://apps.apple.com/search?term=INCY" target="_blank" rel="noopener">INCY</a></li>
+        <li><a href="https://apps.apple.com/search?term=Happ" target="_blank" rel="noopener">Happ</a></li>
+      </ul>
+      <div class="note">حالت عادی تست شه، جواب نداد JSON بگیرید</div>
+    </div>
+    <div class="app-col">
+      <b>ویندوز</b>
+      <ul>
+        <li><a href="https://github.com/2dust/v2rayN/releases/tag/7.24.7" target="_blank" rel="noopener">v2rayN v7.24.7</a></li>
+      </ul>
+      <div class="note">فقط خروجی JSON — پینگ نمیشه گرفت و پورت ۰ طبیعیه و وصل میشه </div>
+    </div>
   </div>
 </section>
 
@@ -402,22 +424,13 @@ function dec(s){try{return decodeURIComponent(s);}catch(e){return s;}}
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
 
 function detectArchitecture(){
-  var ua = navigator.userAgent.toLowerCase();
-  var platform = navigator.platform ? navigator.platform.toLowerCase() : '';
-  // ترتیب مهم است: arm64 اول، بعد armv7، بعد x86_64 و x86
-  if (ua.indexOf('arm64') !== -1 || platform.indexOf('arm64') !== -1 || ua.indexOf('aarch64') !== -1) {
-    return 'arm64-v8a';
-  }
-  if (ua.indexOf('armv7') !== -1 || ua.indexOf('armeabi-v7a') !== -1 || (ua.indexOf('android') !== -1 && ua.indexOf('arm') !== -1)) {
-    return 'armeabi-v7a';
-  }
-  if (ua.indexOf('x86_64') !== -1 || platform.indexOf('x86_64') !== -1 || ua.indexOf('amd64') !== -1) {
-    return 'x86_64';
-  }
-  if (ua.indexOf('x86') !== -1 || platform.indexOf('x86') !== -1) {
-    return 'x86';
-  }
-  return 'arm64-v8a'; // پیش‌فرض
+  var ua=navigator.userAgent.toLowerCase();
+  var platform=navigator.platform?navigator.platform.toLowerCase():'';
+  if(ua.indexOf('arm64')!==-1||platform.indexOf('arm64')!==-1||ua.indexOf('aarch64')!==-1)return'arm64-v8a';
+  if(ua.indexOf('armv7')!==-1||ua.indexOf('armeabi-v7a')!==-1||(ua.indexOf('android')!==-1&&ua.indexOf('arm')!==-1))return'armeabi-v7a';
+  if(ua.indexOf('x86_64')!==-1||platform.indexOf('x86_64')!==-1||ua.indexOf('amd64')!==-1)return'x86_64';
+  if(ua.indexOf('x86')!==-1||platform.indexOf('x86')!==-1)return'x86';
+  return'arm64-v8a';
 }
 
 function fetchLatestRelease(){
@@ -429,34 +442,25 @@ function fetchLatestRelease(){
       var arch=detectArchitecture();
       var assets=d.assets||[];
 
-      // تابع کمکی برای یافتن APK مطابق معماری
-      function findApk(arch) {
-        for (var i=0;i<assets.length;i++){
+      function findApk(arch){
+        for(var i=0;i<assets.length;i++){
           var name=assets[i].name.toLowerCase();
-          if (name.indexOf(arch.toLowerCase()) !== -1 && /\.apk$/.test(name)) {
-            return assets[i].browser_download_url;
-          }
+          if(name.indexOf(arch.toLowerCase())!==-1&&/\.apk$/.test(name))return assets[i].browser_download_url;
         }
         return null;
       }
 
-      // تلاش به ترتیب: معماری دقیق، سپس arm64، سپس هر APK
-      apk = findApk(arch) || findApk('arm64-v8a') || findApk('armeabi-v7a') || findApk('x86_64') || findApk('x86');
-      if (!apk && assets.length) {
-        for (var j=0;j<assets.length;j++){
-          if (/\.apk$/i.test(assets[j].name)) { apk=assets[j].browser_download_url; break; }
+      apk=findApk(arch)||findApk('arm64-v8a')||findApk('armeabi-v7a')||findApk('x86_64')||findApk('x86');
+      if(!apk&&assets.length){
+        for(var j=0;j<assets.length;j++){
+          if(/\.apk$/i.test(assets[j].name)){apk=assets[j].browser_download_url;break;}
         }
       }
 
-      verEl.textContent=tag||'latest';verEl.classList.remove('loading');
-      if (apk) {
-        dlBtn.href=apk;
-        // نمایش معماری در کنار نسخه (اختیاری)
-        var archFa = arch === 'arm64-v8a' ? 'ARM64' : arch === 'armeabi-v7a' ? 'ARMv7' : arch === 'x86_64' ? 'x86_64' : 'x86';
-        verEl.textContent = (tag||'latest') + ' (' + archFa + ')';
-      } else {
-        dlBtn.href=d.html_url||GH_LATEST;
-      }
+      var archFa=arch==='arm64-v8a'?'ARM64':arch==='armeabi-v7a'?'ARMv7':arch==='x86_64'?'x86_64':'x86';
+      verEl.textContent=(tag||'latest')+' ('+archFa+')';
+      verEl.classList.remove('loading');
+      if(apk)dlBtn.href=apk; else dlBtn.href=d.html_url||GH_LATEST;
     })
     .catch(function(){verEl.textContent='latest';verEl.classList.remove('loading');});
 }
@@ -582,74 +586,69 @@ function fetchWithTimeout(u,ms){
 }
 
 function fetchSub(url){
-  var proxies = [
-    { prefix: '', label: 'direct' },
-    { prefix: 'https://corsproxy.io/?', label: 'corsproxy.io' },
-    { prefix: 'https://api.allorigins.win/raw?url=', label: 'allorigins' },
-    { prefix: 'https://proxy.cors.sh/', label: 'cors.sh' },
-    { prefix: 'https://cors-anywhere.herokuapp.com/', label: 'cors-anywhere' },
-    { prefix: 'https://thingproxy.freeboard.io/fetch/', label: 'thingproxy' },
-    { prefix: 'https://r.jina.ai/', label: 'jina.ai' }
+  var proxies=[
+    {prefix:'',label:'direct'},
+    {prefix:'https://corsproxy.io/?',label:'corsproxy.io'},
+    {prefix:'https://api.allorigins.win/raw?url=',label:'allorigins'},
+    {prefix:'https://proxy.cors.sh/',label:'cors.sh'},
+    {prefix:'https://cors-anywhere.herokuapp.com/',label:'cors-anywhere'},
+    {prefix:'https://thingproxy.freeboard.io/fetch/',label:'thingproxy'},
+    {prefix:'https://r.jina.ai/',label:'jina.ai'}
   ];
 
-  function attemptFetch(targetUrl, retriesLeft) {
-    return fetchWithTimeout(targetUrl, 10000)
-      .then(function(r) {
-        if (!r.ok) throw new Error('HTTP ' + r.status);
-        return r.text();
-      })
-      .catch(function(err) {
-        if (retriesLeft > 0) {
-          return new Promise(function(res) { setTimeout(res, 800); })
-            .then(function() { return attemptFetch(targetUrl, retriesLeft - 1); });
+  function attemptFetch(targetUrl,retriesLeft){
+    return fetchWithTimeout(targetUrl,10000)
+      .then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.text();})
+      .catch(function(err){
+        if(retriesLeft>0){
+          return new Promise(function(res){setTimeout(res,800);})
+            .then(function(){return attemptFetch(targetUrl,retriesLeft-1);});
         }
         throw err;
       });
   }
 
-  function tryProxy(idx) {
-    if (idx >= proxies.length) return Promise.reject(new Error('all proxies failed'));
-    var p = proxies[idx];
-    var target = p.prefix ? p.prefix + encodeURIComponent(url) : url;
-    return attemptFetch(target, 2).catch(function() {
-      return tryProxy(idx + 1);
-    });
+  function tryProxy(idx){
+    if(idx>=proxies.length)return Promise.reject(new Error('all proxies failed'));
+    var p=proxies[idx];
+    var target=p.prefix?p.prefix+encodeURIComponent(url):url;
+    return attemptFetch(target,2).catch(function(){return tryProxy(idx+1);});
   }
 
-  return tryProxy(0).then(function(txt) {
-    var all = [];
-    var trimmed = txt.trim();
+  return tryProxy(0).then(function(txt){
+    var all=[];
+    var trimmed=txt.trim();
 
-    if (trimmed.charAt(0) === '{' || trimmed.charAt(0) === '[') {
-      try {
-        var json = JSON.parse(trimmed);
-        var walk = function(obj) {
-          if (!obj) return;
-          if (typeof obj === 'string') {
-            if (PROTO_START.test(obj)) all.push(obj);
-            else {
-              var d = b64decode(obj);
-              if (d) extractLines(d).forEach(function(l){ all.push(l); });
-              else extractLines(obj).forEach(function(l){ all.push(l); });
+    if(trimmed.charAt(0)==='{'||trimmed.charAt(0)==='['){
+      try{
+        var json=JSON.parse(trimmed);
+        var walk=function(obj){
+          if(!obj)return;
+          if(typeof obj==='string'){
+            if(PROTO_START.test(obj))all.push(obj);
+            else{
+              var d=b64decode(obj);
+              if(d)extractLines(d).forEach(function(l){all.push(l);});
+              else extractLines(obj).forEach(function(l){all.push(l);});
             }
-          } else if (Array.isArray(obj)) {
-            obj.forEach(function(v){ walk(v); });
-          } else if (typeof obj === 'object') {
-            Object.values(obj).forEach(function(v){ walk(v); });
+          }else if(Array.isArray(obj)){
+            obj.forEach(function(v){walk(v);});
+          }else if(typeof obj==='object'){
+            Object.values(obj).forEach(function(v){walk(v);});
           }
         };
         walk(json);
-        if (all.length) return all;
-      } catch (e) {}
+        if(all.length)return all;
+      }catch(e){}
     }
 
-    extractLines(trimmed).forEach(function(l){ all.push(l); });
-    var d = b64decode(trimmed);
-    if (d) extractLines(d).forEach(function(l){ all.push(l); });
+    extractLines(trimmed).forEach(function(l){all.push(l);});
+    var d=b64decode(trimmed);
+    if(d)extractLines(d).forEach(function(l){all.push(l);});
 
-    var seen = {}, unique = [];
-    all.forEach(function(l){ if (!seen[l]) { seen[l] = 1; unique.push(l); } });
-    if (!unique.length) throw new Error('کانفیگ پیدا نشد');
+    var seen={},unique=[];
+    all.forEach(function(l){if(!seen[l]){seen[l]=1;unique.push(l);}});
+    if(!unique.length)throw new Error('کانفیگ پیدا نشد');
     return unique;
   });
 }
@@ -681,12 +680,12 @@ function legacyCopy(t){
   document.body.removeChild(el);return ok;
 }
 
-function truncateForDisplay(text, maxLines) {
-  var lines = text.split('\n');
-  if (lines.length <= maxLines) return text;
-  var shown = lines.slice(0, maxLines).join('\n');
-  var remaining = lines.length - maxLines;
-  return shown + '\n... ' + fa(remaining) + ' کانفیگ دیگر (برای کپی کامل از دکمه کپی استفاده کنید)';
+function truncateForDisplay(text,maxLines){
+  var lines=text.split('\n');
+  if(lines.length<=maxLines)return text;
+  var shown=lines.slice(0,maxLines).join('\n');
+  var remaining=lines.length-maxLines;
+  return shown+'\n... '+fa(remaining)+' کانفیگ دیگر (برای کپی کامل از دکمه کپی استفاده کنید)';
 }
 
 var inp=$('inp'),out=$('out'),res=$('res'),sumEl=$('sum'),errs=$('errs'),
@@ -700,7 +699,7 @@ adr.value=st.adr;fp.value=st.fp;cs.value=st.cs;fm.value=st.fm;
 $('yr').textContent=fa(new Date().getFullYear());
 fetchLatestRelease();
 
-$('notice-close').addEventListener('click', function() {
+$('notice-close').addEventListener('click',function(){
   $('notice-overlay').classList.add('hidden');
 });
 
@@ -791,12 +790,12 @@ go.addEventListener('click',run);
 
 cpy.addEventListener('click',function(){
   var btn=this;
-  var content = isJsonMode ? savedJsonOutput : savedNormalOutput;
+  var content=isJsonMode?savedJsonOutput:savedNormalOutput;
   if(!content)return;
   copyText(content).then(function(ok){flash(btn,ok?'کپی شد':'ناموفق',ok?'ok':'no');});
 });
 dl.addEventListener('click',function(){
-  var content = isJsonMode ? savedJsonOutput : savedNormalOutput;
+  var content=isJsonMode?savedJsonOutput:savedNormalOutput;
   if(!content)return;
   var blob=new Blob([content+'\n'],{type:'text/plain;charset=utf-8'}),url=URL.createObjectURL(blob);
   var a=document.createElement('a');a.href=url;a.download='configs-'+Date.now()+'.txt';
@@ -849,9 +848,9 @@ function finish(all,failed){
     }catch(e){bad.push('خط '+fa(i+1)+' — '+e.message);}
   });
   failed.forEach(function(u){bad.push('ساب دریافت نشد: '+u);});
-  var full = ok.join('\n');
-  savedNormalOutput = full;
-  out.value = truncateForDisplay(full, 3);
+  var full=ok.join('\n');
+  savedNormalOutput=full;
+  out.value=truncateForDisplay(full,3);
   ocnt.textContent=fa(ok.length)+' کانفیگ';
   errs.innerHTML=bad.map(function(t){return'<div class="er">'+esc(t)+'</div>';}).join('');
   var s=ok.length
@@ -865,170 +864,170 @@ function finish(all,failed){
   res.scrollIntoView({behavior:'smooth',block:'nearest'});
 }
 
-function configToJson(line, index){
-  var raw = String(line||'').trim();
-  var cfg = null;
-  if(/^vless:\/\//i.test(raw)) cfg = parseVless(raw);
-  else if(/^trojan:\/\//i.test(raw)) cfg = parseTrojan(raw);
+function configToJson(line,index){
+  var raw=String(line||'').trim();
+  var cfg=null;
+  if(/^vless:\/\//i.test(raw))cfg=parseVless(raw);
+  else if(/^trojan:\/\//i.test(raw))cfg=parseTrojan(raw);
   else return null;
 
-  var params = {};
-  cfg.p.forEach(function(x){ params[x.k.toLowerCase()] = x.v; });
+  var params={};
+  cfg.p.forEach(function(x){params[x.k.toLowerCase()]=x.v;});
 
-  var host = cfg.host;
-  var port = parseInt(cfg.port,10) || 443;
-  var remark = cfg.f ? dec(cfg.f) : ('Config '+(index+1));
-  var net = params['type'] || 'xhttp';
-  var sec = params['security'] || 'tls';
-  var path = params['path'] || '/';
-  var hostHeader = params['host'] || host;
-  var sni = params['sni'] || hostHeader;
-  var fpVal = params['fp'] || DEF.fp;
-  var csVal = params['cs'] || DEF.cs;
-  var fmStr = params['fm'] || DEF.fm;
+  var host=cfg.host;
+  var port=parseInt(cfg.port,10)||443;
+  var remark=cfg.f?dec(cfg.f):('Config '+(index+1));
+  var net=params['type']||'xhttp';
+  var sec=params['security']||'tls';
+  var path=params['path']||'/';
+  var hostHeader=params['host']||host;
+  var sni=params['sni']||hostHeader;
+  var fpVal=params['fp']||DEF.fp;
+  var csVal=params['cs']||DEF.cs;
+  var fmStr=params['fm']||DEF.fm;
   var finalmaskObj;
-  try { finalmaskObj = JSON.parse(fmStr); } catch(e){ finalmaskObj = JSON.parse(FM_STR); }
+  try{finalmaskObj=JSON.parse(fmStr);}catch(e){finalmaskObj=JSON.parse(FM_STR);}
 
-  var streamSettings = {};
-  streamSettings.finalmask = finalmaskObj;
-  streamSettings.network = net;
-  streamSettings.security = sec;
-  if(net === 'xhttp'){
-    streamSettings.sockopt = {
-      domainStrategy: "UseIP",
-      happyEyeballs: {
-        interleave: 2,
-        maxConcurrentTry: 4,
-        prioritizeIPv6: false,
-        tryDelayMs: 250
+  var streamSettings={};
+  streamSettings.finalmask=finalmaskObj;
+  streamSettings.network=net;
+  streamSettings.security=sec;
+  if(net==='xhttp'){
+    streamSettings.sockopt={
+      domainStrategy:"UseIP",
+      happyEyeballs:{
+        interleave:2,
+        maxConcurrentTry:4,
+        prioritizeIPv6:false,
+        tryDelayMs:250
       }
     };
   }
-  var tls = {
-    allowInsecure: false,
-    cipherSuites: csVal,
-    fingerprint: fpVal,
-    serverName: sni
+  var tls={
+    allowInsecure:false,
+    cipherSuites:csVal,
+    fingerprint:fpVal,
+    serverName:sni
   };
-  if(net === 'xhttp') tls.alpn = ["h2","h3"];
-  streamSettings.tlsSettings = tls;
-  if(net === 'xhttp'){
-    streamSettings.xhttpSettings = {
-      host: hostHeader,
-      mode: "stream-up",
-      path: path
+  if(net==='xhttp')tls.alpn=["h2","h3"];
+  streamSettings.tlsSettings=tls;
+  if(net==='xhttp'){
+    streamSettings.xhttpSettings={
+      host:hostHeader,
+      mode:"stream-up",
+      path:path
     };
-  } else if(net === 'ws'){
-    streamSettings.wsSettings = {
-      host: hostHeader,
-      path: path
+  }else if(net==='ws'){
+    streamSettings.wsSettings={
+      host:hostHeader,
+      path:path
     };
-  } else if(net === 'grpc'){
-    streamSettings.grpcSettings = { serviceName: path };
-  } else if(net === 'tcp'){
-    streamSettings.tcpSettings = { header: { type: "none" } };
+  }else if(net==='grpc'){
+    streamSettings.grpcSettings={serviceName:path};
+  }else if(net==='tcp'){
+    streamSettings.tcpSettings={header:{type:"none"}};
   }
 
-  return {
-    dns: {
-      hosts: {
-        "domain:googleapis.cn": "googleapis.com",
-        "dns.alidns.com": ["223.5.5.5","223.6.6.6","2400:3200::1","2400:3200:baba::1"],
-        "dns.sse.cisco.com": ["208.67.220.220","208.67.222.222","2620:119:35::35","2620:119:53::53"],
-        "dns.umbrella.com": ["208.67.220.220","208.67.222.222","2620:119:35::35","2620:119:53::53"],
-        "one.one.one.one": ["1.1.1.1","1.0.0.1","2606:4700:4700::1111","2606:4700:4700::1001"],
-        "1dot1dot1dot1.cloudflare-dns.com": ["1.1.1.1","1.0.0.1","2606:4700:4700::1111","2606:4700:4700::1001"],
-        "dns.cloudflare.com": ["162.159.61.8","172.64.41.8","2a06:98c1:52::8","2803:f800:53::8"],
-        "cloudflare-dns.com": ["104.16.248.249","104.16.249.249","2606:4700::6810:f8f9","2606:4700::6810:f9f9"],
-        "engage.cloudflareclient.com": ["162.159.192.1","2606:4700:d0::a29f:c001"],
-        "doh.pub": ["1.12.12.12","120.53.53.53"],
-        "dot.pub": ["1.12.12.12","120.53.53.53"],
-        "dns.google": ["8.8.8.8","8.8.4.4","2001:4860:4860::8888","2001:4860:4860::8844"],
-        "dns.quad9.net": ["9.9.9.9","149.112.112.112","2620:fe::fe","2620:fe::9"],
-        "dns.sb": ["45.11.45.11","185.222.222.222","2a09::","2a11::"],
-        "common.dot.dns.yandex.net": ["77.88.8.8","77.88.8.1","2a02:6b8::feed:0ff","2a02:6b8:0:1::feed:0ff"]
+  return{
+    dns:{
+      hosts:{
+        "domain:googleapis.cn":"googleapis.com",
+        "dns.alidns.com":["223.5.5.5","223.6.6.6","2400:3200::1","2400:3200:baba::1"],
+        "dns.sse.cisco.com":["208.67.220.220","208.67.222.222","2620:119:35::35","2620:119:53::53"],
+        "dns.umbrella.com":["208.67.220.220","208.67.222.222","2620:119:35::35","2620:119:53::53"],
+        "one.one.one.one":["1.1.1.1","1.0.0.1","2606:4700:4700::1111","2606:4700:4700::1001"],
+        "1dot1dot1dot1.cloudflare-dns.com":["1.1.1.1","1.0.0.1","2606:4700:4700::1111","2606:4700:4700::1001"],
+        "dns.cloudflare.com":["162.159.61.8","172.64.41.8","2a06:98c1:52::8","2803:f800:53::8"],
+        "cloudflare-dns.com":["104.16.248.249","104.16.249.249","2606:4700::6810:f8f9","2606:4700::6810:f9f9"],
+        "engage.cloudflareclient.com":["162.159.192.1","2606:4700:d0::a29f:c001"],
+        "doh.pub":["1.12.12.12","120.53.53.53"],
+        "dot.pub":["1.12.12.12","120.53.53.53"],
+        "dns.google":["8.8.8.8","8.8.4.4","2001:4860:4860::8888","2001:4860:4860::8844"],
+        "dns.quad9.net":["9.9.9.9","149.112.112.112","2620:fe::fe","2620:fe::9"],
+        "dns.sb":["45.11.45.11","185.222.222.222","2a09::","2a11::"],
+        "common.dot.dns.yandex.net":["77.88.8.8","77.88.8.1","2a02:6b8::feed:0ff","2a02:6b8:0:1::feed:0ff"]
       },
-      servers: [
+      servers:[
         "https://cloudflare-dns.com/dns-query",
-        { address: "223.5.5.5", domains: ["geosite:cn"], expectIPs: ["geoip:cn"], skipFallback: true, tag: "domestic-dns_cn_expect_0" },
-        { address: "https://cloudflare-dns.com/dns-query", domains: ["geosite:google"] },
-        { address: "223.5.5.5", domains: ["geosite:private"], skipFallback: true, tag: "domestic-dns_1_0" },
-        { address: "223.5.5.5", domains: ["domain:alidns.com","domain:doh.pub","domain:dot.pub","domain:360.cn","domain:onedns.net"], skipFallback: true, tag: "domestic-dns_2_0" },
-        { address: "223.5.5.5", domains: ["geosite:cn"], skipFallback: true, tag: "domestic-dns_3_0" }
+        {address:"223.5.5.5",domains:["geosite:cn"],expectIPs:["geoip:cn"],skipFallback:true,tag:"domestic-dns_cn_expect_0"},
+        {address:"https://cloudflare-dns.com/dns-query",domains:["geosite:google"]},
+        {address:"223.5.5.5",domains:["geosite:private"],skipFallback:true,tag:"domestic-dns_1_0"},
+        {address:"223.5.5.5",domains:["domain:alidns.com","domain:doh.pub","domain:dot.pub","domain:360.cn","domain:onedns.net"],skipFallback:true,tag:"domestic-dns_2_0"},
+        {address:"223.5.5.5",domains:["geosite:cn"],skipFallback:true,tag:"domestic-dns_3_0"}
       ],
-      tag: "dns-module"
+      tag:"dns-module"
     },
-    inbounds: [
-      { listen: "127.0.0.1", port: 10808, protocol: "socks", settings: { auth: "noauth", udp: true, userLevel: 8 }, sniffing: { destOverride: ["http","tls","quic"], enabled: true, routeOnly: false }, tag: "socks" },
-      { listen: "127.0.0.1", port: 10809, protocol: "http", settings: { userLevel: 8 }, sniffing: { destOverride: ["http","tls","quic"], enabled: true, routeOnly: false }, tag: "http" }
+    inbounds:[
+      {listen:"127.0.0.1",port:10808,protocol:"socks",settings:{auth:"noauth",udp:true,userLevel:8},sniffing:{destOverride:["http","tls","quic"],enabled:true,routeOnly:false},tag:"socks"},
+      {listen:"127.0.0.1",port:10809,protocol:"http",settings:{userLevel:8},sniffing:{destOverride:["http","tls","quic"],enabled:true,routeOnly:false},tag:"http"}
     ],
-    log: { loglevel: "warning" },
-    outbounds: [
+    log:{loglevel:"warning"},
+    outbounds:[
       {
-        mux: { concurrency: -1, enabled: false },
-        protocol: cfg.proto,
-        settings: (cfg.proto==='vless') ? {
-          address: host,
-          encryption: "none",
-          id: cfg.id,
-          level: 8,
-          port: port
-        } : {
-          address: host,
-          password: cfg.pass,
-          level: 8,
-          port: port
+        mux:{concurrency:-1,enabled:false},
+        protocol:cfg.proto,
+        settings:(cfg.proto==='vless')?{
+          address:host,
+          encryption:"none",
+          id:cfg.id,
+          level:8,
+          port:port
+        }:{
+          address:host,
+          password:cfg.pass,
+          level:8,
+          port:port
         },
-        streamSettings: streamSettings,
-        tag: "proxy"
+        streamSettings:streamSettings,
+        tag:"proxy"
       },
-      { protocol: "freedom", streamSettings: { network: "tcp", sockopt: { domainStrategy: "UseIP" } }, tag: "direct" },
-      { protocol: "blackhole", settings: {}, tag: "block" }
+      {protocol:"freedom",streamSettings:{network:"tcp",sockopt:{domainStrategy:"UseIP"}},tag:"direct"},
+      {protocol:"blackhole",settings:{},tag:"block"}
     ],
-    remarks: remark,
-    routing: {
-      domainStrategy: "AsIs",
-      rules: [
-        { domain: ["geosite:google"], outboundTag: "proxy", type: "field" },
-        { ip: ["ext:geoip-only-cn-private.dat:private"], outboundTag: "direct", type: "field" },
-        { domain: ["geosite:private"], outboundTag: "direct", type: "field" },
-        { ip: ["223.5.5.5","223.6.6.6","2400:3200::1","2400:3200:baba::1","119.29.29.29","1.12.12.12","120.53.53.53","2402:4e00::","2402:4e00:1::","180.76.76.76","2400:da00::6666","114.114.114.114","114.114.115.115","114.114.114.119","114.114.115.119","114.114.114.110","114.114.115.110","180.184.1.1","180.184.2.2","101.226.4.6","218.30.118.6","123.125.81.6","140.207.198.6","1.2.4.8","210.2.4.8","52.80.66.66","117.50.22.22","2400:7fc0:849e:200::4","2404:c2c0:85d8:901::4","117.50.10.10","52.80.52.52","2400:7fc0:849e:200::8","2404:c2c0:85d8:901::8","117.50.60.30","52.80.60.30"], outboundTag: "direct", type: "field" },
-        { domain: ["domain:alidns.com","domain:doh.pub","domain:dot.pub","domain:360.cn","domain:onedns.net"], outboundTag: "direct", type: "field" },
-        { ip: ["ext:geoip-only-cn-private.dat:cn"], outboundTag: "direct", type: "field" },
-        { domain: ["geosite:cn"], outboundTag: "direct", type: "field" },
-        { inboundTag: ["domestic-dns_1_0","domestic-dns_2_0","domestic-dns_3_0","domestic-dns_cn_expect_0"], outboundTag: "direct", type: "field" },
-        { inboundTag: ["dns-module"], outboundTag: "proxy", type: "field" }
+    remarks:remark,
+    routing:{
+      domainStrategy:"AsIs",
+      rules:[
+        {domain:["geosite:google"],outboundTag:"proxy",type:"field"},
+        {ip:["ext:geoip-only-cn-private.dat:private"],outboundTag:"direct",type:"field"},
+        {domain:["geosite:private"],outboundTag:"direct",type:"field"},
+        {ip:["223.5.5.5","223.6.6.6","2400:3200::1","2400:3200:baba::1","119.29.29.29","1.12.12.12","120.53.53.53","2402:4e00::","2402:4e00:1::","180.76.76.76","2400:da00::6666","114.114.114.114","114.114.115.115","114.114.114.119","114.114.115.119","114.114.114.110","114.114.115.110","180.184.1.1","180.184.2.2","101.226.4.6","218.30.118.6","123.125.81.6","140.207.198.6","1.2.4.8","210.2.4.8","52.80.66.66","117.50.22.22","2400:7fc0:849e:200::4","2404:c2c0:85d8:901::4","117.50.10.10","52.80.52.52","2400:7fc0:849e:200::8","2404:c2c0:85d8:901::8","117.50.60.30","52.80.60.30"],outboundTag:"direct",type:"field"},
+        {domain:["domain:alidns.com","domain:doh.pub","domain:dot.pub","domain:360.cn","domain:onedns.net"],outboundTag:"direct",type:"field"},
+        {ip:["ext:geoip-only-cn-private.dat:cn"],outboundTag:"direct",type:"field"},
+        {domain:["geosite:cn"],outboundTag:"direct",type:"field"},
+        {inboundTag:["domestic-dns_1_0","domestic-dns_2_0","domestic-dns_3_0","domestic-dns_cn_expect_0"],outboundTag:"direct",type:"field"},
+        {inboundTag:["dns-module"],outboundTag:"proxy",type:"field"}
       ]
     }
   };
 }
 
-jsonBtn.addEventListener('click', function(){
-  if(!savedNormalOutput) { flash(jsonBtn, 'خروجی خالی است', 'no'); return; }
+jsonBtn.addEventListener('click',function(){
+  if(!savedNormalOutput){flash(jsonBtn,'خروجی خالی است','no');return;}
 
   if(!isJsonMode){
-    var lines = savedNormalOutput.split('\n').filter(function(l){ return l.trim(); });
-    var configs = [];
-    lines.forEach(function(line, i){
-      var obj = configToJson(line, i);
-      if(obj) configs.push(obj);
+    var lines=savedNormalOutput.split('\n').filter(function(l){return l.trim();});
+    var configs=[];
+    lines.forEach(function(line,i){
+      var obj=configToJson(line,i);
+      if(obj)configs.push(obj);
     });
-    if(!configs.length) { flash(jsonBtn, 'کانفیگ معتبر برای JSON یافت نشد', 'no'); return; }
-    savedJsonOutput = JSON.stringify(configs, null, 2);
-    out.value = truncateForDisplay(savedJsonOutput, 5);
-    ocnt.textContent = fa(configs.length) + ' JSON';
-    sumEl.textContent = fa(configs.length) + ' کانفیگ به فرمت JSON (آرایه) نمایش داده شد';
-    jsonBtn.innerHTML = '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 9 12 4 7"/><line x1="12" y1="19" x2="20" y2="19"/></svg> تبدیل به حالت عادی';
-    isJsonMode = true;
-    flash(jsonBtn, 'JSON آرایه‌ای آماده شد');
-  } else {
-    out.value = truncateForDisplay(savedNormalOutput, 3);
-    var cntLines = savedNormalOutput.split('\n').filter(function(l){ return l.trim(); }).length;
-    ocnt.textContent = fa(cntLines) + ' کانفیگ';
-    sumEl.textContent = fa(cntLines) + ' کانفیگ بهینه شده';
+    if(!configs.length){flash(jsonBtn,'کانفیگ معتبر برای JSON یافت نشد','no');return;}
+    savedJsonOutput=JSON.stringify(configs,null,2);
+    out.value=truncateForDisplay(savedJsonOutput,5);
+    ocnt.textContent=fa(configs.length)+' JSON';
+    sumEl.textContent=fa(configs.length)+' کانفیگ به فرمت JSON (آرایه) نمایش داده شد';
+    jsonBtn.innerHTML='<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 9 12 4 7"/><line x1="12" y1="19" x2="20" y2="19"/></svg> تبدیل به حالت عادی';
+    isJsonMode=true;
+    flash(jsonBtn,'JSON آرایه‌ای آماده شد');
+  }else{
+    out.value=truncateForDisplay(savedNormalOutput,3);
+    var cntLines=savedNormalOutput.split('\n').filter(function(l){return l.trim();}).length;
+    ocnt.textContent=fa(cntLines)+' کانفیگ';
+    sumEl.textContent=fa(cntLines)+' کانفیگ بهینه شده';
     resetJsonToggle();
-    isJsonMode = false;
-    flash(jsonBtn, 'حالت عادی');
+    isJsonMode=false;
+    flash(jsonBtn,'حالت عادی');
   }
   res.scrollIntoView({behavior:'smooth',block:'nearest'});
 });
