@@ -387,7 +387,7 @@ html[data-theme=light] .b.ok{color:#fff!important}
   </div>
   <div class="gnote" style="margin-top:10px">
     <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-    <span><b>حالت Aras:</b> برای اینستاگرام و سرویس‌های حساس. Fragment سبک‌تر با طول <code>1-1</code>، رمزنگاری TLS ساده‌تر و Fingerprint کروم استفاده می‌شود. بعد از بهینه‌سازی، دکمه «حالت Aras» را بزنید.</span>
+    <span><b>حالت Aras:</b> برای اینستاگرام و سرویس‌های حساس. Fragment سبک‌تر با طول <code>1-1</code>، رمزنگاری TLS ساده‌تر و Fingerprint کروم استفاده می‌شود. بعد از بهینه‌سازی، دکمه «حالت Aras» را بزنید. برای بازگشت، دوباره همان دکمه را بزنید. <b>خروجی JSON از حالت Aras سرعت کمی بهتری دارد.</b> برای دریافت JSON Aras: ابتدا حالت Aras را فعال کنید، سپس روی «خروجی JSON» بزنید.</span>
   </div>
 </section>
 
@@ -858,12 +858,16 @@ function run(){
     all.forEach(function(l){if(!seen[l]){seen[l]=1;unique.push(l);}});
     lastSourceConfigs=unique.slice();
     lastFailed=failed.slice();
-    renderResults(unique,failed,getOpts(),false);
+    var useAras = isArasMode;
+    var opts = useAras ? {adr:adr.value.trim(), fp:ARAS_FP, cs:ARAS_CS, fm:ARAS_FM} : getOpts();
+    renderResults(unique, failed, opts, useAras);
   })
   .catch(function(){
     lastSourceConfigs=directConfigs.slice();
     lastFailed=failed.slice();
-    renderResults(directConfigs,failed,getOpts(),false);
+    var useAras = isArasMode;
+    var opts = useAras ? {adr:adr.value.trim(), fp:ARAS_FP, cs:ARAS_CS, fm:ARAS_FM} : getOpts();
+    renderResults(directConfigs, failed, opts, useAras);
   })
   .then(function(){go.innerHTML=go._savedHTML;go.disabled=false;go._running=false;});
 }
@@ -1077,12 +1081,8 @@ arasBtn.addEventListener('click',function(){
     arasBtn.innerHTML='<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 9 12 4 7"/><line x1="12" y1="19" x2="20" y2="19"/></svg> حالت عادی';
     flash(arasBtn,'حالت Aras فعال شد');
   }else{
-    out.value=truncateForDisplay(savedNormalOutput,3);
-    var cntLines=savedNormalOutput.split('\n').filter(function(l){return l.trim();}).length;
-    ocnt.textContent=fa(cntLines)+' کانفیگ';
-    sumEl.textContent=fa(cntLines)+' کانفیگ بهینه شده';
     isArasMode=false;
-    resetArasToggle();
+    renderResults(lastSourceConfigs,lastFailed,getOpts(),false);
     isJsonMode=false;
     resetJsonToggle();
     flash(arasBtn,'حالت عادی');
@@ -1093,4 +1093,4 @@ arasBtn.addEventListener('click',function(){
 })();
 </script>
 </body>
-                                                                                                                                                                                                                                                    </html>
+</html>
