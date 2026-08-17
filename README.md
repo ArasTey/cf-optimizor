@@ -1,6 +1,6 @@
 <div align="center">
 
-# Aras Â· CDN Config Optimizer
+# Aras · CDN Config Optimizer
 
 **VLESS & Trojan CDN Configuration Optimizer â€” 100% client-side.**
 
