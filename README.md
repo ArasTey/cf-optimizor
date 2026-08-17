@@ -1,17 +1,32 @@
 <div align="center">
 
-# Aras · CDN Config Optimizer
+# Aras | CDN Config Optimizer
 
 **VLESS & Trojan CDN Configuration Optimizer â€” 100% client-side.**
 
 Paste VLESS/Trojan URLs or subscription links, get optimized configs for CDN fronting in one click.  
 No backend. No build step. Nothing ever leaves your browser.
 
-[Live Demo](https://arastey.github.io/cf-optimizor/) Â· [Report an issue](https://github.com/ArasTey/cf-optimizor/issues) Â· [Telegram](https://t.me/imArasTey)
+[Live Demo](https://arastey.github.io/cf-optimizor/) | [Report an issue](https://github.com/ArasTey/cf-optimizor/issues) | [Telegram](https://t.me/imArasTey)
 
 </div>
 
 ---
+
+## Contents
+
+- [Overview](#overview)
+- [Features](#features)
+- [Supported Apps](#supported-apps)
+- [How It Works](#how-it-works)
+- [Aras Mode](#aras-mode)
+- [Default Values](#default-values)
+- [Supported Inputs](#supported-inputs)
+- [Usage](#usage)
+- [JavaScript API](#javascript-api)
+- [Privacy](#privacy)
+- [Installation](#installation)
+- [Copyright](#copyright)
 
 ## Features
 
@@ -37,8 +52,8 @@ No backend. No build step. Nothing ever leaves your browser.
 
 | Platform | Apps |
 | --- | --- |
-| **Android** | [PattNG](https://github.com/patterniha/v2rayNG/releases/latest) Â· [v2rayNG](https://github.com/2dust/v2rayNG/releases/latest) Â· [V2rayTun](https://play.google.com/store/apps/details?id=com.v2raytun.android) |
-| **iOS** | [Streisand](https://apps.apple.com/app/streisand/id6450534064) Â· INCY Â· Happ |
+| **Android** | [PattNG](https://github.com/patterniha/v2rayNG/releases/latest) | [v2rayNG](https://github.com/2dust/v2rayNG/releases/latest) | [V2rayTun](https://play.google.com/store/apps/details?id=com.v2raytun.android) |
+| **iOS** | [Streisand](https://apps.apple.com/app/streisand/id6450534064) | INCY | Happ |
 | **Windows** | [v2rayN v7.24.7](https://github.com/2dust/v2rayN/releases/tag/7.24.7) |
 
 **Important notes:**
@@ -355,10 +370,45 @@ For permission requests, contact **@imArasTey**.
 
 ---
 
-## License
+---
 
-**Proprietary â€” All Rights Reserved**
+## Copyright & Usage Restrictions
 
-No open-source license is granted by this document.
+Copyright Â© 2026 **Aras**. All rights reserved.
 
-Copyright Â© 2026 Aras.
+This project is proprietary and is **not released under an open-source license**.
+
+Without explicit written permission from Aras, you may not:
+
+- Copy or republish this project or substantial portions of it.
+- Create, distribute or publish forks or mirrors.
+- Rebrand the project and publish it as another project.
+- Remove or modify copyright, attribution or ownership notices.
+- Publish modified or derivative versions.
+- Sell, sublicense or commercially redistribute the source.
+- Reuse substantial portions of the source code, UI, design or documentation.
+- Claim the project or a derivative work as your own.
+
+### GitHub Forks
+
+GitHub may technically display a **Fork** option depending on repository visibility and account settings.
+
+A GitHub interface option does **not** constitute permission from Aras.
+
+Unauthorized forks, mirrors, copies and derivative publications are not permitted.
+
+### Permission Requests
+
+For written permission or licensing inquiries, contact:
+
+**Telegram:** [@imArasTey](https://t.me/imArasTey)
+
+---
+
+<div align="center">
+
+**Built by Aras**
+
+Simple. Fast. Client-side.
+
+</div>
