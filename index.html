@@ -164,6 +164,9 @@ html[data-theme=light] .b.ok{color:#fff!important}
 .app-col a{color:var(--ac);text-decoration:none;transition:opacity .15s}
 .app-col a:hover{opacity:.75}
 .app-col .note{font-size:11.5px;color:var(--tx3);margin-top:6px}
+body.os-windows .app-col:not(.win-col){display:none}
+body.os-android .app-col:not(.android-col){display:none}
+body.os-ios .app-col:not(.ios-col){display:none}
 @media(min-width:640px){.wrap{padding:28px 24px 64px;gap:16px}.sec,.feat,.guide{padding:20px 22px}.ah{padding:17px 20px}.inr{padding:17px 20px 20px}.g2{grid-template-columns:1fr 1fr;gap:16px}.qk{grid-template-columns:1fr 1fr}.app-grid{grid-template-columns:1fr 1fr 1fr}#inp{min-height:170px}#out{min-height:210px}.bt h1{font-size:20px}.steps{display:grid;grid-template-columns:1fr 1fr;gap:4px}.step{border-bottom:none;padding:14px 16px}.step:nth-child(odd){border-right:1px solid var(--ln)}}
 @media(min-width:900px){.wrap{padding:34px 28px 72px}.sec,.feat,.guide{padding:22px 24px}#inp{min-height:190px}#out{min-height:240px}}
 @media(max-width:430px){.wrap{padding:16px 13px 46px;gap:12px}.sec,.feat,.guide{padding:15px}.ah{padding:14px 15px}.inr{padding:15px}.bl{width:100%}.at small{display:none}.bt h1{font-size:17px}}
@@ -216,9 +219,9 @@ html[data-theme=light] .b.ok{color:#fff!important}
   </div>
 </section>
 
-<div class="card pv" style="border-color: var(--ac1); background: var(--ac0);">
+<div class="card pv" id="infoBar" style="border-color: var(--ac1); background: var(--ac0);">
   <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="var(--ac)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-  <div><b>دریافت مخصوص ویندوز و iOS</b><span>iOS: ابتدا حالت عادی، در صورت نیاز JSON — ویندوز: PattN (خروجی عادی و JSON)</span></div>
+  <div><b id="infoTitle">دریافت مخصوص ویندوز و iOS</b><span id="infoText">iOS: ابتدا حالت عادی، در صورت نیاز JSON — ویندوز: PattN (خروجی عادی و JSON)</span></div>
 </div>
 
 <section class="card sec" id="dz">
@@ -360,7 +363,7 @@ html[data-theme=light] .b.ok{color:#fff!important}
     <h2>اپلیکیشن‌های پشتیبانی شده</h2>
   </div>
   <div class="app-grid">
-    <div class="app-col">
+    <div class="app-col android-col">
       <b>اندروید</b>
       <ul>
         <li><a href="https://github.com/patterniha/v2rayNG/releases/latest" target="_blank" rel="noopener">PattNG</a></li>
@@ -368,7 +371,7 @@ html[data-theme=light] .b.ok{color:#fff!important}
         <li><a href="https://play.google.com/store/apps/details?id=com.v2raytun.android" target="_blank" rel="noopener">V2rayTun</a></li>
       </ul>
     </div>
-    <div class="app-col">
+    <div class="app-col ios-col">
       <b>iOS</b>
       <ul>
         <li><a href="https://apps.apple.com/app/streisand/id6450534064" target="_blank" rel="noopener">Streisand</a></li>
@@ -377,7 +380,7 @@ html[data-theme=light] .b.ok{color:#fff!important}
       </ul>
       <div class="note">حالت عادی تست شه، جواب نداد JSON بگیرید</div>
     </div>
-    <div class="app-col">
+    <div class="app-col win-col">
       <b>ویندوز</b>
       <ul>
         <li><a href="https://github.com/patterniha/PattN/releases/latest" target="_blank" rel="noopener" id="pattnLink">PattN <span id="pattnVer" class="ver loading" style="font-size:10px;padding:1px 6px;margin-right:4px;">…</span></a></li>
@@ -436,6 +439,55 @@ function $(id){return document.getElementById(id);}
 function fa(n){return String(n).replace(/\d/g,function(d){return'۰۱۲۳۴۵۶۷۸۹'[+d];});}
 function dec(s){try{return decodeURIComponent(s);}catch(e){return s;}}
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+
+function detectOS(){
+  var ua = navigator.userAgent.toLowerCase();
+  var platform = (navigator.userAgentData && navigator.userAgentData.platform) ? navigator.userAgentData.platform.toLowerCase() : (navigator.platform || '').toLowerCase();
+  if (/windows|win32|win64/.test(ua) || /windows/.test(platform)) return 'windows';
+  if (/android/.test(ua)) return 'android';
+  if (/iphone|ipad|ipod|ios|mac os|macintosh/.test(ua) || /mac/.test(platform)) return 'ios';
+  return 'other';
+}
+
+function applyOS(){
+  var os = detectOS();
+  document.body.classList.add('os-' + os);
+
+  var dlBtn = $('dlBtn');
+  var infoTitle = $('infoTitle');
+  var infoText = $('infoText');
+  var infoBar = $('infoBar');
+
+  if (os === 'windows') {
+    if (dlBtn) {
+      dlBtn.href = PATTN_LATEST;
+      dlBtn.querySelector('span') && dlBtn.querySelector('span').remove();
+      var svg = dlBtn.querySelector('svg').outerHTML;
+      dlBtn.innerHTML = svg + ' دانلود PattN (ویندوز)';
+    }
+    if (infoBar) {
+      infoTitle.textContent = 'PattN — ویندوز';
+      infoText.textContent = 'خروجی عادی و JSON هر دو کار می‌کنند. پیشنهاد: خروجی عادی';
+    }
+  } else if (os === 'android') {
+    if (dlBtn) {
+      dlBtn.href = GH_LATEST;
+      var svg2 = dlBtn.querySelector('svg').outerHTML;
+      dlBtn.innerHTML = svg2 + ' دانلود PattNG (اندروید)';
+    }
+    if (infoBar) {
+      infoBar.style.display = 'none';
+    }
+  } else if (os === 'ios') {
+    if (dlBtn) {
+      dlBtn.href = 'https://apps.apple.com/app/streisand/id6450534064';
+      var svg3 = dlBtn.querySelector('svg').outerHTML;
+      dlBtn.innerHTML = svg3 + ' دانلود Streisand (iOS)';
+    }
+    if (infoTitle) infoTitle.textContent = 'iOS';
+    if (infoText) infoText.textContent = 'حالت عادی تست شه، جواب نداد JSON بگیرید';
+  }
+}
 
 function detectArchitecture(){
   var ua=navigator.userAgent.toLowerCase();
@@ -592,9 +644,25 @@ function b64decode(s){
 
 function extractLines(text){
   var found=[];
+  // استخراج URL‌های پروتکل‌دار و بدون پروتکل
+  var urlRegex = /((?:https?:\/\/|www\.)[^\s]+|vless:\/\/[^\s]+|trojan:\/\/[^\s]+|vmess:\/\/[^\s]+|ss:\/\/[^\s]+|hysteria2?:\/\/[^\s]+|tuic:\/\/[^\s]+)/gi;
+  var matches = text.match(urlRegex) || [];
+  matches.forEach(function(m){
+    var line = m.trim();
+    if (PROTO_START.test(line)) {
+      found.push(line);
+    } else if (/^www\./i.test(line)) {
+      found.push('https://' + line);
+    } else if (/^https?:\/\//i.test(line)) {
+      found.push(line);
+    }
+  });
+  // خطوطی که دقیقاً با پروتکل شروع می‌شوند را هم اضافه کن
   text.split(/\r?\n/).forEach(function(line){
     var l=line.trim();
-    if(PROTO_START.test(l))found.push(l);
+    if(PROTO_START.test(l) || /^https?:\/\//i.test(l)) {
+      if (found.indexOf(l) === -1) found.push(l);
+    }
   });
   return found;
 }
@@ -633,6 +701,11 @@ function fetchSub(url){
     {prefix:'https://thingproxy.freeboard.io/fetch/',label:'thingproxy'},
     {prefix:'https://r.jina.ai/',label:'jina.ai'}
   ];
+
+  // اطمینان از داشتن پروتکل
+  if (!/^https?:\/\//i.test(url)) {
+    url = 'https://' + url;
+  }
 
   function attemptFetch(targetUrl,retriesLeft){
     return fetchWithTimeout(targetUrl,10000)
@@ -735,6 +808,7 @@ var inp=$('inp'),out=$('out'),res=$('res'),sumEl=$('sum'),errs=$('errs'),
 var st=loadSettings();
 adr.value=st.adr;fp.value=st.fp;cs.value=st.cs;fm.value=st.fm;
 $('yr').textContent=fa(new Date().getFullYear());
+applyOS();
 fetchLatestRelease();
 fetchPattNLatest();
 
@@ -866,7 +940,11 @@ function run(){
   if(!validateFm()){if(!adv.classList.contains('open'))advb.click();fm.focus();return;}
 
   var lines=raw.split(/\r?\n/).map(function(l){return l.trim();}).filter(Boolean);
-  var subs=lines.filter(function(l){return /^https?:\/\//i.test(l);});
+  var subs=[];
+  lines.forEach(function(l){
+    if (/^(https?:\/\/|www\.)/i.test(l)) subs.push(l);
+  });
+  // در صورت وجود متن با URL در خطوط، سعی در استخراج
   var directConfigs=extract(raw);
 
   var failed=[];
