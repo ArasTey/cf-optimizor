@@ -203,12 +203,12 @@ body.os-ios .app-col:not(.ios-col){display:none}
   <div class="fm">
     <span class="lg" id="lg"><img src="https://github.com/patterniha.png?size=200" alt="patterniha" loading="lazy" onerror="this.remove();document.getElementById('lg').textContent='P'"></span>
     <span class="ft2">
-      <b>PattNG &nbsp;<span class="ver loading" id="ver">بررسی نسخه…</span></b>
+      <b><span id="appName">PattNG</span> &nbsp;<span class="ver loading" id="ver">بررسی نسخه…</span></b>
       <small>ساخت <b>patterniha</b> — تنها نسخه‌ای که <code>cs</code> و <code>fm</code> پشتیبانی می‌کند</small>
     </span>
   </div>
   <div class="fa2">
-    <a class="b bp" id="dlBtn" href="https://github.com/patterniha/v2rayNG/releases/latest" target="_blank" rel="noopener">
+    <a class="b bp" id="dlBtn" href="https://github.com/patterniha/PattNG/releases/latest" target="_blank" rel="noopener">
       <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
       دانلود آخرین نسخه
     </a>
@@ -366,7 +366,7 @@ body.os-ios .app-col:not(.ios-col){display:none}
     <div class="app-col android-col">
       <b>اندروید</b>
       <ul>
-        <li><a href="https://github.com/patterniha/v2rayNG/releases/latest" target="_blank" rel="noopener">PattNG</a></li>
+        <li><a href="https://github.com/patterniha/PattNG/releases/download/2.3.5-P32/PattNG_2.3.5-P32-fdroid_arm64-v8a.apk" target="_blank" rel="noopener">PattNG</a></li>
         <li><a href="https://github.com/2dust/v2rayNG/releases/latest" target="_blank" rel="noopener">v2rayNG</a></li>
         <li><a href="https://play.google.com/store/apps/details?id=com.v2raytun.android" target="_blank" rel="noopener">V2rayTun</a></li>
       </ul>
@@ -430,10 +430,9 @@ var ORDER=['cs','path','security','alpn','encryption','fm','insecure','host','fp
 var UUID_RE=/^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
 var PROTO_START=/^(vless|vmess|trojan|ss|hysteria2?|tuic|naive\+https?|wireguard):\/\//i;
 var SKEY='arpam_opt',TKEY='vpn_theme';
-var GH_API='https://api.github.com/repos/patterniha/v2rayNG/releases/latest';
-var GH_LATEST='https://github.com/patterniha/v2rayNG/releases/latest';
 var PATTN_API='https://api.github.com/repos/patterniha/PattN/releases/latest';
 var PATTN_LATEST='https://github.com/patterniha/PattN/releases/latest';
+var PATTNG_DIRECT='https://github.com/patterniha/PattNG/releases/download/2.3.5-P32/PattNG_2.3.5-P32-fdroid_arm64-v8a.apk';
 
 function $(id){return document.getElementById(id);}
 function fa(n){return String(n).replace(/\d/g,function(d){return'۰۱۲۳۴۵۶۷۸۹'[+d];});}
@@ -452,83 +451,43 @@ function detectOS(){
 function applyOS(){
   var os = detectOS();
   document.body.classList.add('os-' + os);
-
   var dlBtn = $('dlBtn');
   var infoTitle = $('infoTitle');
   var infoText = $('infoText');
-  var infoBar = $('infoBar');
+  var appName = $('appName');
+  var verEl = $('ver');
 
   if (os === 'windows') {
     if (dlBtn) {
       dlBtn.href = PATTN_LATEST;
-      dlBtn.querySelector('span') && dlBtn.querySelector('span').remove();
       var svg = dlBtn.querySelector('svg').outerHTML;
       dlBtn.innerHTML = svg + ' دانلود PattN (ویندوز)';
     }
-    if (infoBar) {
-      infoTitle.textContent = 'PattN — ویندوز';
-      infoText.textContent = 'خروجی عادی و JSON هر دو کار می‌کنند. پیشنهاد: خروجی عادی';
-    }
+    if (appName) appName.textContent = 'PattN';
+    if (verEl) { verEl.textContent = 'آخرین نسخه'; verEl.classList.remove('loading'); }
+    if (infoTitle) infoTitle.textContent = 'PattN — ویندوز';
+    if (infoText) infoText.textContent = 'خروجی عادی و JSON هر دو کار می‌کنند. پیشنهاد: خروجی عادی';
   } else if (os === 'android') {
     if (dlBtn) {
-      dlBtn.href = GH_LATEST;
+      dlBtn.href = PATTNG_DIRECT;
       var svg2 = dlBtn.querySelector('svg').outerHTML;
       dlBtn.innerHTML = svg2 + ' دانلود PattNG (اندروید)';
     }
-    if (infoBar) {
-      infoBar.style.display = 'none';
-    }
+    if (appName) appName.textContent = 'PattNG';
+    if (verEl) { verEl.textContent = '2.3.5-P32'; verEl.classList.remove('loading'); }
+    var infoBar = $('infoBar');
+    if (infoBar) infoBar.style.display = 'none';
   } else if (os === 'ios') {
     if (dlBtn) {
       dlBtn.href = 'https://apps.apple.com/app/streisand/id6450534064';
       var svg3 = dlBtn.querySelector('svg').outerHTML;
       dlBtn.innerHTML = svg3 + ' دانلود Streisand (iOS)';
     }
+    if (appName) appName.textContent = 'Streisand';
+    if (verEl) { verEl.textContent = 'آخرین نسخه'; verEl.classList.remove('loading'); }
     if (infoTitle) infoTitle.textContent = 'iOS';
     if (infoText) infoText.textContent = 'حالت عادی تست شه، جواب نداد JSON بگیرید';
   }
-}
-
-function detectArchitecture(){
-  var ua=navigator.userAgent.toLowerCase();
-  var platform=navigator.platform?navigator.platform.toLowerCase():'';
-  if(ua.indexOf('arm64')!==-1||platform.indexOf('arm64')!==-1||ua.indexOf('aarch64')!==-1)return'arm64-v8a';
-  if(ua.indexOf('armv7')!==-1||ua.indexOf('armeabi-v7a')!==-1||(ua.indexOf('android')!==-1&&ua.indexOf('arm')!==-1))return'armeabi-v7a';
-  if(ua.indexOf('x86_64')!==-1||platform.indexOf('x86_64')!==-1||ua.indexOf('amd64')!==-1)return'x86_64';
-  if(ua.indexOf('x86')!==-1||platform.indexOf('x86')!==-1)return'x86';
-  return'arm64-v8a';
-}
-
-function fetchLatestRelease(){
-  var verEl=$('ver'),dlBtn=$('dlBtn');
-  fetch(GH_API,{headers:{Accept:'application/vnd.github.v3+json'}})
-    .then(function(r){if(!r.ok)throw 0;return r.json();})
-    .then(function(d){
-      var tag=d.tag_name||'',apk=null;
-      var arch=detectArchitecture();
-      var assets=d.assets||[];
-
-      function findApk(arch){
-        for(var i=0;i<assets.length;i++){
-          var name=assets[i].name.toLowerCase();
-          if(name.indexOf(arch.toLowerCase())!==-1&&/\.apk$/.test(name))return assets[i].browser_download_url;
-        }
-        return null;
-      }
-
-      apk=findApk(arch)||findApk('arm64-v8a')||findApk('armeabi-v7a')||findApk('x86_64')||findApk('x86');
-      if(!apk&&assets.length){
-        for(var j=0;j<assets.length;j++){
-          if(/\.apk$/i.test(assets[j].name)){apk=assets[j].browser_download_url;break;}
-        }
-      }
-
-      var archFa=arch==='arm64-v8a'?'ARM64':arch==='armeabi-v7a'?'ARMv7':arch==='x86_64'?'x86_64':'x86';
-      verEl.textContent=(tag||'latest')+' ('+archFa+')';
-      verEl.classList.remove('loading');
-      if(apk)dlBtn.href=apk; else dlBtn.href=d.html_url||GH_LATEST;
-    })
-    .catch(function(){verEl.textContent='latest';verEl.classList.remove('loading');});
 }
 
 function fetchPattNLatest(){
@@ -644,7 +603,6 @@ function b64decode(s){
 
 function extractLines(text){
   var found=[];
-  // استخراج URL‌های پروتکل‌دار و بدون پروتکل
   var urlRegex = /((?:https?:\/\/|www\.)[^\s]+|vless:\/\/[^\s]+|trojan:\/\/[^\s]+|vmess:\/\/[^\s]+|ss:\/\/[^\s]+|hysteria2?:\/\/[^\s]+|tuic:\/\/[^\s]+)/gi;
   var matches = text.match(urlRegex) || [];
   matches.forEach(function(m){
@@ -657,7 +615,6 @@ function extractLines(text){
       found.push(line);
     }
   });
-  // خطوطی که دقیقاً با پروتکل شروع می‌شوند را هم اضافه کن
   text.split(/\r?\n/).forEach(function(line){
     var l=line.trim();
     if(PROTO_START.test(l) || /^https?:\/\//i.test(l)) {
@@ -702,7 +659,6 @@ function fetchSub(url){
     {prefix:'https://r.jina.ai/',label:'jina.ai'}
   ];
 
-  // اطمینان از داشتن پروتکل
   if (!/^https?:\/\//i.test(url)) {
     url = 'https://' + url;
   }
@@ -809,7 +765,6 @@ var st=loadSettings();
 adr.value=st.adr;fp.value=st.fp;cs.value=st.cs;fm.value=st.fm;
 $('yr').textContent=fa(new Date().getFullYear());
 applyOS();
-fetchLatestRelease();
 fetchPattNLatest();
 
 $('notice-close').addEventListener('click',function(){
@@ -944,7 +899,6 @@ function run(){
   lines.forEach(function(l){
     if (/^(https?:\/\/|www\.)/i.test(l)) subs.push(l);
   });
-  // در صورت وجود متن با URL در خطوط، سعی در استخراج
   var directConfigs=extract(raw);
 
   var failed=[];
