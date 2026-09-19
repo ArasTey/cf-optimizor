@@ -281,13 +281,17 @@ body.os-ios .app-col:not(.ios-col){display:none}
         <label class="lb" for="fp">Fingerprint</label>
         <div class="sw">
           <select class="in" id="fp">
-            <option value="unsafe">unsafe</option><option value="chrome">chrome</option>
-            <option value="firefox">firefox</option><option value="safari">safari</option>
-            <option value="edge">edge</option><option value="random">random</option>
+            <option value="">پیش‌فرض (دست نزن)</option>
+            <option value="unsafe">unsafe</option>
+            <option value="chrome">chrome</option>
+            <option value="firefox">firefox</option>
+            <option value="safari">safari</option>
+            <option value="edge">edge</option>
+            <option value="random">random</option>
           </select>
           <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
         </div>
-        <span class="hint">روی همهٔ کانفیگ‌ها اعمال می‌شود.</span>
+        <span class="hint">پیش‌فرض: دست‌نخورده — مقدار اصلی کانفیگ حفظ می‌شود.</span>
       </div>
     </div>
     <div class="f"><label class="lb" for="cs">Cipher Suites &nbsp;<code>cs</code></label><textarea class="ta" id="cs" rows="4" spellcheck="false"></textarea></div>
@@ -420,11 +424,11 @@ var CS_STR='TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256:TLS_AES_128_GCM_
 var ARAS_CS='TLS_AES_128_GCM_SHA256:TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256';
 var ARAS_FM='{"tcp":[{"type":"fragment","settings":{"packets":"tlshello","lengths":["1-1"],"delays":["0"],"maxSplit":"0"}}]}';
 var ARAS_FP='chrome';
-var DEF={adr:'',fp:'unsafe',cs:CS_STR,fm:FM_STR};
+var DEF={adr:'',fp:'',cs:CS_STR,fm:FM_STR};
 var ORDER=['cs','path','security','alpn','encryption','fm','insecure','host','fp','type','allowInsecure','sni'];
 var UUID_RE=/^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
 var PROTO_START=/^(vless|vmess|trojan|ss|hysteria2?|tuic|naive\+https?|wireguard):\/\//i;
-var SKEY='arpam_opt',TKEY='vpn_theme';
+var TKEY='vpn_theme';
 var PATTN_API='https://api.github.com/repos/patterniha/PattN/releases/latest';
 var PATTN_LATEST='https://github.com/patterniha/PattN/releases/latest';
 var PATTNG_DIRECT='https://github.com/patterniha/PattNG/releases/download/2.3.5-P32/PattNG_2.3.5-P32-fdroid_arm64-v8a.apk';
@@ -574,7 +578,7 @@ function fmOf(raw){
 }
 function applyParams(c,o){
   if(o.adr)c.host=o.adr;
-  setParam(c.p,'fp',o.fp||DEF.fp);
+  if(o.fp) setParam(c.p,'fp',o.fp);
   setParam(c.p,'cs',o.cs||DEF.cs);
   setParam(c.p,'fm',fmOf(o.fm));
 }
@@ -598,23 +602,14 @@ function b64decode(s){
 
 function extractLines(text){
   var found=[];
-  var urlRegex = /((?:https?:\/\/|www\.)[^\s]+|vless:\/\/[^\s]+|trojan:\/\/[^\s]+|vmess:\/\/[^\s]+|ss:\/\/[^\s]+|hysteria2?:\/\/[^\s]+|tuic:\/\/[^\s]+)/gi;
-  var matches = text.match(urlRegex) || [];
-  matches.forEach(function(m){
-    var line = m.trim();
-    if (PROTO_START.test(line)) {
-      found.push(line);
-    } else if (/^www\./i.test(line)) {
-      found.push('https://' + line);
-    } else if (/^https?:\/\//i.test(line)) {
-      found.push(line);
-    }
+  var urlRegex = /(vless:\/\/[^\s]+|vmess:\/\/[^\s]+|trojan:\/\/[^\s]+|ss:\/\/[^\s]+|hysteria2?:\/\/[^\s]+|tuic:\/\/[^\s]+|naive\+https?:\/\/[^\s]+|wireguard:\/\/[^\s]+)/gi;
+  (text.match(urlRegex)||[]).forEach(function(m){
+    var line=m.trim().replace(/[,;،؛]+$/,'');
+    if(PROTO_START.test(line)&&found.indexOf(line)===-1) found.push(line);
   });
   text.split(/\r?\n/).forEach(function(line){
     var l=line.trim();
-    if(PROTO_START.test(l) || /^https?:\/\//i.test(l)) {
-      if (found.indexOf(l) === -1) found.push(l);
-    }
+    if(PROTO_START.test(l)&&found.indexOf(l)===-1) found.push(l);
   });
   return found;
 }
@@ -715,13 +710,11 @@ function fetchSub(url){
   });
 }
 
+// localStorage غیرفعال — همیشه مقادیر پیش‌فرض داخل کد استفاده می‌شوند
 function loadSettings(){
-  var s={};try{s=JSON.parse(localStorage.getItem(SKEY)||'{}')||{};}catch(e){s={};}
-  var fm=DEF.fm;
-  if(typeof s.fm==='string'&&s.fm.trim()){try{JSON.parse(s.fm);fm=s.fm.trim();}catch(e){fm=DEF.fm;}}
-  return{adr:(typeof s.adr==='string'&&s.adr!=='188.114.97.6')?s.adr:'',fp:s.fp||DEF.fp,cs:s.cs||DEF.cs,fm:fm};
+  return{adr:DEF.adr,fp:DEF.fp,cs:DEF.cs,fm:DEF.fm};
 }
-function saveSettings(o){try{localStorage.setItem(SKEY,JSON.stringify(o));}catch(e){}}
+function saveSettings(o){/* localStorage disabled */}
 
 function flash(btn,text,cls){
   if(!btn||btn._busy)return;btn._busy=true;btn._saved=btn.innerHTML;
@@ -974,7 +967,7 @@ function configToJson(line,index){
   var path=params['path']||'/';
   var hostHeader=params['host']||host;
   var sni=params['sni']||hostHeader;
-  var fpVal=params['fp']||DEF.fp;
+  var fpVal=params['fp']||DEF.fp||'unsafe';
   var csVal=params['cs']||DEF.cs;
   var fmStr=params['fm']||DEF.fm;
   var finalmaskObj;
