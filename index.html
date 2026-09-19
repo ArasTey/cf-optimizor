@@ -65,7 +65,6 @@ html[data-theme=light] .bp,html[data-theme=light] .bp:hover{color:#fff}
 #clr,#crs,#cadr{color:var(--rd)}#clr:hover,#crs:hover,#cadr:hover{background:var(--rd0);border-color:var(--rd1);color:var(--rd)}
 #dl{color:var(--cy)}#dl:hover{background:var(--cy0);border-color:var(--cy1);color:var(--cy)}
 #jsonBtn{color:var(--vi)}#jsonBtn:hover{background:var(--vi0);border-color:var(--vi1);color:var(--vi)}
-#arasBtn{color:var(--am)}#arasBtn:hover{background:var(--am0);border-color:var(--am1);color:var(--am)}
 #rst{color:var(--am)}#rst:hover{background:var(--am0);border-color:var(--am1);color:var(--am)}
 .b[disabled]{opacity:.38;pointer-events:none}
 .b.ok{color:#04120c!important;background:var(--ac)!important;border-color:var(--ac)!important}
@@ -121,16 +120,16 @@ html[data-theme=light] .b.ok{color:#fff!important}
 .guide{padding:20px 22px;display:flex;flex-direction:column;gap:18px}
 .guide-hd{display:flex;align-items:center;gap:11px}
 .guide-hd h2{font-size:15px;font-weight:700}
-.steps{display:flex;flex-direction:column;gap:0}
-.step{display:flex;align-items:flex-start;gap:14px;padding:14px 0;border-bottom:1px solid var(--ln)}
-.step:first-child{padding-top:0}.step:last-child{border-bottom:none;padding-bottom:0}
-.snum{width:32px;height:32px;flex:none;display:grid;place-items:center;border-radius:50%;font-size:13px;font-weight:800;color:var(--ac);background:var(--ac0);border:1px solid var(--ac1);font-family:var(--sans)}
-.sc{display:flex;flex-direction:column;gap:4px;min-width:0;padding-top:3px}
-.sc b{font-size:13.5px;font-weight:700;line-height:1.4}
-.sc p{font-size:12.5px;color:var(--tx2);line-height:1.7;margin:0}
-.sc code{font-size:11.5px}
-.gnote{display:flex;align-items:flex-start;gap:10px;padding:12px 14px;border-radius:var(--r3);background:var(--am0);border:1px solid var(--am1);font-size:12.3px;color:var(--tx2);line-height:1.7}
-.gnote svg{color:var(--am);flex:none;margin-top:2px}
+.app-grid{display:grid;grid-template-columns:1fr;gap:16px}
+.app-col b{display:block;margin-bottom:6px;font-size:14px;color:var(--tx)}
+.app-col ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:4px}
+.app-col li,.app-col span{font-size:12.5px;color:var(--tx2)}
+.app-col a{color:var(--ac);text-decoration:none;transition:opacity .15s}
+.app-col a:hover{opacity:.75}
+.app-col .note{font-size:11.5px;color:var(--tx3);margin-top:6px}
+body.os-windows .app-col:not(.win-col){display:none}
+body.os-android .app-col:not(.android-col){display:none}
+body.os-ios .app-col:not(.ios-col){display:none}
 .foot{display:flex;flex-direction:column;align-items:center;gap:12px;padding-top:8px}
 .dev{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:600;color:var(--tx2);direction:ltr;unicode-bidi:embed}
 .dev b{color:var(--tx);font-weight:700}
@@ -157,17 +156,7 @@ html[data-theme=light] .b.ok{color:#fff!important}
 .notice-card p b{color:var(--tx)}
 .notice-sub{font-size:13px;color:var(--tx3)}
 .notice-card .b{margin-top:16px}
-.app-grid{display:grid;grid-template-columns:1fr;gap:16px}
-.app-col b{display:block;margin-bottom:6px;font-size:14px;color:var(--tx)}
-.app-col ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:4px}
-.app-col li,.app-col span{font-size:12.5px;color:var(--tx2)}
-.app-col a{color:var(--ac);text-decoration:none;transition:opacity .15s}
-.app-col a:hover{opacity:.75}
-.app-col .note{font-size:11.5px;color:var(--tx3);margin-top:6px}
-body.os-windows .app-col:not(.win-col){display:none}
-body.os-android .app-col:not(.android-col){display:none}
-body.os-ios .app-col:not(.ios-col){display:none}
-@media(min-width:640px){.wrap{padding:28px 24px 64px;gap:16px}.sec,.feat,.guide{padding:20px 22px}.ah{padding:17px 20px}.inr{padding:17px 20px 20px}.g2{grid-template-columns:1fr 1fr;gap:16px}.qk{grid-template-columns:1fr 1fr}.app-grid{grid-template-columns:1fr 1fr 1fr}#inp{min-height:170px}#out{min-height:210px}.bt h1{font-size:20px}.steps{display:grid;grid-template-columns:1fr 1fr;gap:4px}.step{border-bottom:none;padding:14px 16px}.step:nth-child(odd){border-right:1px solid var(--ln)}}
+@media(min-width:640px){.wrap{padding:28px 24px 64px;gap:16px}.sec,.feat,.guide{padding:20px 22px}.ah{padding:17px 20px}.inr{padding:17px 20px 20px}.g2{grid-template-columns:1fr 1fr;gap:16px}.qk{grid-template-columns:1fr 1fr}.app-grid{grid-template-columns:1fr 1fr 1fr}#inp{min-height:170px}#out{min-height:210px}.bt h1{font-size:20px}}
 @media(min-width:900px){.wrap{padding:34px 28px 72px}.sec,.feat,.guide{padding:22px 24px}#inp{min-height:190px}#out{min-height:240px}}
 @media(max-width:430px){.wrap{padding:16px 13px 46px;gap:12px}.sec,.feat,.guide{padding:15px}.ah{padding:14px 15px}.inr{padding:15px}.bl{width:100%}.at small{display:none}.bt h1{font-size:17px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{transition-duration:.01ms!important}}
@@ -328,10 +317,6 @@ body.os-ios .app-col:not(.ios-col){display:none}
         <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17v1a2 2 0 002 2h12a2 2 0 002-2v-1"/><polyline points="8 12 12 8 16 12"/><line x1="12" y1="16" x2="12" y2="8"/></svg>
         خروجی JSON
       </button>
-      <button class="b bs" id="arasBtn" type="button" disabled>
-        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-        حالت Aras
-      </button>
       <button class="b bs" id="crs" type="button">
         <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6M14 11v6"/></svg>
         پاک کردن
@@ -370,7 +355,7 @@ body.os-ios .app-col:not(.ios-col){display:none}
     <div class="app-col android-col">
       <b>اندروید</b>
       <ul>
-        <li><a href="https://github.com/patterniha/PattNG/releases/download/2.3.5-P32/PattNG_2.3.5-P32-fdroid_arm64-v8a.apk" target="_blank" rel="noopener">PattNG</a></li>
+        <li><a href="https://github.com/patterniha/PattNG/releases/latest" target="_blank" rel="noopener">PattNG</a></li>
         <li><a href="https://github.com/2dust/v2rayNG/releases/latest" target="_blank" rel="noopener">v2rayNG</a></li>
         <li><a href="https://play.google.com/store/apps/details?id=com.v2raytun.android" target="_blank" rel="noopener">V2rayTun</a></li>
       </ul>
@@ -391,10 +376,6 @@ body.os-ios .app-col:not(.ios-col){display:none}
       </ul>
       <div class="note">PattN — خروجی عادی و JSON هر دو کار می‌کنند. پیشنهاد: خروجی عادی</div>
     </div>
-  </div>
-  <div class="gnote" style="margin-top:10px">
-    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-    <span><b>حالت Aras:</b> برای اینستاگرام و سرویس‌های حساس. Fragment سبک‌تر با طول <code>1-1</code>، رمزنگاری TLS ساده‌تر و Fingerprint کروم استفاده می‌شود. بعد از بهینه‌سازی، دکمه «حالت Aras» را بزنید. برای بازگشت، دوباره همان دکمه را بزنید. <b>خروجی JSON از حالت Aras سرعت کمی بهتری دارد.</b> برای دریافت JSON Aras: ابتدا حالت Aras را فعال کنید، سپس روی «خروجی JSON» بزنید.</span>
   </div>
 </section>
 
@@ -421,17 +402,16 @@ body.os-ios .app-col:not(.ios-col){display:none}
 
 var FM_STR='{"tcp": [{"type": "fragment", "settings": {"packets": "tlshello", "lengths": ["0", "104", "1"], "delays": ["0"], "maxSplit": "0"}},{"type": "fragment", "settings": {"packets": "1-1", "lengths": ["114", "1"], "delays": ["1"], "maxSplit": "11"}}]}';
 var CS_STR='TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256:TLS_AES_128_GCM_SHA256:TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384:TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384:TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256:TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256:TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256:TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256:TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA:TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA:TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256:TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256';
-var ARAS_CS='TLS_AES_128_GCM_SHA256:TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256';
-var ARAS_FM='{"tcp":[{"type":"fragment","settings":{"packets":"tlshello","lengths":["1-1"],"delays":["0"],"maxSplit":"0"}}]}';
-var ARAS_FP='chrome';
 var DEF={adr:'',fp:'',cs:CS_STR,fm:FM_STR};
 var ORDER=['cs','path','security','alpn','encryption','fm','insecure','host','fp','type','allowInsecure','sni'];
 var UUID_RE=/^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
 var PROTO_START=/^(vless|vmess|trojan|ss|hysteria2?|tuic|naive\+https?|wireguard):\/\//i;
 var TKEY='vpn_theme';
-var PATTN_API='https://api.github.com/repos/patterniha/PattN/releases/latest';
-var PATTN_LATEST='https://github.com/patterniha/PattN/releases/latest';
-var PATTNG_DIRECT='https://github.com/patterniha/PattNG/releases/download/2.3.5-P32/PattNG_2.3.5-P32-fdroid_arm64-v8a.apk';
+var PATTN_REPO='patterniha/PattN';
+var PATTNG_REPO='patterniha/PattNG';
+var PATTN_LATEST='https://github.com/'+PATTN_REPO+'/releases/latest';
+var PATTNG_LATEST='https://github.com/'+PATTNG_REPO+'/releases/latest';
+var IOS_APP='https://apps.apple.com/app/streisand/id6450534064';
 
 function $(id){return document.getElementById(id);}
 function fa(n){return String(n).replace(/\d/g,function(d){return'۰۱۲۳۴۵۶۷۸۹'[+d];});}
@@ -447,45 +427,101 @@ function detectOS(){
   return 'other';
 }
 
+// دریافت آخرین ریلیز از GitHub API
+function fetchLatestRelease(repo){
+  return fetch('https://api.github.com/repos/'+repo+'/releases/latest',{headers:{Accept:'application/vnd.github.v3+json'}})
+    .then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.json();});
+}
+
+function pickWindowsAsset(assets){
+  var a=null;
+  (assets||[]).forEach(function(x){if(!a&&/\.exe$/i.test(x.name))a=x;});
+  if(!a)(assets||[]).forEach(function(x){if(!a&&/\.(msi)$/i.test(x.name))a=x;});
+  if(!a)(assets||[]).forEach(function(x){if(!a&&/\.(zip|7z)$/i.test(x.name))a=x;});
+  return a;
+}
+function pickAndroidAsset(assets){
+  var a=null;
+  var list=assets||[];
+  // اول arm64-v8a
+  list.forEach(function(x){if(!a&&/\.apk$/i.test(x.name)&&/arm64-v8a/i.test(x.name))a=x;});
+  if(!a)list.forEach(function(x){if(!a&&/\.apk$/i.test(x.name)&&!/x86|armeabi/i.test(x.name))a=x;});
+  if(!a)list.forEach(function(x){if(!a&&/\.apk$/i.test(x.name))a=x;});
+  if(!a)list.forEach(function(x){if(!a&&/\.(aab)$/i.test(x.name))a=x;});
+  return a;
+}
+
+var DL_ICON='<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>';
+
+function setDownloadBtn(href,label){
+  var dlBtn=$('dlBtn');
+  if(!dlBtn)return;
+  if(href)dlBtn.href=href;
+  dlBtn.innerHTML=DL_ICON+' '+label;
+}
+
+function setVer(txt){
+  var v=$('ver');
+  if(!v)return;
+  v.textContent=txt;
+  v.classList.remove('loading');
+}
+
 function applyOS(){
   var os = detectOS();
   document.body.classList.add('os-' + os);
-  var dlBtn = $('dlBtn');
+  var infoBar = $('infoBar');
   var infoTitle = $('infoTitle');
   var infoText = $('infoText');
   var appName = $('appName');
-  var verEl = $('ver');
 
   if (os === 'windows') {
-    if (dlBtn) {
-      dlBtn.href = PATTN_LATEST;
-      var svg = dlBtn.querySelector('svg').outerHTML;
-      dlBtn.innerHTML = svg + ' دانلود PattN (ویندوز)';
-    }
     if (appName) appName.textContent = 'PattN';
-    if (verEl) { verEl.textContent = 'آخرین نسخه'; verEl.classList.remove('loading'); }
     if (infoTitle) infoTitle.textContent = 'PattN — ویندوز';
     if (infoText) infoText.textContent = 'خروجی عادی و JSON هر دو کار می‌کنند. پیشنهاد: خروجی عادی';
+    setDownloadBtn(PATTN_LATEST,'در حال دریافت نسخه…');
+    fetchLatestRelease(PATTN_REPO).then(function(d){
+      var tag=d.tag_name||'latest';
+      var asset=pickWindowsAsset(d.assets);
+      setVer(tag);
+      setDownloadBtn(asset?asset.browser_download_url:(d.html_url||PATTN_LATEST),'دانلود PattN '+tag);
+    }).catch(function(){
+      setVer('ناموجود');
+      setDownloadBtn(PATTN_LATEST,'دانلود PattN (ویندوز)');
+    });
+    fetchPattNLatest();
   } else if (os === 'android') {
-    if (dlBtn) {
-      dlBtn.href = PATTNG_DIRECT;
-      var svg2 = dlBtn.querySelector('svg').outerHTML;
-      dlBtn.innerHTML = svg2 + ' دانلود PattNG (اندروید)';
-    }
     if (appName) appName.textContent = 'PattNG';
-    if (verEl) { verEl.textContent = '2.3.5-P32'; verEl.classList.remove('loading'); }
-    var infoBar = $('infoBar');
     if (infoBar) infoBar.style.display = 'none';
+    setDownloadBtn(PATTNG_LATEST,'در حال دریافت نسخه…');
+    fetchLatestRelease(PATTNG_REPO).then(function(d){
+      var tag=d.tag_name||'latest';
+      var asset=pickAndroidAsset(d.assets);
+      setVer(tag);
+      setDownloadBtn(asset?asset.browser_download_url:(d.html_url||PATTNG_LATEST),'دانلود PattNG '+tag);
+    }).catch(function(){
+      setVer('ناموجود');
+      setDownloadBtn(PATTNG_LATEST,'دانلود PattNG (اندروید)');
+    });
   } else if (os === 'ios') {
-    if (dlBtn) {
-      dlBtn.href = 'https://apps.apple.com/app/streisand/id6450534064';
-      var svg3 = dlBtn.querySelector('svg').outerHTML;
-      dlBtn.innerHTML = svg3 + ' دانلود Streisand (iOS)';
-    }
     if (appName) appName.textContent = 'Streisand';
-    if (verEl) { verEl.textContent = 'آخرین نسخه'; verEl.classList.remove('loading'); }
     if (infoTitle) infoTitle.textContent = 'iOS';
     if (infoText) infoText.textContent = 'حالت عادی تست شه، جواب نداد JSON بگیرید';
+    setVer('App Store');
+    setDownloadBtn(IOS_APP,'دانلود Streisand (iOS)');
+  } else {
+    // سایر سیستم‌ها → پیش‌فرض PattNG
+    if (appName) appName.textContent = 'PattNG';
+    setDownloadBtn(PATTNG_LATEST,'در حال دریافت نسخه…');
+    fetchLatestRelease(PATTNG_REPO).then(function(d){
+      var tag=d.tag_name||'latest';
+      var asset=pickAndroidAsset(d.assets);
+      setVer(tag);
+      setDownloadBtn(asset?asset.browser_download_url:(d.html_url||PATTNG_LATEST),'دانلود PattNG '+tag);
+    }).catch(function(){
+      setVer('ناموجود');
+      setDownloadBtn(PATTNG_LATEST,'دانلود PattNG');
+    });
   }
 }
 
@@ -493,19 +529,13 @@ function fetchPattNLatest(){
   var verEl=$('pattnVer');
   var linkEl=$('pattnLink');
   if(!verEl||!linkEl) return;
-  fetch(PATTN_API,{headers:{Accept:'application/vnd.github.v3+json'}})
-    .then(function(r){if(!r.ok)throw 0;return r.json();})
+  fetchLatestRelease(PATTN_REPO)
     .then(function(d){
       var tag=d.tag_name||'latest';
-      var asset=null;
-      if(d.assets&&d.assets.length){
-        for(var i=0;i<d.assets.length;i++){
-          if(/\.(exe|zip|msi)$/i.test(d.assets[i].name)){asset=d.assets[i].browser_download_url;break;}
-        }
-      }
+      var asset=pickWindowsAsset(d.assets);
       verEl.textContent=tag;
       verEl.classList.remove('loading');
-      if(asset)linkEl.href=asset; else linkEl.href=d.html_url||PATTN_LATEST;
+      linkEl.href=asset?asset.browser_download_url:(d.html_url||PATTN_LATEST);
     })
     .catch(function(){
       verEl.textContent='latest';
@@ -710,10 +740,7 @@ function fetchSub(url){
   });
 }
 
-// localStorage غیرفعال — همیشه مقادیر پیش‌فرض داخل کد استفاده می‌شوند
-function loadSettings(){
-  return{adr:DEF.adr,fp:DEF.fp,cs:DEF.cs,fm:DEF.fm};
-}
+function loadSettings(){return{adr:DEF.adr,fp:DEF.fp,cs:DEF.cs,fm:DEF.fm};}
 function saveSettings(o){/* localStorage disabled */}
 
 function flash(btn,text,cls){
@@ -747,13 +774,12 @@ var inp=$('inp'),out=$('out'),res=$('res'),sumEl=$('sum'),errs=$('errs'),
     cnt=$('cnt'),ocnt=$('ocnt'),
     adr=$('adr'),fp=$('fp'),cs=$('cs'),fm=$('fm'),fmh=$('fmh'),
     adv=$('adv'),advb=$('advb'),go=$('go'),dz=$('dz'),
-    cpy=$('cpy'),dl=$('dl'),jsonBtn=$('jsonBtn'),arasBtn=$('arasBtn');
+    cpy=$('cpy'),dl=$('dl'),jsonBtn=$('jsonBtn');
 
 var st=loadSettings();
 adr.value=st.adr;fp.value=st.fp;cs.value=st.cs;fm.value=st.fm;
 $('yr').textContent=fa(new Date().getFullYear());
 applyOS();
-fetchPattNLatest();
 
 $('notice-close').addEventListener('click',function(){
   $('notice-overlay').classList.add('hidden');
@@ -771,21 +797,15 @@ function updateCount(){
   var n=inp.value.split(/\r?\n/).filter(function(l){return l.trim();}).length;
   cnt.textContent=fa(n)+' خط';
 }
-function setOutputBtns(en){cpy.disabled=dl.disabled=jsonBtn.disabled=arasBtn.disabled=!en;}
+function setOutputBtns(en){cpy.disabled=dl.disabled=jsonBtn.disabled=!en;}
 
-var savedNormalOutput='',savedArasOutput='',savedJsonOutput='',isJsonMode=false,isArasMode=false,jsonBaseOutput='',lastSourceConfigs=[],lastFailed=[];
+var savedNormalOutput='',savedJsonOutput='',isJsonMode=false,jsonBaseOutput='';
 
 function resetJsonToggle(){
   isJsonMode=false;
   savedJsonOutput='';
   jsonBaseOutput='';
   jsonBtn.innerHTML='<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17v1a2 2 0 002 2h12a2 2 0 002-2v-1"/><polyline points="8 12 12 8 16 12"/><line x1="12" y1="16" x2="12" y2="8"/></svg> خروجی JSON';
-}
-
-function resetArasToggle(){
-  isArasMode=false;
-  savedArasOutput='';
-  arasBtn.innerHTML='<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> حالت Aras';
 }
 
 [adr,cs].forEach(function(el){el.addEventListener('input',persist);});
@@ -854,12 +874,12 @@ go.addEventListener('click',run);
 
 cpy.addEventListener('click',function(){
   var btn=this;
-  var content=isJsonMode?savedJsonOutput:(isArasMode?savedArasOutput:savedNormalOutput);
+  var content=isJsonMode?savedJsonOutput:savedNormalOutput;
   if(!content)return;
   copyText(content).then(function(ok){flash(btn,ok?'کپی شد':'ناموفق',ok?'ok':'no');});
 });
 dl.addEventListener('click',function(){
-  var content=isJsonMode?savedJsonOutput:(isArasMode?savedArasOutput:savedNormalOutput);
+  var content=isJsonMode?savedJsonOutput:savedNormalOutput;
   if(!content)return;
   var blob=new Blob([content+'\n'],{type:'text/plain;charset=utf-8'}),url=URL.createObjectURL(blob);
   var a=document.createElement('a');a.href=url;a.download='configs-'+Date.now()+'.txt';
@@ -870,10 +890,8 @@ dl.addEventListener('click',function(){
 $('crs').addEventListener('click',function(){
   out.value='';errs.innerHTML='';sumEl.textContent='—';
   ocnt.textContent='۰ کانفیگ';res.hidden=true;setOutputBtns(false);
-  savedNormalOutput='';savedArasOutput='';savedJsonOutput='';isJsonMode=false;isArasMode=false;jsonBaseOutput='';
-  lastSourceConfigs=[];lastFailed=[];
+  savedNormalOutput='';savedJsonOutput='';isJsonMode=false;jsonBaseOutput='';
   resetJsonToggle();
-  resetArasToggle();
 });
 
 function run(){
@@ -903,23 +921,15 @@ function run(){
     sets.forEach(function(s){all=all.concat(s);});
     var seen={},unique=[];
     all.forEach(function(l){if(!seen[l]){seen[l]=1;unique.push(l);}});
-    lastSourceConfigs=unique.slice();
-    lastFailed=failed.slice();
-    var useAras = isArasMode;
-    var opts = useAras ? {adr:adr.value.trim(), fp:ARAS_FP, cs:ARAS_CS, fm:ARAS_FM} : getOpts();
-    renderResults(unique, failed, opts, useAras);
+    renderResults(unique, failed, getOpts());
   })
   .catch(function(){
-    lastSourceConfigs=directConfigs.slice();
-    lastFailed=failed.slice();
-    var useAras = isArasMode;
-    var opts = useAras ? {adr:adr.value.trim(), fp:ARAS_FP, cs:ARAS_CS, fm:ARAS_FM} : getOpts();
-    renderResults(directConfigs, failed, opts, useAras);
+    renderResults(directConfigs, failed, getOpts());
   })
   .then(function(){go.innerHTML=go._savedHTML;go.disabled=false;go._running=false;});
 }
 
-function renderResults(configs,failed,opts,isAras){
+function renderResults(configs,failed,opts){
   var ok=[],bad=[],passthru=0;
   configs.forEach(function(l,i){
     try{
@@ -929,17 +939,12 @@ function renderResults(configs,failed,opts,isAras){
   });
   failed.forEach(function(u){bad.push('ساب دریافت نشد: '+u);});
   var output=ok.join('\n');
-  if(isAras){
-    savedArasOutput=output;
-  }else{
-    savedNormalOutput=output;
-    resetArasToggle();
-  }
-  out.value=truncateForDisplay(output,isAras?4:3);
+  savedNormalOutput=output;
+  out.value=truncateForDisplay(output,3);
   ocnt.textContent=fa(ok.length)+' کانفیگ';
   errs.innerHTML=bad.map(function(t){return'<div class="er">'+esc(t)+'</div>';}).join('');
   var s=ok.length
-    ?(fa(ok.length)+(isAras?' کانفیگ Aras':' کانفیگ')+' بهینه شد'+(passthru?' · '+fa(passthru)+' عبور':'')+(bad.length?' · '+fa(bad.length)+' خطا':''))
+    ?(fa(ok.length)+' کانفیگ بهینه شد'+(passthru?' · '+fa(passthru)+' عبور':'')+(bad.length?' · '+fa(bad.length)+' خطا':''))
     :'هیچ کانفیگ معتبری پیدا نشد';
   sumEl.textContent=s;
   setOutputBtns(ok.length>0);
@@ -1088,7 +1093,7 @@ function configToJson(line,index){
 }
 
 jsonBtn.addEventListener('click',function(){
-  var base = isArasMode ? savedArasOutput : savedNormalOutput;
+  var base = savedNormalOutput;
   if(!base){flash(jsonBtn,'خروجی خالی است','no');return;}
 
   if(!isJsonMode){
@@ -1115,24 +1120,6 @@ jsonBtn.addEventListener('click',function(){
     resetJsonToggle();
     isJsonMode=false;
     flash(jsonBtn,'حالت عادی');
-  }
-  res.scrollIntoView({behavior:'smooth',block:'nearest'});
-});
-
-arasBtn.addEventListener('click',function(){
-  if(!lastSourceConfigs.length){flash(arasBtn,'ابتدا بهینه‌سازی را بزنید','no');return;}
-  if(!isArasMode){
-    var arasOpts={adr:adr.value.trim(),fp:ARAS_FP,cs:ARAS_CS,fm:ARAS_FM};
-    renderResults(lastSourceConfigs,lastFailed,arasOpts,true);
-    isArasMode=true;
-    arasBtn.innerHTML='<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 9 12 4 7"/><line x1="12" y1="19" x2="20" y2="19"/></svg> حالت عادی';
-    flash(arasBtn,'حالت Aras فعال شد');
-  }else{
-    isArasMode=false;
-    renderResults(lastSourceConfigs,lastFailed,getOpts(),false);
-    isJsonMode=false;
-    resetJsonToggle();
-    flash(arasBtn,'حالت عادی');
   }
   res.scrollIntoView({behavior:'smooth',block:'nearest'});
 });
