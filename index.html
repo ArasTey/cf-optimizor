@@ -29,6 +29,8 @@ code{font-family:var(--mono);font-size:.86em;padding:1px 5px;border-radius:5px;b
 .bgw i{position:absolute;width:480px;height:480px;border-radius:50%;filter:blur(130px);background:radial-gradient(circle,var(--ac),transparent 70%);opacity:.09}
 .bgw i:nth-child(1){top:-200px;right:-140px}.bgw i:nth-child(2){bottom:-220px;left:-140px;opacity:.06}
 .wrap{width:100%;max-width:940px;margin:0 auto;padding:22px 18px 56px;display:flex;flex-direction:column;gap:14px}
+.panel{display:flex;flex-direction:column;gap:14px}
+.panel[hidden]{display:none}
 .card{background:var(--s1);border:1px solid var(--ln);border-radius:var(--r);box-shadow:var(--sh);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
 .row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
 .hd{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:4px 2px 2px}
@@ -37,6 +39,12 @@ code{font-family:var(--mono);font-size:.86em;padding:1px 5px;border-radius:5px;b
 .ib{width:38px;height:38px;display:grid;place-items:center;border-radius:var(--r3);color:var(--tx2);background:var(--s2);border:1px solid var(--ln);transition:all var(--t1) var(--e)}
 .ib:hover{color:var(--tx);background:var(--s3)}
 .mn{display:none}html[data-theme=dark] .mn{display:block}html[data-theme=dark] .sn{display:none}html[data-theme=light] .sn{display:block}html[data-theme=light] .mn{display:none}
+.tabs{display:flex;gap:5px;padding:5px;border-radius:var(--r);background:var(--s1);border:1px solid var(--ln);box-shadow:var(--sh);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+.tab{flex:1;display:inline-flex;align-items:center;justify-content:center;gap:8px;height:44px;padding:0 16px;border-radius:var(--r2);font-size:13.5px;font-weight:600;color:var(--tx2);background:transparent;border:1px solid transparent;cursor:pointer;transition:all var(--t2) var(--e);-webkit-tap-highlight-color:transparent;white-space:nowrap}
+.tab:hover{color:var(--tx);background:var(--s2)}
+.tab.tab-active{color:var(--ac);background:var(--ac0);border-color:var(--ac1)}
+html[data-theme=light] .tab.tab-active{color:var(--ac);background:var(--ac0)}
+.tab svg{opacity:.9}
 .feat{padding:17px;display:flex;align-items:center;gap:15px;flex-wrap:wrap}
 .fm{display:flex;align-items:center;gap:13px;flex:1 1 260px;min-width:0}
 .lg{width:48px;height:48px;flex:none;border-radius:13px;overflow:hidden;background:var(--s2);border:1px solid var(--ln);display:grid;place-items:center;font-weight:700;color:var(--tx2);font-size:19px}
@@ -66,6 +74,12 @@ html[data-theme=light] .bp,html[data-theme=light] .bp:hover{color:#fff}
 #dl{color:var(--cy)}#dl:hover{background:var(--cy0);border-color:var(--cy1);color:var(--cy)}
 #jsonBtn{color:var(--vi)}#jsonBtn:hover{background:var(--vi0);border-color:var(--vi1);color:var(--vi)}
 #rst{color:var(--am)}#rst:hover{background:var(--am0);border-color:var(--am1);color:var(--am)}
+#ech-pst{color:var(--bl)}#ech-pst:hover{background:var(--bl0);border-color:var(--bl1);color:var(--bl)}
+#ech-fbt{color:var(--vi)}#ech-fbt:hover{background:var(--vi0);border-color:var(--vi1);color:var(--vi)}
+#ech-clr,#ech-crs{color:var(--rd)}#ech-clr:hover,#ech-crs:hover{background:var(--rd0);border-color:var(--rd1);color:var(--rd)}
+#ech-dl{color:var(--cy)}#ech-dl:hover{background:var(--cy0);border-color:var(--cy1);color:var(--cy)}
+#ech-jsonBtn{color:var(--vi)}#ech-jsonBtn:hover{background:var(--vi0);border-color:var(--vi1);color:var(--vi)}
+#ech-rst{color:var(--am)}#ech-rst:hover{background:var(--am0);border-color:var(--am1);color:var(--am)}
 .b[disabled]{opacity:.38;pointer-events:none}
 .b.ok{color:#04120c!important;background:var(--ac)!important;border-color:var(--ac)!important}
 .b.no{color:var(--rd)!important;border-color:var(--rd1)!important;background:var(--rd0)!important}
@@ -75,7 +89,10 @@ html[data-theme=light] .b.ok{color:#fff!important}
 .ta:focus,.in:focus{outline:none;border-color:var(--ac1);background:var(--s3)}
 #inp{min-height:150px}
 #inp::placeholder{font-family:var(--sans);font-size:12.8px;color:var(--tx3);unicode-bidi:plaintext;direction:rtl;text-align:right}
+#ech-inp{min-height:140px}
+#ech-inp::placeholder{font-family:var(--sans);font-size:12.8px;color:var(--tx3);unicode-bidi:plaintext;direction:rtl;text-align:right}
 #out{min-height:180px;border-color:var(--ac1)}
+#ech-out{min-height:180px;border-color:var(--ac1)}
 #cs,#fm{direction:ltr;text-align:left}
 .in{height:40px;padding:0 13px;font-size:13.5px}.in::placeholder{color:var(--tx3)}
 .drag{border-color:var(--ac)!important;background:var(--ac0)!important}
@@ -156,9 +173,9 @@ body.os-ios .app-col:not(.ios-col){display:none}
 .notice-card p b{color:var(--tx)}
 .notice-sub{font-size:13px;color:var(--tx3)}
 .notice-card .b{margin-top:16px}
-@media(min-width:640px){.wrap{padding:28px 24px 64px;gap:16px}.sec,.feat,.guide{padding:20px 22px}.ah{padding:17px 20px}.inr{padding:17px 20px 20px}.g2{grid-template-columns:1fr 1fr;gap:16px}.qk{grid-template-columns:1fr 1fr}.app-grid{grid-template-columns:1fr 1fr 1fr}#inp{min-height:170px}#out{min-height:210px}.bt h1{font-size:20px}}
-@media(min-width:900px){.wrap{padding:34px 28px 72px}.sec,.feat,.guide{padding:22px 24px}#inp{min-height:190px}#out{min-height:240px}}
-@media(max-width:430px){.wrap{padding:16px 13px 46px;gap:12px}.sec,.feat,.guide{padding:15px}.ah{padding:14px 15px}.inr{padding:15px}.bl{width:100%}.at small{display:none}.bt h1{font-size:17px}}
+@media(min-width:640px){.wrap{padding:28px 24px 64px;gap:16px}.panel{gap:16px}.sec,.feat,.guide{padding:20px 22px}.ah{padding:17px 20px}.inr{padding:17px 20px 20px}.g2{grid-template-columns:1fr 1fr;gap:16px}.qk{grid-template-columns:1fr 1fr}.app-grid{grid-template-columns:1fr 1fr 1fr}#inp{min-height:170px}#out{min-height:210px}#ech-inp{min-height:160px}.bt h1{font-size:20px}}
+@media(min-width:900px){.wrap{padding:34px 28px 72px}.sec,.feat,.guide{padding:22px 24px}#inp{min-height:190px}#out{min-height:240px}#ech-inp{min-height:180px}}
+@media(max-width:430px){.wrap{padding:16px 13px 46px;gap:12px}.panel{gap:12px}.sec,.feat,.guide{padding:15px}.ah{padding:14px 15px}.inr{padding:15px}.bl{width:100%}.at small{display:none}.bt h1{font-size:17px}.tab{font-size:12.5px;padding:0 10px;gap:6px}.tab svg{width:14px;height:14px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{transition-duration:.01ms!important}}
 </style>
 </head>
@@ -187,6 +204,19 @@ body.os-ios .app-col:not(.ios-col){display:none}
     <svg class="mn" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
   </button>
 </header>
+
+<nav class="tabs" role="tablist" aria-label="حالت عملیات">
+  <button class="tab tab-active" type="button" data-tab="opt" role="tab" aria-selected="true">
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+    بهینه‌ساز
+  </button>
+  <button class="tab" type="button" data-tab="ech" role="tab" aria-selected="false">
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9.5 12l1.7 1.7 3.3-3.4"/></svg>
+    تبدیل به ECH
+  </button>
+</nav>
+
+<div class="panel" data-panel="opt">
 
 <section class="card feat">
   <div class="fm">
@@ -379,6 +409,115 @@ body.os-ios .app-col:not(.ios-col){display:none}
   </div>
 </section>
 
+</div><!-- /panel opt -->
+
+<div class="panel" data-panel="ech" hidden>
+
+<div class="card pv" style="border-color: var(--vi1); background: var(--vi0);">
+  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="var(--vi)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9.5 12l1.7 1.7 3.3-3.4"/></svg>
+  <div><b>خروجی فقط ECH + JSON</b><span>نام اصلی کانفیگ حفظ می‌شود. برای هر خط ECH یک نسخه ساخته می‌شود.</span></div>
+</div>
+
+<section class="card sec" id="ech-dz">
+  <div class="st">
+    <span class="si"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg></span>
+    <h2>کانفیگ‌های ورودی</h2>
+    <span class="cnt" id="ech-cnt">۰ خط</span>
+    <div class="acts">
+      <button class="b bs" id="ech-pst" type="button">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
+        چسباندن
+      </button>
+      <button class="b bs" id="ech-fbt" type="button">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>
+        فایل
+      </button>
+      <button class="b bs" id="ech-clr" type="button">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 011-1h4a1 1 0 011 1v2"/></svg>
+        پاک کردن
+      </button>
+    </div>
+  </div>
+  <textarea class="ta" id="ech-inp" spellcheck="false" placeholder="کانفیگ‌های trojan:// یا vless:// — خروجی فقط ECH (برای هر خط ECH یک نسخه، نام اصلی حفظ می‌شود)"></textarea>
+  <input type="file" id="ech-fin" accept=".txt,text/plain" hidden>
+  <div class="row">
+    <span class="nt">
+      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+      خروجی: فقط ECH · برای هر خط ECH یک نسخه
+    </span>
+    <button class="b bp bl" id="ech-go" type="button">
+      <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      ساخت ECH + JSON
+    </button>
+  </div>
+</section>
+
+<section class="card acard" id="ech-adv">
+  <button class="ah" id="ech-advb" type="button" aria-expanded="false">
+    <span class="si"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg></span>
+    <span class="at"><b>تنظیمات پیشرفته ECH</b><small>لیست ECH · پسوند نام</small></span>
+    <svg class="cr" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
+  </button>
+  <div class="acc"><div class="clip"><div class="inr">
+    <div class="f">
+      <label class="lb" for="ech-list">لیست ECH ها <span class="opt">هر خط یک ECH کامل</span></label>
+      <textarea class="ta" id="ech-list" rows="4" spellcheck="false" dir="ltr">cloudflare-ech.com+udp://1.1.1.1
+cloudflare-ech.com+udp://8.8.8.8</textarea>
+      <span class="hint">هر خط = یک ECH کامل — برای هر خط یک نسخه کانفیگ ساخته می‌شود. مثال: <code>cloudflare-ech.com+udp://1.1.1.1</code></span>
+    </div>
+    <div class="f">
+      <label class="lb" for="ech-suffix">پسوند نام &nbsp;<code>template</code></label>
+      <input class="in" id="ech-suffix" spellcheck="false" value=" ECH {ip}" dir="ltr" placeholder=" ECH {ip}">
+      <span class="hint">پلیس‌هولدرها: <code>{name}</code> · <code>{ip}</code> · <code>{domain}</code> · <code>{type}</code> — نام اصلی کانفیگ به عنوان پایه استفاده می‌شود</span>
+    </div>
+    <div class="row">
+      <div class="protos">
+        <i class="ptag ac">vless ✦ کامل</i><i class="ptag ac">trojan ✦ کامل</i>
+      </div>
+      <button class="b bs" id="ech-rst" type="button">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 101.85-4.11L1 10"/></svg>
+        بازنشانی
+      </button>
+    </div>
+  </div></div></div>
+</section>
+
+<section class="card sec" id="ech-res" hidden>
+  <div class="st">
+    <span class="si"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></span>
+    <h2>خروجی</h2>
+    <span class="cnt" id="ech-ocnt">۰</span>
+    <div class="acts">
+      <button class="b bs bp" id="ech-cpy" type="button" disabled>
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+        کپی همه
+      </button>
+      <button class="b bs" id="ech-dl" type="button" disabled>
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        دانلود TXT
+      </button>
+      <button class="b bs" id="ech-jsonBtn" type="button" disabled>
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17v1a2 2 0 002 2h12a2 2 0 002-2v-1"/><polyline points="8 12 12 8 16 12"/><line x1="12" y1="16" x2="12" y2="8"/></svg>
+        خروجی JSON
+      </button>
+      <button class="b bs" id="ech-crs" type="button">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6M14 11v6"/></svg>
+        پاک کردن
+      </button>
+    </div>
+  </div>
+  <p class="sum" id="ech-sum">—</p>
+  <div class="errs" id="ech-errs"></div>
+  <textarea class="ta" id="ech-out" spellcheck="false" readonly></textarea>
+</section>
+
+<div class="card pv">
+  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+  <div><b>ECH = Encrypted Client Hello</b><span>پارامتر <code>ech=&lt;value&gt;</code> به هر کانفیگ اضافه می‌شود و در JSON با <code>echConfigList</code> ست می‌شود.</span></div>
+</div>
+
+</div><!-- /panel ech -->
+
 <footer class="foot">
   <p class="dev" dir="ltr">Developed by <a href="https://t.me/imArasTey" target="_blank" rel="noopener" class="dev-link">ArasTey</a> With ☕️</p>
   <div class="lk">
@@ -403,10 +542,14 @@ body.os-ios .app-col:not(.ios-col){display:none}
 var FM_STR='{"tcp": [{"type": "fragment", "settings": {"packets": "tlshello", "lengths": ["0", "104", "1"], "delays": ["0"], "maxSplit": "0"}},{"type": "fragment", "settings": {"packets": "1-1", "lengths": ["114", "1"], "delays": ["1"], "maxSplit": "11"}}]}';
 var CS_STR='TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256:TLS_AES_128_GCM_SHA256:TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384:TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384:TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256:TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256:TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256:TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256:TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA:TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA:TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256:TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256';
 var DEF={adr:'',fp:'',cs:CS_STR,fm:FM_STR};
+var ECH_DEF={list:'cloudflare-ech.com+udp://1.1.1.1\ncloudflare-ech.com+udp://8.8.8.8',suffix:' ECH {ip}'};
 var ORDER=['cs','path','security','alpn','encryption','fm','insecure','host','fp','type','allowInsecure','sni'];
+var ORDER_ECH=['path','security','alpn','encryption','insecure','host','fp','ech','type','allowInsecure','sni','cs','fm'];
 var UUID_RE=/^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
 var PROTO_START=/^(vless|vmess|trojan|ss|hysteria2?|tuic|naive\+https?|wireguard):\/\//i;
 var TKEY='vpn_theme';
+var OPT_LS_KEY='vpn_opt_prefs_v1';
+var ECH_LS_KEY='vpn_ech_prefs_v1';
 var PATTN_REPO='patterniha/PattN';
 var PATTNG_REPO='patterniha/PattNG';
 var PATTN_LATEST='https://github.com/'+PATTN_REPO+'/releases/latest';
@@ -417,22 +560,24 @@ function $(id){return document.getElementById(id);}
 function fa(n){return String(n).replace(/\d/g,function(d){return'۰۱۲۳۴۵۶۷۸۹'[+d];});}
 function dec(s){try{return decodeURIComponent(s);}catch(e){return s;}}
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
-
-function detectOS(){
-  var ua = navigator.userAgent.toLowerCase();
-  var platform = (navigator.userAgentData && navigator.userAgentData.platform) ? navigator.userAgentData.platform.toLowerCase() : (navigator.platform || '').toLowerCase();
-  if (/windows|win32|win64/.test(ua) || /windows/.test(platform)) return 'windows';
-  if (/android/.test(ua)) return 'android';
-  if (/iphone|ipad|ipod|ios|mac os|macintosh/.test(ua) || /mac/.test(platform)) return 'ios';
-  return 'other';
+function paramBool(v){
+  if(v===undefined||v===null) return false;
+  var s=String(v).trim().toLowerCase();
+  return s==='1'||s==='true'||s==='yes'||s==='on';
 }
 
-// دریافت آخرین ریلیز از GitHub API
+function detectOS(){
+  var ua=navigator.userAgent.toLowerCase();
+  var platform=(navigator.userAgentData&&navigator.userAgentData.platform)?navigator.userAgentData.platform.toLowerCase():(navigator.platform||'').toLowerCase();
+  if(/windows|win32|win64/.test(ua)||/windows/.test(platform)) return 'windows';
+  if(/android/.test(ua)) return 'android';
+  if(/iphone|ipad|ipod|ios|mac os|macintosh/.test(ua)||/mac/.test(platform)) return 'ios';
+  return 'other';
+}
 function fetchLatestRelease(repo){
   return fetch('https://api.github.com/repos/'+repo+'/releases/latest',{headers:{Accept:'application/vnd.github.v3+json'}})
     .then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.json();});
 }
-
 function pickWindowsAsset(assets){
   var a=null;
   (assets||[]).forEach(function(x){if(!a&&/\.exe$/i.test(x.name))a=x;});
@@ -441,108 +586,69 @@ function pickWindowsAsset(assets){
   return a;
 }
 function pickAndroidAsset(assets){
-  var a=null;
-  var list=assets||[];
-  // اول arm64-v8a
+  var a=null;var list=assets||[];
   list.forEach(function(x){if(!a&&/\.apk$/i.test(x.name)&&/arm64-v8a/i.test(x.name))a=x;});
   if(!a)list.forEach(function(x){if(!a&&/\.apk$/i.test(x.name)&&!/x86|armeabi/i.test(x.name))a=x;});
   if(!a)list.forEach(function(x){if(!a&&/\.apk$/i.test(x.name))a=x;});
   if(!a)list.forEach(function(x){if(!a&&/\.(aab)$/i.test(x.name))a=x;});
   return a;
 }
-
 var DL_ICON='<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>';
-
 function setDownloadBtn(href,label){
-  var dlBtn=$('dlBtn');
-  if(!dlBtn)return;
+  var dlBtn=$('dlBtn');if(!dlBtn)return;
   if(href)dlBtn.href=href;
   dlBtn.innerHTML=DL_ICON+' '+label;
 }
-
-function setVer(txt){
-  var v=$('ver');
-  if(!v)return;
-  v.textContent=txt;
-  v.classList.remove('loading');
-}
-
+function setVer(txt){var v=$('ver');if(!v)return;v.textContent=txt;v.classList.remove('loading');}
 function applyOS(){
-  var os = detectOS();
-  document.body.classList.add('os-' + os);
-  var infoBar = $('infoBar');
-  var infoTitle = $('infoTitle');
-  var infoText = $('infoText');
-  var appName = $('appName');
-
-  if (os === 'windows') {
-    if (appName) appName.textContent = 'PattN';
-    if (infoTitle) infoTitle.textContent = 'PattN — ویندوز';
-    if (infoText) infoText.textContent = 'خروجی عادی و JSON هر دو کار می‌کنند. پیشنهاد: خروجی عادی';
+  var os=detectOS();
+  document.body.classList.add('os-'+os);
+  var infoBar=$('infoBar'),infoTitle=$('infoTitle'),infoText=$('infoText'),appName=$('appName');
+  if(os==='windows'){
+    if(appName)appName.textContent='PattN';
+    if(infoTitle)infoTitle.textContent='PattN — ویندوز';
+    if(infoText)infoText.textContent='خروجی عادی و JSON هر دو کار می‌کنند. پیشنهاد: خروجی عادی';
     setDownloadBtn(PATTN_LATEST,'در حال دریافت نسخه…');
     fetchLatestRelease(PATTN_REPO).then(function(d){
-      var tag=d.tag_name||'latest';
-      var asset=pickWindowsAsset(d.assets);
+      var tag=d.tag_name||'latest';var asset=pickWindowsAsset(d.assets);
       setVer(tag);
       setDownloadBtn(asset?asset.browser_download_url:(d.html_url||PATTN_LATEST),'دانلود PattN '+tag);
-    }).catch(function(){
-      setVer('ناموجود');
-      setDownloadBtn(PATTN_LATEST,'دانلود PattN (ویندوز)');
-    });
+    }).catch(function(){setVer('ناموجود');setDownloadBtn(PATTN_LATEST,'دانلود PattN (ویندوز)');});
     fetchPattNLatest();
-  } else if (os === 'android') {
-    if (appName) appName.textContent = 'PattNG';
-    if (infoBar) infoBar.style.display = 'none';
+  }else if(os==='android'){
+    if(appName)appName.textContent='PattNG';
+    if(infoBar)infoBar.style.display='none';
     setDownloadBtn(PATTNG_LATEST,'در حال دریافت نسخه…');
     fetchLatestRelease(PATTNG_REPO).then(function(d){
-      var tag=d.tag_name||'latest';
-      var asset=pickAndroidAsset(d.assets);
+      var tag=d.tag_name||'latest';var asset=pickAndroidAsset(d.assets);
       setVer(tag);
       setDownloadBtn(asset?asset.browser_download_url:(d.html_url||PATTNG_LATEST),'دانلود PattNG '+tag);
-    }).catch(function(){
-      setVer('ناموجود');
-      setDownloadBtn(PATTNG_LATEST,'دانلود PattNG (اندروید)');
-    });
-  } else if (os === 'ios') {
-    if (appName) appName.textContent = 'Streisand';
-    if (infoTitle) infoTitle.textContent = 'iOS';
-    if (infoText) infoText.textContent = 'حالت عادی تست شه، جواب نداد JSON بگیرید';
+    }).catch(function(){setVer('ناموجود');setDownloadBtn(PATTNG_LATEST,'دانلود PattNG (اندروید)');});
+  }else if(os==='ios'){
+    if(appName)appName.textContent='Streisand';
+    if(infoTitle)infoTitle.textContent='iOS';
+    if(infoText)infoText.textContent='حالت عادی تست شه، جواب نداد JSON بگیرید';
     setVer('App Store');
     setDownloadBtn(IOS_APP,'دانلود Streisand (iOS)');
-  } else {
-    // سایر سیستم‌ها → پیش‌فرض PattNG
-    if (appName) appName.textContent = 'PattNG';
+  }else{
+    if(appName)appName.textContent='PattNG';
     setDownloadBtn(PATTNG_LATEST,'در حال دریافت نسخه…');
     fetchLatestRelease(PATTNG_REPO).then(function(d){
-      var tag=d.tag_name||'latest';
-      var asset=pickAndroidAsset(d.assets);
+      var tag=d.tag_name||'latest';var asset=pickAndroidAsset(d.assets);
       setVer(tag);
       setDownloadBtn(asset?asset.browser_download_url:(d.html_url||PATTNG_LATEST),'دانلود PattNG '+tag);
-    }).catch(function(){
-      setVer('ناموجود');
-      setDownloadBtn(PATTNG_LATEST,'دانلود PattNG');
-    });
+    }).catch(function(){setVer('ناموجود');setDownloadBtn(PATTNG_LATEST,'دانلود PattNG');});
   }
 }
-
 function fetchPattNLatest(){
-  var verEl=$('pattnVer');
-  var linkEl=$('pattnLink');
+  var verEl=$('pattnVer'),linkEl=$('pattnLink');
   if(!verEl||!linkEl) return;
-  fetchLatestRelease(PATTN_REPO)
-    .then(function(d){
-      var tag=d.tag_name||'latest';
-      var asset=pickWindowsAsset(d.assets);
-      verEl.textContent=tag;
-      verEl.classList.remove('loading');
-      linkEl.href=asset?asset.browser_download_url:(d.html_url||PATTN_LATEST);
-    })
-    .catch(function(){
-      verEl.textContent='latest';
-      verEl.classList.remove('loading');
-    });
+  fetchLatestRelease(PATTN_REPO).then(function(d){
+    var tag=d.tag_name||'latest';var asset=pickWindowsAsset(d.assets);
+    verEl.textContent=tag;verEl.classList.remove('loading');
+    linkEl.href=asset?asset.browser_download_url:(d.html_url||PATTN_LATEST);
+  }).catch(function(){verEl.textContent='latest';verEl.classList.remove('loading');});
 }
-
 function pq(q){
   var o=[];if(!q)return o;
   q.split('&').forEach(function(p){if(!p)return;var i=p.indexOf('=');o.push({k:dec(i<0?p:p.slice(0,i)),v:i<0?'':dec(p.slice(i+1))});});
@@ -555,14 +661,18 @@ function setParam(p,k,v){
   }
   if(!found)p.push({k:k,v:v});
 }
-function buildQS(p){
-  var idx={};ORDER.forEach(function(k,i){idx[k]=i;});
+function removeParam(p,k){
+  var lk=k.toLowerCase();
+  for(var i=p.length-1;i>=0;i--){if(p[i].k.toLowerCase()===lk)p.splice(i,1);}
+}
+function buildQSWith(p,orderArr){
+  var idx={};orderArr.forEach(function(k,i){idx[k]=i;});
   var a=[],b=[];
   p.forEach(function(x){(idx[x.k.toLowerCase()]!==undefined?a:b).push(x);});
   a.sort(function(x,y){return idx[x.k.toLowerCase()]-idx[y.k.toLowerCase()];});
   return a.concat(b).map(function(x){return encodeURIComponent(x.k)+'='+encodeURIComponent(x.v);}).join('&');
 }
-
+function buildQS(p){return buildQSWith(p,ORDER);}
 function parseAuth(au){
   var host=au,port='';
   if(au.charAt(0)==='['){
@@ -600,8 +710,8 @@ function parseTrojan(raw){
   var hp=parseAuth(au);
   return{proto:'trojan',pass:pass,host:hp.host,port:hp.port,p:pq(s.q),f:s.frag};
 }
-function buildVless(c){var qs=buildQS(c.p);return'vless://'+c.id+'@'+c.host+(c.port?':'+c.port:'')+(qs?'?'+qs:'')+(c.f?'#'+c.f:'');}
-function buildTrojan(c){var qs=buildQS(c.p);return'trojan://'+encodeURIComponent(c.pass)+'@'+c.host+(c.port?':'+c.port:'')+(qs?'?'+qs:'')+(c.f?'#'+c.f:'');}
+function buildVless(c,orderArr){var qs=buildQSWith(c.p,orderArr||ORDER);return'vless://'+c.id+'@'+c.host+(c.port?':'+c.port:'')+(qs?'?'+qs:'')+(c.f?'#'+c.f:'');}
+function buildTrojan(c,orderArr){var qs=buildQSWith(c.p,orderArr||ORDER);return'trojan://'+encodeURIComponent(c.pass)+'@'+c.host+(c.port?':'+c.port:'')+(qs?'?'+qs:'')+(c.f?'#'+c.f:'');}
 function fmOf(raw){
   var t=String(raw||'').trim();if(!t)t=FM_STR;
   try{return JSON.stringify(JSON.parse(t));}catch(e){throw new Error('FinalMask JSON نامعتبر');}
@@ -619,7 +729,6 @@ function optimize(raw,o){
   if(PROTO_START.test(l))return l;
   throw new Error('پروتکل ناشناخته');
 }
-
 function b64decode(s){
   try{
     var t=s.replace(/[\r\n\t ]/g,'').replace(/-/g,'+').replace(/_/g,'/');
@@ -629,10 +738,9 @@ function b64decode(s){
     return decodeURIComponent(o);
   }catch(e){return'';}
 }
-
 function extractLines(text){
   var found=[];
-  var urlRegex = /(vless:\/\/[^\s]+|vmess:\/\/[^\s]+|trojan:\/\/[^\s]+|ss:\/\/[^\s]+|hysteria2?:\/\/[^\s]+|tuic:\/\/[^\s]+|naive\+https?:\/\/[^\s]+|wireguard:\/\/[^\s]+)/gi;
+  var urlRegex=/(vless:\/\/[^\s]+|vmess:\/\/[^\s]+|trojan:\/\/[^\s]+|ss:\/\/[^\s]+|hysteria2?:\/\/[^\s]+|tuic:\/\/[^\s]+|naive\+https?:\/\/[^\s]+|wireguard:\/\/[^\s]+)/gi;
   (text.match(urlRegex)||[]).forEach(function(m){
     var line=m.trim().replace(/[,;،؛]+$/,'');
     if(PROTO_START.test(line)&&found.indexOf(line)===-1) found.push(line);
@@ -648,41 +756,25 @@ function extract(text){
   var direct=extractLines(t);
   if(direct.length)return direct;
   var decoded=b64decode(t);
-  if(decoded){
-    var fromDecoded=extractLines(decoded);
-    if(fromDecoded.length)return fromDecoded;
-  }
+  if(decoded){var fromDecoded=extractLines(decoded);if(fromDecoded.length)return fromDecoded;}
   return[];
 }
-
 function fetchWithTimeout(u,ms){
   return new Promise(function(resolve,reject){
     var timeout=setTimeout(function(){reject(new Error('timeout'));},ms);
-    fetch(u).then(function(r){
-      clearTimeout(timeout);
-      resolve(r);
-    }).catch(function(e){
-      clearTimeout(timeout);
-      reject(e);
-    });
+    fetch(u).then(function(r){clearTimeout(timeout);resolve(r);}).catch(function(e){clearTimeout(timeout);reject(e);});
   });
 }
-
 function fetchSub(url){
   var proxies=[
-    {prefix:'',label:'direct'},
-    {prefix:'https://corsproxy.io/?',label:'corsproxy.io'},
+    {prefix:'',label:'direct'},{prefix:'https://corsproxy.io/?',label:'corsproxy.io'},
     {prefix:'https://api.allorigins.win/raw?url=',label:'allorigins'},
     {prefix:'https://proxy.cors.sh/',label:'cors.sh'},
     {prefix:'https://cors-anywhere.herokuapp.com/',label:'cors-anywhere'},
     {prefix:'https://thingproxy.freeboard.io/fetch/',label:'thingproxy'},
     {prefix:'https://r.jina.ai/',label:'jina.ai'}
   ];
-
-  if (!/^https?:\/\//i.test(url)) {
-    url = 'https://' + url;
-  }
-
+  if(!/^https?:\/\//i.test(url)) url='https://'+url;
   function attemptFetch(targetUrl,retriesLeft){
     return fetchWithTimeout(targetUrl,10000)
       .then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.text();})
@@ -694,18 +786,15 @@ function fetchSub(url){
         throw err;
       });
   }
-
   function tryProxy(idx){
     if(idx>=proxies.length)return Promise.reject(new Error('all proxies failed'));
     var p=proxies[idx];
     var target=p.prefix?p.prefix+encodeURIComponent(url):url;
     return attemptFetch(target,2).catch(function(){return tryProxy(idx+1);});
   }
-
   return tryProxy(0).then(function(txt){
     var all=[];
     var trimmed=txt.trim();
-
     if(trimmed.charAt(0)==='{'||trimmed.charAt(0)==='['){
       try{
         var json=JSON.parse(trimmed);
@@ -713,26 +802,17 @@ function fetchSub(url){
           if(!obj)return;
           if(typeof obj==='string'){
             if(PROTO_START.test(obj))all.push(obj);
-            else{
-              var d=b64decode(obj);
-              if(d)extractLines(d).forEach(function(l){all.push(l);});
-              else extractLines(obj).forEach(function(l){all.push(l);});
-            }
-          }else if(Array.isArray(obj)){
-            obj.forEach(function(v){walk(v);});
-          }else if(typeof obj==='object'){
-            Object.values(obj).forEach(function(v){walk(v);});
-          }
+            else{var d=b64decode(obj);if(d)extractLines(d).forEach(function(l){all.push(l);});else extractLines(obj).forEach(function(l){all.push(l);});}
+          }else if(Array.isArray(obj)){obj.forEach(function(v){walk(v);});}
+          else if(typeof obj==='object'){Object.values(obj).forEach(function(v){walk(v);});}
         };
         walk(json);
         if(all.length)return all;
       }catch(e){}
     }
-
     extractLines(trimmed).forEach(function(l){all.push(l);});
     var d=b64decode(trimmed);
     if(d)extractLines(d).forEach(function(l){all.push(l);});
-
     var seen={},unique=[];
     all.forEach(function(l){if(!seen[l]){seen[l]=1;unique.push(l);}});
     if(!unique.length)throw new Error('کانفیگ پیدا نشد');
@@ -740,15 +820,26 @@ function fetchSub(url){
   });
 }
 
-function loadSettings(){return{adr:DEF.adr,fp:DEF.fp,cs:DEF.cs,fm:DEF.fm};}
-function saveSettings(o){/* localStorage disabled */}
+function loadSettings(){
+  try{
+    var raw=localStorage.getItem(OPT_LS_KEY);
+    if(!raw) return {adr:DEF.adr,fp:DEF.fp,cs:DEF.cs,fm:DEF.fm};
+    var o=JSON.parse(raw);
+    return{
+      adr:typeof o.adr==='string'?o.adr:DEF.adr,
+      fp:typeof o.fp==='string'?o.fp:DEF.fp,
+      cs:typeof o.cs==='string'?o.cs:DEF.cs,
+      fm:typeof o.fm==='string'?o.fm:DEF.fm
+    };
+  }catch(e){return{adr:DEF.adr,fp:DEF.fp,cs:DEF.cs,fm:DEF.fm};}
+}
+function saveSettings(o){try{localStorage.setItem(OPT_LS_KEY,JSON.stringify(o));}catch(e){}}
 
 function flash(btn,text,cls){
   if(!btn||btn._busy)return;btn._busy=true;btn._saved=btn.innerHTML;
   btn.textContent=text;btn.classList.add(cls||'ok');
   setTimeout(function(){btn.innerHTML=btn._saved;btn.classList.remove('ok','no');btn._busy=false;},1400);
 }
-
 function copyText(t){
   if(navigator.clipboard&&window.isSecureContext)
     return navigator.clipboard.writeText(t).then(function(){return true;}).catch(function(){return legacyCopy(t);});
@@ -761,14 +852,107 @@ function legacyCopy(t){
   var ok=false;try{ok=document.execCommand('copy');}catch(e){}
   document.body.removeChild(el);return ok;
 }
-
 function truncateForDisplay(text,maxLines){
   var lines=text.split('\n');
   if(lines.length<=maxLines)return text;
   var shown=lines.slice(0,maxLines).join('\n');
   var remaining=lines.length-maxLines;
-  return shown+'\n... '+fa(remaining)+' کانفیگ دیگر (برای کپی کامل از دکمه کپی استفاده کنید)';
+  return shown+'\n... '+fa(remaining)+' مورد دیگر (برای کپی کامل از دکمه کپی استفاده کنید)';
 }
+
+function buildStreamSettings(params,network,security,echValue,defaultHost){
+  var path=params.path||'/';
+  var hostHeader=params.host||defaultHost||'';
+  var sni=params.sni||hostHeader;
+  var fpVal=params.fp||'chrome';
+  var allowInsecure=paramBool(params.insecure)||paramBool(params.allowinsecure);
+
+  var alpnArr;
+  if(params.alpn){
+    alpnArr=params.alpn.split(',').map(function(x){return x.trim();}).filter(Boolean);
+    if(!alpnArr.length) alpnArr=['http/1.1'];
+  } else if(network==='xhttp'){
+    alpnArr=['h2','h3'];
+  } else {
+    alpnArr=['http/1.1'];
+  }
+
+  var ss={ network:network, security:security };
+  ss.sockopt={
+    domainStrategy:'UseIP',
+    happyEyeballs:{interleave:2,maxConcurrentTry:4,prioritizeIPv6:false,tryDelayMs:250}
+  };
+
+  if(security==='tls'||security==='xtls'){
+    var tlsObj={ allowInsecure:allowInsecure, alpn:alpnArr };
+    if(security==='tls' && echValue) tlsObj.echConfigList=echValue;
+    tlsObj.fingerprint=fpVal;
+    tlsObj.serverName=sni;
+    if(security==='tls') ss.tlsSettings=tlsObj;
+    else ss.xtlsSettings=tlsObj;
+  } else if(security==='reality'){
+    ss.realitySettings={
+      show:false,
+      dest:params.dest||'',
+      xver:parseInt(params.xver,10)||0,
+      serverNames:sni?[sni]:[],
+      privateKey:params.privatekey||'',
+      publicKey:params.pbk||'',
+      shortIds:(params.sid||'').split(',').map(function(x){return x.trim();}).filter(Boolean),
+      fingerprint:fpVal,
+      spiderX:params.spx||''
+    };
+  }
+
+  if(network==='ws'){
+    ss.wsSettings={host:hostHeader,path:path};
+  } else if(network==='grpc'){
+    ss.grpcSettings={serviceName:path.replace(/^\/+/,'')||''};
+    if(paramBool(params.multimode)) ss.grpcSettings.multiMode=true;
+  } else if(network==='xhttp'){
+    ss.xhttpSettings={host:hostHeader,mode:params.mode||'stream-up',path:path};
+  } else if(network==='tcp'){
+    ss.tcpSettings={header:{type:params.headertype||'none'}};
+  } else if(network==='http'||network==='h2'){
+    ss.httpSettings={host:hostHeader?[hostHeader]:[],path:path};
+  } else if(network==='quic'){
+    ss.quicSettings={security:'none',key:'',header:{type:'none'}};
+  }
+
+  return ss;
+}
+
+function buildMux(params){
+  var enabled=false, concurrency=-1;
+  if(params.mux!==undefined && params.mux!==''){
+    var mv=String(params.mux).toLowerCase();
+    if(mv==='1'||mv==='true'||mv==='yes'){
+      enabled=true;
+    } else if(/^\d+$/.test(mv)&&parseInt(mv,10)>1){
+      enabled=true;
+      concurrency=parseInt(mv,10);
+    }
+  }
+  if(params.muxconcurrency){
+    var mc=parseInt(params.muxconcurrency,10);
+    if(!isNaN(mc)){ enabled=true; concurrency=mc; }
+  }
+  return { concurrency:concurrency, enabled:enabled };
+}
+
+(function initTabs(){
+  var tabs=document.querySelectorAll('.tab');
+  var panels=document.querySelectorAll('.panel[data-panel]');
+  function activate(name){
+    tabs.forEach(function(t){
+      var on=t.getAttribute('data-tab')===name;
+      t.classList.toggle('tab-active',on);
+      t.setAttribute('aria-selected',on?'true':'false');
+    });
+    panels.forEach(function(p){ p.hidden=p.getAttribute('data-panel')!==name; });
+  }
+  tabs.forEach(function(t){ t.addEventListener('click',function(){activate(t.getAttribute('data-tab'));}); });
+})();
 
 var inp=$('inp'),out=$('out'),res=$('res'),sumEl=$('sum'),errs=$('errs'),
     cnt=$('cnt'),ocnt=$('ocnt'),
@@ -780,11 +964,7 @@ var st=loadSettings();
 adr.value=st.adr;fp.value=st.fp;cs.value=st.cs;fm.value=st.fm;
 $('yr').textContent=fa(new Date().getFullYear());
 applyOS();
-
-$('notice-close').addEventListener('click',function(){
-  $('notice-overlay').classList.add('hidden');
-});
-
+$('notice-close').addEventListener('click',function(){$('notice-overlay').classList.add('hidden');});
 function getOpts(){return{adr:adr.value.trim(),fp:fp.value,cs:cs.value.trim()||DEF.cs,fm:fm.value.trim()||DEF.fm};}
 function persist(){saveSettings(getOpts());}
 function validateFm(){
@@ -798,16 +978,11 @@ function updateCount(){
   cnt.textContent=fa(n)+' خط';
 }
 function setOutputBtns(en){cpy.disabled=dl.disabled=jsonBtn.disabled=!en;}
-
 var savedNormalOutput='',savedJsonOutput='',isJsonMode=false,jsonBaseOutput='';
-
 function resetJsonToggle(){
-  isJsonMode=false;
-  savedJsonOutput='';
-  jsonBaseOutput='';
+  isJsonMode=false;savedJsonOutput='';jsonBaseOutput='';
   jsonBtn.innerHTML='<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17v1a2 2 0 002 2h12a2 2 0 002-2v-1"/><polyline points="8 12 12 8 16 12"/><line x1="12" y1="16" x2="12" y2="8"/></svg> خروجی JSON';
 }
-
 [adr,cs].forEach(function(el){el.addEventListener('input',persist);});
 fp.addEventListener('change',persist);
 fm.addEventListener('input',function(){validateFm();persist();});
@@ -828,23 +1003,16 @@ advb.addEventListener('click',function(){
 $('cadr').addEventListener('click',function(){adr.value='';persist();flash(this,'پاک شد');});
 $('rst').addEventListener('click',function(){adr.value=DEF.adr;fp.value=DEF.fp;cs.value=DEF.cs;fm.value=DEF.fm;validateFm();persist();flash(this,'بازنشانی شد');});
 $('clr').addEventListener('click',function(){inp.value='';updateCount();inp.focus();flash(this,'پاک شد');});
-
 $('pst').addEventListener('click',function(){
   var btn=this;
   if(!navigator.clipboard||!navigator.clipboard.readText){inp.focus();flash(btn,'Ctrl+V','no');return;}
-  navigator.clipboard.readText()
-    .then(function(t){
-      if(t){inp.value=(inp.value.trim()?inp.value.trim()+'\n':'')+t.trim();updateCount();flash(btn,'اضافه شد');}
-      else flash(btn,'کلیپ‌بورد خالی','no');
-    })
-    .catch(function(){inp.focus();flash(btn,'Ctrl+V','no');});
+  navigator.clipboard.readText().then(function(t){
+    if(t){inp.value=(inp.value.trim()?inp.value.trim()+'\n':'')+t.trim();updateCount();flash(btn,'اضافه شد');}
+    else flash(btn,'کلیپ‌بورد خالی','no');
+  }).catch(function(){inp.focus();flash(btn,'Ctrl+V','no');});
 });
-
 $('fbt').addEventListener('click',function(){$('fin').click();});
-$('fin').addEventListener('change',function(){
-  var f=this.files&&this.files[0];this.value='';
-  if(f)readFile(f);
-});
+$('fin').addEventListener('change',function(){var f=this.files&&this.files[0];this.value='';if(f)readFile(f);});
 function readFile(f){
   var r=new FileReader();
   r.onload=function(){
@@ -854,27 +1022,18 @@ function readFile(f){
   };
   r.readAsText(f);
 }
-
-['dragenter','dragover'].forEach(function(ev){
-  dz.addEventListener(ev,function(e){e.preventDefault();inp.classList.add('drag');});
-});
-['dragleave','drop'].forEach(function(ev){
-  dz.addEventListener(ev,function(e){e.preventDefault();inp.classList.remove('drag');});
-});
+['dragenter','dragover'].forEach(function(ev){dz.addEventListener(ev,function(e){e.preventDefault();inp.classList.add('drag');});});
+['dragleave','drop'].forEach(function(ev){dz.addEventListener(ev,function(e){e.preventDefault();inp.classList.remove('drag');});});
 dz.addEventListener('drop',function(e){
   var f=e.dataTransfer&&e.dataTransfer.files&&e.dataTransfer.files[0];
   if(f){readFile(f);return;}
   var t=e.dataTransfer&&e.dataTransfer.getData('text');
   if(t){inp.value=t.trim();updateCount();run();}
 });
-inp.addEventListener('keydown',function(e){
-  if((e.ctrlKey||e.metaKey)&&e.key==='Enter'){e.preventDefault();run();}
-});
+inp.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&e.key==='Enter'){e.preventDefault();run();}});
 go.addEventListener('click',run);
-
 cpy.addEventListener('click',function(){
-  var btn=this;
-  var content=isJsonMode?savedJsonOutput:savedNormalOutput;
+  var btn=this;var content=isJsonMode?savedJsonOutput:savedNormalOutput;
   if(!content)return;
   copyText(content).then(function(ok){flash(btn,ok?'کپی شد':'ناموفق',ok?'ok':'no');});
 });
@@ -893,42 +1052,29 @@ $('crs').addEventListener('click',function(){
   savedNormalOutput='';savedJsonOutput='';isJsonMode=false;jsonBaseOutput='';
   resetJsonToggle();
 });
-
 function run(){
   if(go._running)return;
   var raw=inp.value.trim();
   if(!raw){flash(go,'ورودی خالی است','no');inp.focus();return;}
   if(!validateFm()){if(!adv.classList.contains('open'))advb.click();fm.focus();return;}
-
   var lines=raw.split(/\r?\n/).map(function(l){return l.trim();}).filter(Boolean);
   var subs=[];
-  lines.forEach(function(l){
-    if (/^(https?:\/\/|www\.)/i.test(l)) subs.push(l);
-  });
+  lines.forEach(function(l){if(/^(https?:\/\/|www\.)/i.test(l)) subs.push(l);});
   var directConfigs=extract(raw);
-
   var failed=[];
-  go._running=true;
-  go._savedHTML=go.innerHTML;
-  go.disabled=true;
+  go._running=true;go._savedHTML=go.innerHTML;go.disabled=true;
   go.textContent=subs.length?'در حال دریافت ساب…':'در حال پردازش…';
-
-  Promise.all(subs.map(function(u){
-    return fetchSub(u).catch(function(e){failed.push(u+' — '+e.message);return[];});
-  }))
+  Promise.all(subs.map(function(u){return fetchSub(u).catch(function(e){failed.push(u+' — '+e.message);return[];});}))
   .then(function(sets){
     var all=directConfigs.slice();
     sets.forEach(function(s){all=all.concat(s);});
     var seen={},unique=[];
     all.forEach(function(l){if(!seen[l]){seen[l]=1;unique.push(l);}});
-    renderResults(unique, failed, getOpts());
+    renderResults(unique,failed,getOpts());
   })
-  .catch(function(){
-    renderResults(directConfigs, failed, getOpts());
-  })
+  .catch(function(){renderResults(directConfigs,failed,getOpts());})
   .then(function(){go.innerHTML=go._savedHTML;go.disabled=false;go._running=false;});
 }
-
 function renderResults(configs,failed,opts){
   var ok=[],bad=[],passthru=0;
   configs.forEach(function(l,i){
@@ -943,14 +1089,10 @@ function renderResults(configs,failed,opts){
   out.value=truncateForDisplay(output,3);
   ocnt.textContent=fa(ok.length)+' کانفیگ';
   errs.innerHTML=bad.map(function(t){return'<div class="er">'+esc(t)+'</div>';}).join('');
-  var s=ok.length
-    ?(fa(ok.length)+' کانفیگ بهینه شد'+(passthru?' · '+fa(passthru)+' عبور':'')+(bad.length?' · '+fa(bad.length)+' خطا':''))
-    :'هیچ کانفیگ معتبری پیدا نشد';
+  var s=ok.length?(fa(ok.length)+' کانفیگ بهینه شد'+(passthru?' · '+fa(passthru)+' عبور':'')+(bad.length?' · '+fa(bad.length)+' خطا':'')):'هیچ کانفیگ معتبری پیدا نشد';
   sumEl.textContent=s;
-  setOutputBtns(ok.length>0);
-  res.hidden=false;
-  isJsonMode=false;
-  resetJsonToggle();
+  setOutputBtns(ok.length>0);res.hidden=false;
+  isJsonMode=false;resetJsonToggle();
   res.scrollIntoView({behavior:'smooth',block:'nearest'});
 }
 
@@ -960,152 +1102,49 @@ function configToJson(line,index){
   if(/^vless:\/\//i.test(raw))cfg=parseVless(raw);
   else if(/^trojan:\/\//i.test(raw))cfg=parseTrojan(raw);
   else return null;
-
-  var params={};
-  cfg.p.forEach(function(x){params[x.k.toLowerCase()]=x.v;});
-
+  var params={};cfg.p.forEach(function(x){params[x.k.toLowerCase()]=x.v;});
   var host=cfg.host;
   var port=parseInt(cfg.port,10)||443;
   var remark=cfg.f?dec(cfg.f):('Config '+(index+1));
-  var net=params['type']||'xhttp';
-  var sec=params['security']||'tls';
-  var path=params['path']||'/';
-  var hostHeader=params['host']||host;
-  var sni=params['sni']||hostHeader;
-  var fpVal=params['fp']||DEF.fp||'unsafe';
-  var csVal=params['cs']||DEF.cs;
-  var fmStr=params['fm']||DEF.fm;
-  var finalmaskObj;
-  try{finalmaskObj=JSON.parse(fmStr);}catch(e){finalmaskObj=JSON.parse(FM_STR);}
+  var net=params.type||'xhttp';
+  var sec=params.security||'tls';
 
-  var streamSettings={};
-  streamSettings.finalmask=finalmaskObj;
-  streamSettings.network=net;
-  streamSettings.security=sec;
-  if(net==='xhttp'){
-    streamSettings.sockopt={
-      domainStrategy:"UseIP",
-      happyEyeballs:{
-        interleave:2,
-        maxConcurrentTry:4,
-        prioritizeIPv6:false,
-        tryDelayMs:250
-      }
-    };
-  }
-  var tls={
-    allowInsecure:false,
-    cipherSuites:csVal,
-    fingerprint:fpVal,
-    serverName:sni
-  };
-  if(net==='xhttp')tls.alpn=["h2","h3"];
-  streamSettings.tlsSettings=tls;
-  if(net==='xhttp'){
-    streamSettings.xhttpSettings={
-      host:hostHeader,
-      mode:"stream-up",
-      path:path
-    };
-  }else if(net==='ws'){
-    streamSettings.wsSettings={
-      host:hostHeader,
-      path:path
-    };
-  }else if(net==='grpc'){
-    streamSettings.grpcSettings={serviceName:path};
-  }else if(net==='tcp'){
-    streamSettings.tcpSettings={header:{type:"none"}};
-  }
+  var ss=buildStreamSettings(params,net,sec,null,host);
+
+  var fmStr=params.fm||DEF.fm;
+  var finalmaskObj;try{finalmaskObj=JSON.parse(fmStr);}catch(e){finalmaskObj=JSON.parse(FM_STR);}
+  var merged={ finalmask:finalmaskObj };
+  for(var k in ss){ if(Object.prototype.hasOwnProperty.call(ss,k)) merged[k]=ss[k]; }
+
+  var csVal=params.cs||DEF.cs;
+  if(merged.tlsSettings) merged.tlsSettings.cipherSuites=csVal;
+  if(merged.xtlsSettings) merged.xtlsSettings.cipherSuites=csVal;
+
+  var mux=buildMux(params);
 
   return{
-    dns:{
-      hosts:{
-        "domain:googleapis.cn":"googleapis.com",
-        "dns.alidns.com":["223.5.5.5","223.6.6.6","2400:3200::1","2400:3200:baba::1"],
-        "dns.sse.cisco.com":["208.67.220.220","208.67.222.222","2620:119:35::35","2620:119:53::53"],
-        "dns.umbrella.com":["208.67.220.220","208.67.222.222","2620:119:35::35","2620:119:53::53"],
-        "one.one.one.one":["1.1.1.1","1.0.0.1","2606:4700:4700::1111","2606:4700:4700::1001"],
-        "1dot1dot1dot1.cloudflare-dns.com":["1.1.1.1","1.0.0.1","2606:4700:4700::1111","2606:4700:4700::1001"],
-        "dns.cloudflare.com":["162.159.61.8","172.64.41.8","2a06:98c1:52::8","2803:f800:53::8"],
-        "cloudflare-dns.com":["104.16.248.249","104.16.249.249","2606:4700::6810:f8f9","2606:4700::6810:f9f9"],
-        "engage.cloudflareclient.com":["162.159.192.1","2606:4700:d0::a29f:c001"],
-        "doh.pub":["1.12.12.12","120.53.53.53"],
-        "dot.pub":["1.12.12.12","120.53.53.53"],
-        "dns.google":["8.8.8.8","8.8.4.4","2001:4860:4860::8888","2001:4860:4860::8844"],
-        "dns.quad9.net":["9.9.9.9","149.112.112.112","2620:fe::fe","2620:fe::9"],
-        "dns.sb":["45.11.45.11","185.222.222.222","2a09::","2a11::"],
-        "common.dot.dns.yandex.net":["77.88.8.8","77.88.8.1","2a02:6b8::feed:0ff","2a02:6b8:0:1::feed:0ff"]
-      },
-      servers:[
-        "https://cloudflare-dns.com/dns-query",
-        {address:"223.5.5.5",domains:["geosite:cn"],expectIPs:["geoip:cn"],skipFallback:true,tag:"domestic-dns_cn_expect_0"},
-        {address:"https://cloudflare-dns.com/dns-query",domains:["geosite:google"]},
-        {address:"223.5.5.5",domains:["geosite:private"],skipFallback:true,tag:"domestic-dns_1_0"},
-        {address:"223.5.5.5",domains:["domain:alidns.com","domain:doh.pub","domain:dot.pub","domain:360.cn","domain:onedns.net"],skipFallback:true,tag:"domestic-dns_2_0"},
-        {address:"223.5.5.5",domains:["geosite:cn"],skipFallback:true,tag:"domestic-dns_3_0"}
-      ],
-      tag:"dns-module"
-    },
-    inbounds:[
-      {listen:"127.0.0.1",port:10808,protocol:"socks",settings:{auth:"noauth",udp:true,userLevel:8},sniffing:{destOverride:["http","tls","quic"],enabled:true,routeOnly:false},tag:"socks"},
-      {listen:"127.0.0.1",port:10809,protocol:"http",settings:{userLevel:8},sniffing:{destOverride:["http","tls","quic"],enabled:true,routeOnly:false},tag:"http"}
-    ],
+    dns:{hosts:{"domain:googleapis.cn":"googleapis.com","dns.alidns.com":["223.5.5.5","223.6.6.6","2400:3200::1","2400:3200:baba::1"],"dns.sse.cisco.com":["208.67.220.220","208.67.222.222","2620:119:35::35","2620:119:53::53"],"dns.umbrella.com":["208.67.220.220","208.67.222.222","2620:119:35::35","2620:119:53::53"],"one.one.one.one":["1.1.1.1","1.0.0.1","2606:4700:4700::1111","2606:4700:4700::1001"],"1dot1dot1dot1.cloudflare-dns.com":["1.1.1.1","1.0.0.1","2606:4700:4700::1111","2606:4700:4700::1001"],"dns.cloudflare.com":["162.159.61.8","172.64.41.8","2a06:98c1:52::8","2803:f800:53::8"],"cloudflare-dns.com":["104.16.248.249","104.16.249.249","2606:4700::6810:f8f9","2606:4700::6810:f9f9"],"engage.cloudflareclient.com":["162.159.192.1","2606:4700:d0::a29f:c001"],"doh.pub":["1.12.12.12","120.53.53.53"],"dot.pub":["1.12.12.12","120.53.53.53"],"dns.google":["8.8.8.8","8.8.4.4","2001:4860:4860::8888","2001:4860:4860::8844"],"dns.quad9.net":["9.9.9.9","149.112.112.112","2620:fe::fe","2620:fe::9"],"dns.sb":["45.11.45.11","185.222.222.222","2a09::","2a11::"],"common.dot.dns.yandex.net":["77.88.8.8","77.88.8.1","2a02:6b8::feed:0ff","2a02:6b8:0:1::feed:0ff"]},servers:["https://cloudflare-dns.com/dns-query",{address:"223.5.5.5",domains:["geosite:cn"],expectIPs:["geoip:cn"],skipFallback:true,tag:"domestic-dns_cn_expect_0"},{address:"https://cloudflare-dns.com/dns-query",domains:["geosite:google"]},{address:"223.5.5.5",domains:["geosite:private"],skipFallback:true,tag:"domestic-dns_1_0"},{address:"223.5.5.5",domains:["domain:alidns.com","domain:doh.pub","domain:dot.pub","domain:360.cn","domain:onedns.net"],skipFallback:true,tag:"domestic-dns_2_0"},{address:"223.5.5.5",domains:["geosite:cn"],skipFallback:true,tag:"domestic-dns_3_0"}],tag:"dns-module"},
+    inbounds:[{listen:"127.0.0.1",port:10808,protocol:"socks",settings:{auth:"noauth",udp:true,userLevel:8},sniffing:{destOverride:["http","tls","quic"],enabled:true,routeOnly:false},tag:"socks"},{listen:"127.0.0.1",port:10809,protocol:"http",settings:{userLevel:8},sniffing:{destOverride:["http","tls","quic"],enabled:true,routeOnly:false},tag:"http"}],
     log:{loglevel:"warning"},
     outbounds:[
-      {
-        mux:{concurrency:-1,enabled:false},
-        protocol:cfg.proto,
-        settings:(cfg.proto==='vless')?{
-          address:host,
-          encryption:"none",
-          id:cfg.id,
-          level:8,
-          port:port
-        }:{
-          address:host,
-          password:cfg.pass,
-          level:8,
-          port:port
-        },
-        streamSettings:streamSettings,
-        tag:"proxy"
-      },
+      {mux:mux,protocol:cfg.proto,settings:(cfg.proto==='vless')?{address:host,encryption:"none",id:cfg.id,level:8,port:port}:{address:host,password:cfg.pass,level:8,port:port},streamSettings:merged,tag:"proxy"},
       {protocol:"freedom",streamSettings:{network:"tcp",sockopt:{domainStrategy:"UseIP"}},tag:"direct"},
       {protocol:"blackhole",settings:{},tag:"block"}
     ],
     remarks:remark,
-    routing:{
-      domainStrategy:"AsIs",
-      rules:[
-        {domain:["geosite:google"],outboundTag:"proxy",type:"field"},
-        {ip:["ext:geoip-only-cn-private.dat:private"],outboundTag:"direct",type:"field"},
-        {domain:["geosite:private"],outboundTag:"direct",type:"field"},
-        {ip:["223.5.5.5","223.6.6.6","2400:3200::1","2400:3200:baba::1","119.29.29.29","1.12.12.12","120.53.53.53","2402:4e00::","2402:4e00:1::","180.76.76.76","2400:da00::6666","114.114.114.114","114.114.115.115","114.114.114.119","114.114.115.119","114.114.114.110","114.114.115.110","180.184.1.1","180.184.2.2","101.226.4.6","218.30.118.6","123.125.81.6","140.207.198.6","1.2.4.8","210.2.4.8","52.80.66.66","117.50.22.22","2400:7fc0:849e:200::4","2404:c2c0:85d8:901::4","117.50.10.10","52.80.52.52","2400:7fc0:849e:200::8","2404:c2c0:85d8:901::8","117.50.60.30","52.80.60.30"],outboundTag:"direct",type:"field"},
-        {domain:["domain:alidns.com","domain:doh.pub","domain:dot.pub","domain:360.cn","domain:onedns.net"],outboundTag:"direct",type:"field"},
-        {ip:["ext:geoip-only-cn-private.dat:cn"],outboundTag:"direct",type:"field"},
-        {domain:["geosite:cn"],outboundTag:"direct",type:"field"},
-        {inboundTag:["domestic-dns_1_0","domestic-dns_2_0","domestic-dns_3_0","domestic-dns_cn_expect_0"],outboundTag:"direct",type:"field"},
-        {inboundTag:["dns-module"],outboundTag:"proxy",type:"field"}
-      ]
-    }
+    routing:{domainStrategy:"AsIs",rules:[{domain:["geosite:google"],outboundTag:"proxy",type:"field"},{ip:["ext:geoip-only-cn-private.dat:private"],outboundTag:"direct",type:"field"},{domain:["geosite:private"],outboundTag:"direct",type:"field"},{ip:["223.5.5.5","223.6.6.6","2400:3200::1","2400:3200:baba::1","119.29.29.29","1.12.12.12","120.53.53.53","2402:4e00::","2402:4e00:1::","180.76.76.76","2400:da00::6666","114.114.114.114","114.114.115.115","114.114.114.119","114.114.115.119","114.114.114.110","114.114.115.110","180.184.1.1","180.184.2.2","101.226.4.6","218.30.118.6","123.125.81.6","140.207.198.6","1.2.4.8","210.2.4.8","52.80.66.66","117.50.22.22","2400:7fc0:849e:200::4","2404:c2c0:85d8:901::4","117.50.10.10","52.80.52.52","2400:7fc0:849e:200::8","2404:c2c0:85d8:901::8","117.50.60.30","52.80.60.30"],outboundTag:"direct",type:"field"},{domain:["domain:alidns.com","domain:doh.pub","domain:dot.pub","domain:360.cn","domain:onedns.net"],outboundTag:"direct",type:"field"},{ip:["ext:geoip-only-cn-private.dat:cn"],outboundTag:"direct",type:"field"},{domain:["geosite:cn"],outboundTag:"direct",type:"field"},{inboundTag:["domestic-dns_1_0","domestic-dns_2_0","domestic-dns_3_0","domestic-dns_cn_expect_0"],outboundTag:"direct",type:"field"},{inboundTag:["dns-module"],outboundTag:"proxy",type:"field"}]}
   };
 }
 
 jsonBtn.addEventListener('click',function(){
-  var base = savedNormalOutput;
+  var base=savedNormalOutput;
   if(!base){flash(jsonBtn,'خروجی خالی است','no');return;}
-
   if(!isJsonMode){
     var lines=base.split('\n').filter(function(l){return l.trim();});
     var configs=[];
-    lines.forEach(function(line,i){
-      var obj=configToJson(line,i);
-      if(obj)configs.push(obj);
-    });
+    lines.forEach(function(line,i){var obj=configToJson(line,i);if(obj)configs.push(obj);});
     if(!configs.length){flash(jsonBtn,'کانفیگ معتبر برای JSON یافت نشد','no');return;}
-    savedJsonOutput=JSON.stringify(configs,null,2);
-    jsonBaseOutput=base;
+    savedJsonOutput=JSON.stringify(configs,null,2);jsonBaseOutput=base;
     out.value=truncateForDisplay(savedJsonOutput,5);
     ocnt.textContent=fa(configs.length)+' JSON';
     sumEl.textContent=fa(configs.length)+' کانفیگ به فرمت JSON (آرایه) نمایش داده شد';
@@ -1117,14 +1156,378 @@ jsonBtn.addEventListener('click',function(){
     var cntLines=jsonBaseOutput.split('\n').filter(function(l){return l.trim();}).length;
     ocnt.textContent=fa(cntLines)+' کانفیگ';
     sumEl.textContent=fa(cntLines)+' کانفیگ بهینه شده';
-    resetJsonToggle();
-    isJsonMode=false;
+    resetJsonToggle();isJsonMode=false;
     flash(jsonBtn,'حالت عادی');
   }
   res.scrollIntoView({behavior:'smooth',block:'nearest'});
 });
 
+(function(){
+  var echInp=$('ech-inp'),echOut=$('ech-out'),echRes=$('ech-res'),
+      echSum=$('ech-sum'),echErrs=$('ech-errs'),
+      echCnt=$('ech-cnt'),echOcnt=$('ech-ocnt'),
+      echGo=$('ech-go'),echDz=$('ech-dz'),
+      echCpy=$('ech-cpy'),echDl=$('ech-dl'),
+      echJsonBtn=$('ech-jsonBtn'),
+      echAdv=$('ech-adv'),echAdvb=$('ech-advb'),
+      echListEl=$('ech-list'),echSuffixEl=$('ech-suffix');
+
+  var echNormalOut='',echJsonOut='',echJsonBase='',echIsJson=false;
+  var echRunning=false;
+  var lastProcessScroll=true;
+
+  function loadEchPrefs(){
+    try{
+      var raw=localStorage.getItem(ECH_LS_KEY);
+      if(!raw) return null;
+      var o=JSON.parse(raw);
+      return (o&&typeof o==='object')?o:null;
+    }catch(e){return null;}
+  }
+  function saveEchPrefs(){
+    try{
+      localStorage.setItem(ECH_LS_KEY,JSON.stringify({
+        list:echListEl.value,
+        suffix:echSuffixEl.value
+      }));
+    }catch(e){}
+  }
+  var savedEch=loadEchPrefs();
+  if(savedEch){
+    if(typeof savedEch.list==='string') echListEl.value=savedEch.list;
+    if(typeof savedEch.suffix==='string') echSuffixEl.value=savedEch.suffix;
+  }
+
+  function setBtns(en){ echCpy.disabled=echDl.disabled=echJsonBtn.disabled=!en; }
+  function resetJson(){
+    echIsJson=false;echJsonOut='';echJsonBase='';
+    echJsonBtn.innerHTML='<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17v1a2 2 0 002 2h12a2 2 0 002-2v-1"/><polyline points="8 12 12 8 16 12"/><line x1="12" y1="16" x2="12" y2="8"/></svg> خروجی JSON';
+  }
+  function updateCount(){
+    var n=echInp.value.split(/\r?\n/).filter(function(l){return l.trim();}).length;
+    echCnt.textContent=fa(n)+' خط';
+  }
+  echInp.addEventListener('input',updateCount);
+  updateCount();
+
+  function getEchList(){
+    var raw=(echListEl.value||'').trim();
+    if(!raw) return [];
+    var list=raw.split(/\r?\n/).map(function(x){return x.trim();}).filter(Boolean);
+    var seen={},out=[];
+    list.forEach(function(x){ if(!seen[x]){seen[x]=1;out.push(x);} });
+    return out;
+  }
+  function extractIpFromEch(echValue){
+    var m=String(echValue||'').match(/udp:\/\/([^+\s]+)/i);
+    if(!m) return echValue;
+    return m[1].replace(/^\[|\]$/g,'');
+  }
+  function extractDomainFromEch(echValue){
+    var s=String(echValue||'');
+    var i=s.indexOf('+');
+    return i>=0?s.slice(0,i):s;
+  }
+  function getSuffix(){ return echSuffixEl.value||''; }
+
+  function safeReplaceAll(str,re,val){
+    return str.replace(re,function(){return val;});
+  }
+  function buildRemark(originalName,tmpl,ip,domain,type){
+    var name=originalName&&originalName.trim()?originalName.trim():type;
+    var out;
+    if(/\{name\}/.test(tmpl)) out=safeReplaceAll(tmpl,/\{name\}/g,name);
+    else out=name+tmpl;
+    out=safeReplaceAll(out,/\{ip\}/g,ip);
+    out=safeReplaceAll(out,/\{domain\}/g,domain);
+    out=safeReplaceAll(out,/\{type\}/g,type);
+    return out.replace(/\s+/g,' ').trim();
+  }
+
+  function runProcess(scroll){ lastProcessScroll=!!scroll; process(); }
+
+  echGo.addEventListener('click',function(){ runProcess(true); });
+  echInp.addEventListener('keydown',function(e){
+    if((e.ctrlKey||e.metaKey)&&e.key==='Enter'){e.preventDefault();runProcess(true);}
+  });
+  echAdvb.addEventListener('click',function(){
+    var open=echAdv.classList.toggle('open');
+    echAdvb.setAttribute('aria-expanded',open?'true':'false');
+  });
+  [echListEl,echSuffixEl].forEach(function(el){
+    el.addEventListener('input',function(){
+      saveEchPrefs();
+      if(!echRes.hidden&&echInp.value.trim()) runProcess(false);
+    });
+  });
+  $('ech-rst').addEventListener('click',function(){
+    echListEl.value=ECH_DEF.list;
+    echSuffixEl.value=ECH_DEF.suffix;
+    saveEchPrefs();
+    if(!echRes.hidden&&echInp.value.trim()) runProcess(false);
+    flash(this,'بازنشانی شد');
+  });
+
+  $('ech-clr').addEventListener('click',function(){
+    echInp.value='';updateCount();echInp.focus();flash(this,'پاک شد');
+    echRes.hidden=true;
+    echOut.value='';echSum.textContent='—';echOcnt.textContent='۰';echErrs.innerHTML='';
+    setBtns(false);echNormalOut='';resetJson();
+  });
+  $('ech-pst').addEventListener('click',function(){
+    var btn=this;
+    if(!navigator.clipboard||!navigator.clipboard.readText){echInp.focus();flash(btn,'Ctrl+V','no');return;}
+    navigator.clipboard.readText().then(function(t){
+      if(t){echInp.value=(echInp.value.trim()?echInp.value.trim()+'\n':'')+t.trim();updateCount();flash(btn,'اضافه شد');}
+      else flash(btn,'کلیپ‌بورد خالی','no');
+    }).catch(function(){echInp.focus();flash(btn,'Ctrl+V','no');});
+  });
+  $('ech-fbt').addEventListener('click',function(){$('ech-fin').click();});
+  $('ech-fin').addEventListener('change',function(){
+    var f=this.files&&this.files[0];this.value='';
+    if(!f)return;
+    var r=new FileReader();
+    r.onload=function(){
+      var txt=String(r.result||'').trim();
+      echInp.value=(echInp.value.trim()?echInp.value.trim()+'\n':'')+txt;
+      updateCount();runProcess(true);
+    };
+    r.readAsText(f);
+  });
+  ['dragenter','dragover'].forEach(function(ev){echDz.addEventListener(ev,function(e){e.preventDefault();echInp.classList.add('drag');});});
+  ['dragleave','drop'].forEach(function(ev){echDz.addEventListener(ev,function(e){e.preventDefault();echInp.classList.remove('drag');});});
+  echDz.addEventListener('drop',function(e){
+    var f=e.dataTransfer&&e.dataTransfer.files&&e.dataTransfer.files[0];
+    if(f){var r=new FileReader();r.onload=function(){echInp.value=String(r.result||'').trim();updateCount();runProcess(true);};r.readAsText(f);return;}
+    var t=e.dataTransfer&&e.dataTransfer.getData('text');
+    if(t){echInp.value=t.trim();updateCount();runProcess(true);}
+  });
+
+  echCpy.addEventListener('click',function(){
+    var btn=this;var content=echIsJson?echJsonOut:echNormalOut;
+    if(!content)return;
+    copyText(content).then(function(ok){flash(btn,ok?'کپی شد':'ناموفق',ok?'ok':'no');});
+  });
+  echDl.addEventListener('click',function(){
+    var content=echIsJson?echJsonOut:echNormalOut;
+    if(!content)return;
+    var blob=new Blob([content+'\n'],{type:'text/plain;charset=utf-8'}),url=URL.createObjectURL(blob);
+    var a=document.createElement('a');a.href=url;a.download='ech-'+Date.now()+(echIsJson?'.json':'.txt');
+    document.body.appendChild(a);a.click();document.body.removeChild(a);
+    setTimeout(function(){URL.revokeObjectURL(url);},1500);
+    flash(this,'ذخیره شد');
+  });
+  $('ech-crs').addEventListener('click',function(){
+    echOut.value='';echErrs.innerHTML='';echSum.textContent='—';
+    echOcnt.textContent='۰';echRes.hidden=true;setBtns(false);
+    echNormalOut='';resetJson();
+  });
+
+  function echEncodeRemark(s){ return encodeURIComponent(s); }
+
+  function buildEchJson(type,cfg,echValue,remark){
+    var params={};cfg.p.forEach(function(x){ params[x.k.toLowerCase()]=x.v; });
+    var address=cfg.host;
+    var port=parseInt(cfg.port,10)||443;
+    var isTrojan=type==='trojan';
+    var net=params.type||'ws';
+    var sec=params.security||'tls';
+
+    var ss=buildStreamSettings(params,net,sec,echValue,address);
+    var mux=buildMux(params);
+
+    var hosts={
+      "domain:googleapis.cn":"googleapis.com",
+      "dns.alidns.com":["223.5.5.5","223.6.6.6","2400:3200::1","2400:3200:baba::1"],
+      "dns.sse.cisco.com":["208.67.220.220","208.67.222.222","2620:119:35::35","2620:119:53::53"],
+      "dns.umbrella.com":["208.67.220.220","208.67.222.222","2620:119:35::35","2620:119:53::53"],
+      "one.one.one.one":["1.1.1.1","1.0.0.1","2606:4700:4700::1111","2606:4700:4700::1001"],
+      "1dot1dot1dot1.cloudflare-dns.com":["1.1.1.1","1.0.0.1","2606:4700:4700::1111","2606:4700:4700::1001"],
+      "dns.cloudflare.com":["162.159.61.8","172.64.41.8","2a06:98c1:52::8","2803:f800:53::8"],
+      "cloudflare-dns.com":["104.16.248.249","104.16.249.249","2606:4700::6810:f8f9","2606:4700::6810:f9f9"],
+      "engage.cloudflareclient.com":["162.159.192.1","2606:4700:d0::a29f:c001"],
+      "doh.pub":["1.12.12.12","120.53.53.53"],
+      "dot.pub":["1.12.12.12","120.53.53.53"],
+      "dns.google":["8.8.8.8","8.8.4.4","2001:4860:4860::8888","2001:4860:4860::8844"],
+      "dns.quad9.net":["9.9.9.9","149.112.112.112","2620:fe::fe","2620:fe::9"],
+      "dns.sb":["45.11.45.11","185.222.222.222","2a09::","2a11::"],
+      "common.dot.dns.yandex.net":["77.88.8.8","77.88.8.1","2a02:6b8::feed:0ff","2a02:6b8:0:1::feed:0ff"]
+    };
+    if(isTrojan && address==='www.speedtest.net'){
+      hosts['www.speedtest.net']=['104.17.148.22','104.17.147.22'];
+    }
+
+    var dns={
+      hosts:hosts,
+      servers:[
+        "https://cloudflare-dns.com/dns-query",
+        {address:"223.5.5.5",domains:["geosite:private"],skipFallback:true,tag:"domestic-dns_0_0"},
+        {address:"223.5.5.5",domains:["domain:ir","geosite:category-ir"],skipFallback:true,tag:"domestic-dns_1_0"}
+      ],
+      tag:"dns-module"
+    };
+
+    var inbounds=[{
+      listen:"127.0.0.1",port:10808,protocol:"socks",
+      settings:{auth:"noauth",udp:true,userLevel:8},
+      sniffing:{destOverride:["http","tls","quic"],enabled:true,routeOnly:false},
+      tag:"socks"
+    }];
+
+    var settings=isTrojan
+      ? {address:address,level:8,password:cfg.pass,port:port}
+      : {address:address,encryption:"none",id:cfg.id,level:8,port:port};
+
+    var outbounds=[
+      {mux:mux,protocol:isTrojan?"trojan":"vless",settings:settings,streamSettings:ss,tag:"proxy"},
+      {protocol:"freedom",streamSettings:{network:"tcp",sockopt:{domainStrategy:"UseIP"}},tag:"direct"},
+      {protocol:"blackhole",settings:{},tag:"block"}
+    ];
+
+    var policy={
+      levels:{"8":{connIdle:300,downlinkOnly:1,handshake:4,uplinkOnly:1}},
+      system:{statsOutboundUplink:true,statsOutboundDownlink:true}
+    };
+
+    var routing={
+      domainStrategy:"AsIs",
+      rules:[
+        {network:"udp",outboundTag:"block",port:"443",type:"field"},
+        {ip:["ext:geoip-only-cn-private.dat:private"],outboundTag:"direct",type:"field"},
+        {domain:["geosite:private"],outboundTag:"direct",type:"field"},
+        {domain:["domain:ir","geosite:category-ir"],outboundTag:"direct",type:"field"},
+        {ip:["geoip:ir"],outboundTag:"direct",type:"field"},
+        {inboundTag:["domestic-dns_0_0","domestic-dns_1_0"],outboundTag:"direct",type:"field"},
+        {inboundTag:["dns-module"],outboundTag:"proxy",type:"field"}
+      ]
+    };
+
+    return{
+      dns:dns,
+      inbounds:inbounds,
+      log:{loglevel:"warning"},
+      outbounds:outbounds,
+      policy:policy,
+      remarks:remark,
+      routing:routing,
+      stats:{}
+    };
+  }
+
+  function process(){
+    if(echRunning) return;
+    var raw=echInp.value.trim();
+
+    if(!raw){
+      echRes.hidden=true;
+      echOut.value='';echSum.textContent='—';echOcnt.textContent='۰';echErrs.innerHTML='';
+      setBtns(false);echNormalOut='';resetJson();
+      flash(echGo,'ورودی خالی است','no');
+      echInp.focus();
+      return;
+    }
+
+    var echList=getEchList();
+    var suffix=getSuffix();
+
+    if(!echList.length){
+      echRes.hidden=false;
+      echErrs.innerHTML='<div class="er">لیست ECH خالی است — حداقل یک ECH وارد کنید</div>';
+      echSum.textContent='لیست ECH خالی است';
+      echOut.value='';echOcnt.textContent='۰';setBtns(false);
+      return;
+    }
+
+    var lines=raw.split(/\r?\n/).map(function(l){return l.trim();}).filter(Boolean);
+    var parsed=[],failed=[],seenKey={};
+
+    lines.forEach(function(line,i){
+      try{
+        if(/^vless:\/\//i.test(line)){
+          var c=parseVless(line);
+          removeParam(c.p,'ech');
+          var p1={};c.p.forEach(function(x){p1[x.k.toLowerCase()]=x.v;});
+          var k=['vless',c.id,c.host,c.port,p1.type||'',p1.security||'',p1.sni||'',p1.host||'',p1.path||'',p1.alpn||''].join('|');
+          if(!seenKey[k]){seenKey[k]=1;parsed.push({type:'vless',cfg:c,originalName:dec(c.f||'')});}
+        }else if(/^trojan:\/\//i.test(line)){
+          var t=parseTrojan(line);
+          removeParam(t.p,'ech');
+          var p2={};t.p.forEach(function(x){p2[x.k.toLowerCase()]=x.v;});
+          var k2=['trojan',t.pass,t.host,t.port,p2.type||'',p2.security||'',p2.sni||'',p2.host||'',p2.path||'',p2.alpn||''].join('|');
+          if(!seenKey[k2]){seenKey[k2]=1;parsed.push({type:'trojan',cfg:t,originalName:dec(t.f||'')});}
+        }else{
+          failed.push('خط '+fa(i+1)+' — فقط vless/trojan پشتیبانی می‌شود');
+        }
+      }catch(e){ failed.push('خط '+fa(i+1)+' — '+e.message); }
+    });
+
+    if(!parsed.length){
+      echRes.hidden=false;
+      echErrs.innerHTML=failed.map(function(t){return '<div class="er">'+esc(t)+'</div>';}).join('')
+                       || '<div class="er">کانفیگ معتبر vless/trojan پیدا نشد</div>';
+      echSum.textContent='هیچ کانفیگی پردازش نشد';
+      echOut.value='';echOcnt.textContent='۰';setBtns(false);
+      return;
+    }
+
+    echRunning=true;
+    try{
+      var outConfigs=[],outJsons=[];
+
+      echList.forEach(function(echVal){
+        var ip=extractIpFromEch(echVal);
+        var domain=extractDomainFromEch(echVal);
+        parsed.forEach(function(item){
+          var cfg=JSON.parse(JSON.stringify(item.cfg));
+          removeParam(cfg.p,'ech');
+          cfg.p.push({k:'ech',v:echVal});
+          var remark=buildRemark(item.originalName,suffix,ip,domain,item.type);
+          cfg.f=echEncodeRemark(remark);
+          outConfigs.push(item.type==='vless'?buildVless(cfg,ORDER_ECH):buildTrojan(cfg,ORDER_ECH));
+          outJsons.push(buildEchJson(item.type,item.cfg,echVal,remark));
+        });
+      });
+
+      echNormalOut=outConfigs.join('\n');
+      echJsonOut=JSON.stringify(outJsons,null,2);
+      echJsonBase=echNormalOut;
+      echOut.value=truncateForDisplay(echNormalOut,8);
+      echOcnt.textContent=fa(outConfigs.length)+' کانفیگ';
+      echErrs.innerHTML=failed.map(function(t){return '<div class="er">'+esc(t)+'</div>';}).join('');
+      echSum.textContent=fa(outConfigs.length)+' کانفیگ ECH ساخته شد · '+fa(parsed.length)+' ورودی × '+fa(echList.length)+' ECH';
+      setBtns(true);
+      echRes.hidden=false;
+      resetJson();
+      if(lastProcessScroll){
+        echRes.scrollIntoView({behavior:'smooth',block:'nearest'});
+      }
+    }finally{
+      echRunning=false;
+    }
+  }
+
+  echJsonBtn.addEventListener('click',function(){
+    if(!echNormalOut){ flash(echJsonBtn,'خروجی خالی است','no'); return; }
+    if(!echIsJson){
+      echOut.value=truncateForDisplay(echJsonOut,6);
+      echOcnt.textContent=fa(JSON.parse(echJsonOut).length)+' JSON';
+      echSum.textContent='خروجی JSON آرایه‌ای آماده شد — فقط ECH برای هر خط';
+      echJsonBtn.innerHTML='<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 9 12 4 7"/><line x1="12" y1="19" x2="20" y2="19"/></svg> تبدیل به حالت عادی';
+      echIsJson=true;
+      flash(echJsonBtn,'JSON آماده شد');
+    }else{
+      echOut.value=truncateForDisplay(echJsonBase,8);
+      var n=echJsonBase.split('\n').filter(function(l){return l.trim();}).length;
+      echOcnt.textContent=fa(n)+' کانفیگ';
+      echSum.textContent=fa(n)+' کانفیگ ECH';
+      resetJson();
+      flash(echJsonBtn,'حالت عادی');
+    }
+    echRes.scrollIntoView({behavior:'smooth',block:'nearest'});
+  });
+})();
+
 })();
 </script>
 </body>
-</html>
+  </html>
