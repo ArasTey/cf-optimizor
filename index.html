@@ -263,12 +263,12 @@ body.os-ios .app-col:not(.ios-col){display:none}
       </button>
     </div>
   </div>
-  <textarea class="ta" id="inp" spellcheck="false" placeholder="کانفیگ · لینک ساب · فرمت ZEUS · کد base64 — همه پشتیبانی می‌شوند"></textarea>
-  <input type="file" id="fin" accept=".txt,text/plain" hidden>
+  <textarea class="ta" id="inp" spellcheck="false" placeholder="کانفیگ · لینک ساب (JSON · Base64 · TXT) — فرمت YAML پشتیبانی نمی‌شود"></textarea>
+  <input type="file" id="fin" accept=".txt,.json,.conf,.list,text/plain,application/json" hidden>
   <div class="row">
     <span class="nt">
       <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-      فایل .txt · لینک ساب · فرمت ZEUS · base64 · بدون محدودیت
+      فایل · لینک ساب · Base64 · JSON · بدون محدودیت
     </span>
     <button class="b bp bl" id="go" type="button">
       <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
@@ -438,8 +438,8 @@ body.os-ios .app-col:not(.ios-col){display:none}
       </button>
     </div>
   </div>
-  <textarea class="ta" id="ech-inp" spellcheck="false" placeholder="کانفیگ‌های trojan:// یا vless:// — خروجی فقط ECH (برای هر خط ECH یک نسخه، نام اصلی حفظ می‌شود)"></textarea>
-  <input type="file" id="ech-fin" accept=".txt,text/plain" hidden>
+  <textarea class="ta" id="ech-inp" spellcheck="false" placeholder="کانفیگ‌های trojan:// یا vless:// یا لینک ساب — خروجی فقط ECH (نام اصلی حفظ می‌شود)"></textarea>
+  <input type="file" id="ech-fin" accept=".txt,.json,.conf,.list,text/plain,application/json" hidden>
   <div class="row">
     <span class="nt">
       <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
@@ -535,6 +535,7 @@ cloudflare-ech.com+udp://8.8.8.8</textarea>
 </footer>
 
 </div>
+
 <script>
 (function(){
 'use strict';
@@ -550,6 +551,20 @@ var PROTO_START=/^(vless|vmess|trojan|ss|hysteria2?|tuic|naive\+https?|wireguard
 var TKEY='vpn_theme';
 var OPT_LS_KEY='vpn_opt_prefs_v1';
 var ECH_LS_KEY='vpn_ech_prefs_v1';
+var SUB_URL_KEYS=[
+  'url','suburl','sub_url','sub-url','subscription','subscribe',
+  'sub','subs','link','links','feed','feeds','source','sources',
+  'provider','providers','mirror','mirrors','backup','backupurl',
+  'backup_url','backup-url','config','configs','configurl','config_url',
+  'suburls','sub_urls','suburl_list','sub_list','raw','raw_url'
+];
+var SUB_URL_HEURISTIC=/(sub|clash|v2ray|v2rayng|sing-?box|shadow|provider|feed|source|mirror|backup|raw|config)/i;
+var BASE64_HINT_RE=/(content|data|body|raw|b64|base64|payload|config|sub|list|text|value)/i;
+var BASE64_SKIP_RE=/(icon|image|avatar|thumb|logo|photo|pic|thumbnail|favicon|screenshot)/i;
+var SUB_FETCH_DEPTH=3;
+var JSON_MAX_DEPTH=200;
+var FETCH_TIMEOUT_MS=7000;
+var FETCH_RETRY_PER_PROXY=1;
 var PATTN_REPO='patterniha/PattN';
 var PATTNG_REPO='patterniha/PattNG';
 var PATTN_LATEST='https://github.com/'+PATTN_REPO+'/releases/latest';
@@ -564,6 +579,73 @@ function paramBool(v){
   if(v===undefined||v===null) return false;
   var s=String(v).trim().toLowerCase();
   return s==='1'||s==='true'||s==='yes'||s==='on';
+}
+function stripBom(s){ return String(s||'').replace(/^\uFEFF/, ''); }
+function debounce(fn, ms){
+  var t;
+  return function(){
+    var args=arguments, ctx=this;
+    clearTimeout(t);
+    t=setTimeout(function(){ fn.apply(ctx, args); }, ms);
+  };
+}
+function makeCancelToken(){
+  var ctrl = (typeof AbortController !== 'undefined') ? new AbortController() : null;
+  return {
+    controller: ctrl,
+    get signal(){ return ctrl ? ctrl.signal : undefined; },
+    get cancelled(){ return ctrl ? ctrl.signal.aborted : false; },
+    cancel: function(){ try { if(ctrl) ctrl.abort(); } catch(e){} }
+  };
+}
+
+function b64encode(str){
+  var bytes = new TextEncoder().encode(str);
+  var chunks = [];
+  var CHUNK = 0x8000;
+  for(var i=0;i<bytes.length;i+=CHUNK){
+    chunks.push(String.fromCharCode.apply(null, bytes.subarray(i, i+CHUNK)));
+  }
+  return btoa(chunks.join(''));
+}
+function looksLikeBase64(s){
+  var t=stripBom(s).replace(/[\r\n\t ]/g,'');
+  if(t.length < 16) return false;
+  if(t.length % 4 === 1) return false;
+  if(!/^[A-Za-z0-9+/=_-]+$/.test(t)) return false;
+  return true;
+}
+function b64decode(s){
+  try{
+    var raw = stripBom(s);
+    if(!looksLikeBase64(raw)) return '';
+    var t = raw.replace(/[\r\n\t ]/g,'').replace(/-/g,'+').replace(/_/g,'/');
+    while(t.length%4) t+='=';
+    var bin = atob(t);
+    var bytes = new Uint8Array(bin.length);
+    for(var i=0;i<bin.length;i++) bytes[i] = bin.charCodeAt(i);
+    return new TextDecoder('utf-8', {fatal:false}).decode(bytes);
+  }catch(e){return '';}
+}
+
+function isProbablyJson(text){
+  var t = stripBom(text).trim();
+  if(!t) return false;
+  if(t.charAt(0) !== '{' && t.charAt(0) !== '[') return false;
+  try { JSON.parse(t); return true; } catch(e) { return false; }
+}
+
+function looksLikeYaml(text){
+  if(!text) return false;
+  var t = stripBom(text);
+  if(isProbablyJson(t)) return false;
+  if(/^[ \t]*proxies[ \t]*:/m.test(t)) return true;
+  if(/^[ \t]*proxy-providers[ \t]*:/m.test(t)) return true;
+  if(/^[ \t]*Proxy[ \t]*:/m.test(t)) return true;
+  if(/^[ \t]*mixed-port[ \t]*:/m.test(t)) return true;
+  if(/^[ \t]*socks-port[ \t]*:/m.test(t) && /^[ \t]*port[ \t]*:/m.test(t)) return true;
+  if(/^[ \t]*proxy-groups[ \t]*:/m.test(t)) return true;
+  return false;
 }
 
 function detectOS(){
@@ -681,6 +763,7 @@ function parseAuth(au){
   }else{
     var c2=au.lastIndexOf(':');if(c2>0){host=au.slice(0,c2);port=au.slice(c2+1);}
   }
+  if(!host||!host.trim())throw new Error('آدرس سرور خالی است');
   return{host:host,port:port};
 }
 function splitUrl(raw,skip){
@@ -729,45 +812,141 @@ function optimize(raw,o){
   if(PROTO_START.test(l))return l;
   throw new Error('پروتکل ناشناخته');
 }
-function b64decode(s){
-  try{
-    var t=s.replace(/[\r\n\t ]/g,'').replace(/-/g,'+').replace(/_/g,'/');
-    while(t.length%4)t+='=';
-    var bin=atob(t),o='';
-    for(var i=0;i<bin.length;i++)o+='%'+('00'+bin.charCodeAt(i).toString(16)).slice(-2);
-    return decodeURIComponent(o);
-  }catch(e){return'';}
+
+function isCommentLine(line){
+  var t = String(line||'').trim();
+  if(!t) return true;
+  if(t.charAt(0)==='#' || t.charAt(0)===';') return true;
+  if(t.indexOf('//')===0) return true;
+  return false;
 }
+
 function extractLines(text){
   var found=[];
-  var urlRegex=/(vless:\/\/[^\s]+|vmess:\/\/[^\s]+|trojan:\/\/[^\s]+|ss:\/\/[^\s]+|hysteria2?:\/\/[^\s]+|tuic:\/\/[^\s]+|naive\+https?:\/\/[^\s]+|wireguard:\/\/[^\s]+)/gi;
-  (text.match(urlRegex)||[]).forEach(function(m){
-    var line=m.trim().replace(/[,;،؛]+$/,'');
-    if(PROTO_START.test(line)&&found.indexOf(line)===-1) found.push(line);
-  });
+  var seen={};
+  function tryAdd(s){
+    s=String(s||'').trim().replace(/[,;،؛]+$/,'');
+    if(!s)return;
+    if(PROTO_START.test(s)&&!seen[s]){seen[s]=1;found.push(s);}
+  }
   text.split(/\r?\n/).forEach(function(line){
+    if(isCommentLine(line)) return;
     var l=line.trim();
-    if(PROTO_START.test(l)&&found.indexOf(l)===-1) found.push(l);
+    if(!l)return;
+    if(PROTO_START.test(l)){tryAdd(l);return;}
+    l.split(/[\s,;،؛]+/).forEach(function(tok){
+      if(PROTO_START.test(tok))tryAdd(tok);
+    });
   });
   return found;
 }
-function extract(text){
-  var t=String(text||'');
-  var direct=extractLines(t);
-  if(direct.length)return direct;
-  var decoded=b64decode(t);
-  if(decoded){var fromDecoded=extractLines(decoded);if(fromDecoded.length)return fromDecoded;}
-  return[];
+
+function isSubUrlKey(keyHint){
+  if(!keyHint) return false;
+  var h=String(keyHint).toLowerCase().trim();
+  for(var i=0;i<SUB_URL_KEYS.length;i++){
+    if(h === SUB_URL_KEYS[i]) return true;
+  }
+  return false;
 }
-function fetchWithTimeout(u,ms){
+
+function shouldTryBase64(keyHint, value){
+  if(!keyHint) return true;
+  var h = String(keyHint).toLowerCase();
+  if(BASE64_SKIP_RE.test(h)) return false;
+  if(BASE64_HINT_RE.test(h)) return true;
+  if(!value) return false;
+  var v = String(value);
+  if(v.length > 512 && /^[A-Za-z0-9+/=_\-\s]+$/.test(v)) return true;
+  return false;
+}
+
+function walkJsonForConfigs(obj, configs, subs, seen, keyHint, depth){
+  depth = depth || 0;
+  if(depth > JSON_MAX_DEPTH) return;
+  if(obj === null || obj === undefined) return;
+  if(typeof obj === 'string'){
+    if(PROTO_START.test(obj)){ if(!seen[obj]){ seen[obj]=1; configs.push(obj); } return; }
+    if(/^https?:\/\//i.test(obj) || /^www\./i.test(obj)){
+      if(!seen[obj] && (isSubUrlKey(keyHint) || SUB_URL_HEURISTIC.test(String(keyHint||'')))){
+        seen[obj]=1;
+        subs.push(obj);
+      }
+      return;
+    }
+    if(shouldTryBase64(keyHint, obj)){
+      var d = b64decode(obj);
+      if(d && d !== obj){
+        extractLines(d).forEach(function(l){ if(!seen[l]){ seen[l]=1; configs.push(l); } });
+        return;
+      }
+    }
+    extractLines(obj).forEach(function(l){ if(!seen[l]){ seen[l]=1; configs.push(l); } });
+    return;
+  }
+  if(Array.isArray(obj)){
+    obj.forEach(function(v){ walkJsonForConfigs(v, configs, subs, seen, keyHint, depth+1); });
+    return;
+  }
+  if(typeof obj === 'object'){
+    Object.keys(obj).forEach(function(k){
+      walkJsonForConfigs(obj[k], configs, subs, seen, k, depth+1);
+    });
+  }
+}
+
+function extract(text){
+  var result = {configs: [], subs: [], yamlDetected: false};
+  var t = stripBom(text);
+  if(!t.trim()) return result;
+  var trimmed = t.trim();
+  var seen = {};
+
+  if(looksLikeYaml(trimmed)){
+    result.yamlDetected = true;
+  }
+
+  var looksLikePureUrl = /^(https?:\/\/|www\.)\S+$/i.test(trimmed);
+  if(!looksLikePureUrl){
+    extractLines(trimmed).forEach(function(l){ if(!seen[l]){ seen[l]=1; result.configs.push(l); } });
+  }
+
+  if(trimmed.charAt(0) === '{' || trimmed.charAt(0) === '['){
+    try {
+      var json = JSON.parse(trimmed);
+      walkJsonForConfigs(json, result.configs, result.subs, seen, '', 0);
+    } catch(e){}
+  }
+
+  var d = b64decode(trimmed);
+  if(d && d !== trimmed){
+    if(d.charAt(0) === '{' || d.charAt(0) === '['){
+      try { walkJsonForConfigs(JSON.parse(d), result.configs, result.subs, seen, '', 0); } catch(e){}
+    }
+    extractLines(d).forEach(function(l){ if(!seen[l]){ seen[l]=1; result.configs.push(l); } });
+  }
+
+  return result;
+}
+
+function fetchWithTimeout(u,ms,cancelToken){
   return new Promise(function(resolve,reject){
-    var timeout=setTimeout(function(){reject(new Error('timeout'));},ms);
-    fetch(u).then(function(r){clearTimeout(timeout);resolve(r);}).catch(function(e){clearTimeout(timeout);reject(e);});
+    if(cancelToken && cancelToken.cancelled){ reject(new Error('لغو شد')); return; }
+    var timer=setTimeout(function(){reject(new Error('timeout'));},ms);
+    var opts = {};
+    if(cancelToken && cancelToken.signal) opts.signal = cancelToken.signal;
+    fetch(u, opts).then(function(r){clearTimeout(timer);resolve(r);}).catch(function(e){
+      clearTimeout(timer);
+      if(e && e.name === 'AbortError') reject(new Error('لغو شد'));
+      else reject(e);
+    });
   });
 }
-function fetchSub(url){
+
+function fetchSub(url, cancelToken){
   var proxies=[
-    {prefix:'',label:'direct'},{prefix:'https://corsproxy.io/?',label:'corsproxy.io'},
+    {prefix:'',label:'direct'},
+    {prefix:'https://corsproxy.io/?',label:'corsproxy.io'},
     {prefix:'https://api.allorigins.win/raw?url=',label:'allorigins'},
     {prefix:'https://proxy.cors.sh/',label:'cors.sh'},
     {prefix:'https://cors-anywhere.herokuapp.com/',label:'cors-anywhere'},
@@ -776,47 +955,57 @@ function fetchSub(url){
   ];
   if(!/^https?:\/\//i.test(url)) url='https://'+url;
   function attemptFetch(targetUrl,retriesLeft){
-    return fetchWithTimeout(targetUrl,10000)
+    return fetchWithTimeout(targetUrl,FETCH_TIMEOUT_MS,cancelToken)
       .then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.text();})
       .catch(function(err){
+        if(cancelToken && cancelToken.cancelled) throw err;
         if(retriesLeft>0){
-          return new Promise(function(res){setTimeout(res,800);})
+          return new Promise(function(res){setTimeout(res,500);})
             .then(function(){return attemptFetch(targetUrl,retriesLeft-1);});
         }
         throw err;
       });
   }
   function tryProxy(idx){
-    if(idx>=proxies.length)return Promise.reject(new Error('all proxies failed'));
+    if(cancelToken && cancelToken.cancelled) return Promise.reject(new Error('لغو شد'));
+    if(idx>=proxies.length)return Promise.reject(new Error('همه پروکسی‌ها ناموفق'));
     var p=proxies[idx];
     var target=p.prefix?p.prefix+encodeURIComponent(url):url;
-    return attemptFetch(target,2).catch(function(){return tryProxy(idx+1);});
+    return attemptFetch(target,FETCH_RETRY_PER_PROXY).catch(function(err){
+      if(cancelToken && cancelToken.cancelled) throw err;
+      return tryProxy(idx+1);
+    });
   }
   return tryProxy(0).then(function(txt){
-    var all=[];
-    var trimmed=txt.trim();
-    if(trimmed.charAt(0)==='{'||trimmed.charAt(0)==='['){
-      try{
-        var json=JSON.parse(trimmed);
-        var walk=function(obj){
-          if(!obj)return;
-          if(typeof obj==='string'){
-            if(PROTO_START.test(obj))all.push(obj);
-            else{var d=b64decode(obj);if(d)extractLines(d).forEach(function(l){all.push(l);});else extractLines(obj).forEach(function(l){all.push(l);});}
-          }else if(Array.isArray(obj)){obj.forEach(function(v){walk(v);});}
-          else if(typeof obj==='object'){Object.values(obj).forEach(function(v){walk(v);});}
-        };
-        walk(json);
-        if(all.length)return all;
-      }catch(e){}
+    var result=extract(txt);
+    if(!result.configs.length && !result.subs.length){
+      throw new Error('محتوای ساب قابل استفاده نبود');
     }
-    extractLines(trimmed).forEach(function(l){all.push(l);});
-    var d=b64decode(trimmed);
-    if(d)extractLines(d).forEach(function(l){all.push(l);});
-    var seen={},unique=[];
-    all.forEach(function(l){if(!seen[l]){seen[l]=1;unique.push(l);}});
-    if(!unique.length)throw new Error('کانفیگ پیدا نشد');
-    return unique;
+    return result;
+  });
+}
+
+function fetchSubsDeep(urls, depth, seenUrls, allConfigs, allFailed, cancelToken){
+  if(cancelToken && cancelToken.cancelled) return Promise.resolve();
+  if(depth <= 0 || !urls.length) return Promise.resolve();
+  var newUrls = urls.filter(function(u){ return !seenUrls[u]; });
+  newUrls.forEach(function(u){ seenUrls[u] = 1; });
+  if(!newUrls.length) return Promise.resolve();
+  return Promise.all(newUrls.map(function(u){
+    if(cancelToken && cancelToken.cancelled) return [];
+    return fetchSub(u, cancelToken).then(function(r){
+      r.configs.forEach(function(c){ allConfigs.push(c); });
+      return r.subs;
+    }).catch(function(e){
+      if(cancelToken && cancelToken.cancelled) return [];
+      allFailed.push(u + ' — ' + e.message);
+      return [];
+    });
+  })).then(function(subArrays){
+    if(cancelToken && cancelToken.cancelled) return;
+    var nested = [];
+    subArrays.forEach(function(arr){ nested = nested.concat(arr); });
+    return fetchSubsDeep(nested, depth - 1, seenUrls, allConfigs, allFailed, cancelToken);
   });
 }
 
@@ -926,16 +1115,12 @@ function buildMux(params){
   var enabled=false, concurrency=-1;
   if(params.mux!==undefined && params.mux!==''){
     var mv=String(params.mux).toLowerCase();
-    if(mv==='1'||mv==='true'||mv==='yes'){
-      enabled=true;
-    } else if(/^\d+$/.test(mv)&&parseInt(mv,10)>1){
-      enabled=true;
-      concurrency=parseInt(mv,10);
-    }
+    if(mv==='1'||mv==='true'||mv==='yes'){enabled=true;}
+    else if(/^\d+$/.test(mv)&&parseInt(mv,10)>1){enabled=true;concurrency=parseInt(mv,10);}
   }
   if(params.muxconcurrency){
     var mc=parseInt(params.muxconcurrency,10);
-    if(!isNaN(mc)){ enabled=true; concurrency=mc; }
+    if(!isNaN(mc)){enabled=true;concurrency=mc;}
   }
   return { concurrency:concurrency, enabled:enabled };
 }
@@ -1031,7 +1216,13 @@ dz.addEventListener('drop',function(e){
   if(t){inp.value=t.trim();updateCount();run();}
 });
 inp.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&e.key==='Enter'){e.preventDefault();run();}});
-go.addEventListener('click',run);
+go.addEventListener('click',function(){
+  if(go._running){
+    if(go._cancelToken) go._cancelToken.cancel();
+    return;
+  }
+  run();
+});
 cpy.addEventListener('click',function(){
   var btn=this;var content=isJsonMode?savedJsonOutput:savedNormalOutput;
   if(!content)return;
@@ -1052,38 +1243,96 @@ $('crs').addEventListener('click',function(){
   savedNormalOutput='';savedJsonOutput='';isJsonMode=false;jsonBaseOutput='';
   resetJsonToggle();
 });
+
+function findSubUrls(lines){
+  var subs=[];
+  lines.forEach(function(l){
+    if(isCommentLine(l)) return;
+    if(/^(https?:\/\/|www\.)/i.test(l) && !PROTO_START.test(l)) subs.push(l);
+  });
+  return subs;
+}
+
 function run(){
   if(go._running)return;
   var raw=inp.value.trim();
   if(!raw){flash(go,'ورودی خالی است','no');inp.focus();return;}
   if(!validateFm()){if(!adv.classList.contains('open'))advb.click();fm.focus();return;}
   var lines=raw.split(/\r?\n/).map(function(l){return l.trim();}).filter(Boolean);
-  var subs=[];
-  lines.forEach(function(l){if(/^(https?:\/\/|www\.)/i.test(l)) subs.push(l);});
-  var directConfigs=extract(raw);
+  var subsFromInput=findSubUrls(lines);
+  var extracted=extract(raw);
+  var directConfigs=extracted.configs;
+  var subs=subsFromInput.concat(extracted.subs);
+  var subSeen={},uniqueSubs=[];
+  subs.forEach(function(u){if(!subSeen[u]){subSeen[u]=1;uniqueSubs.push(u);}});
+  subs=uniqueSubs;
   var failed=[];
-  go._running=true;go._savedHTML=go.innerHTML;go.disabled=true;
-  go.textContent=subs.length?'در حال دریافت ساب…':'در حال پردازش…';
-  Promise.all(subs.map(function(u){return fetchSub(u).catch(function(e){failed.push(u+' — '+e.message);return[];});}))
-  .then(function(sets){
-    var all=directConfigs.slice();
-    sets.forEach(function(s){all=all.concat(s);});
+  var allConfigs=directConfigs.slice();
+  var seenUrls={};
+  var cancelToken=makeCancelToken();
+  go._running=true;
+  go._cancelToken=cancelToken;
+  go._savedHTML=go.innerHTML;
+
+  if(!subs.length){
+    go.disabled=true;
+    go.textContent='در حال پردازش…';
+    setTimeout(function(){
+      var extra=[];
+      if(extracted.yamlDetected && !allConfigs.length){
+        extra.push('ورودی به فرمت YAML (Clash) شناسایی شد — در حال حاضر پشتیبانی نمی‌شود');
+      }
+      var seen={},unique=[];
+      allConfigs.forEach(function(l){if(!seen[l]){seen[l]=1;unique.push(l);}});
+      renderResults(unique, extra, getOpts());
+      go.innerHTML=go._savedHTML;
+      go.disabled=false;
+      go._running=false;
+      go._cancelToken=null;
+    },0);
+    return;
+  }
+
+  go.disabled=false;
+  go.textContent='لغو ('+fa(subs.length)+' ساب)';
+  go.classList.add('no');
+  go.classList.remove('bp');
+
+  fetchSubsDeep(subs, SUB_FETCH_DEPTH, seenUrls, allConfigs, failed, cancelToken)
+  .then(function(){
     var seen={},unique=[];
-    all.forEach(function(l){if(!seen[l]){seen[l]=1;unique.push(l);}});
-    renderResults(unique,failed,getOpts());
+    allConfigs.forEach(function(l){if(!seen[l]){seen[l]=1;unique.push(l);}});
+    if(cancelToken.cancelled) failed.push('عملیات توسط کاربر لغو شد');
+    if(extracted.yamlDetected && !unique.length){
+      failed.push('ورودی به فرمت YAML (Clash) شناسایی شد — در حال حاضر پشتیبانی نمی‌شود');
+    }
+    renderResults(unique, failed, getOpts());
   })
-  .catch(function(){renderResults(directConfigs,failed,getOpts());})
-  .then(function(){go.innerHTML=go._savedHTML;go.disabled=false;go._running=false;});
+  .catch(function(err){
+    renderResults(directConfigs, failed.concat([String(err && err.message || err)]), getOpts());
+  })
+  .then(function(){
+    go.innerHTML=go._savedHTML;
+    go.disabled=false;
+    go.classList.remove('no');
+    go.classList.add('bp');
+    go._running=false;
+    go._cancelToken=null;
+  });
 }
+
 function renderResults(configs,failed,opts){
   var ok=[],bad=[],passthru=0;
   configs.forEach(function(l,i){
     try{
       var r=optimize(l,opts);ok.push(r);
       if(PROTO_START.test(l)&&!/^(vless|trojan):\/\//i.test(l))passthru++;
-    }catch(e){bad.push('خط '+fa(i+1)+' — '+e.message);}
+    }catch(e){
+      var label=l.length>50?l.slice(0,47)+'…':l;
+      bad.push('«'+label+'» — '+e.message);
+    }
   });
-  failed.forEach(function(u){bad.push('ساب دریافت نشد: '+u);});
+  failed.forEach(function(u){bad.push(u);});
   var output=ok.join('\n');
   savedNormalOutput=output;
   out.value=truncateForDisplay(output,3);
@@ -1108,20 +1357,15 @@ function configToJson(line,index){
   var remark=cfg.f?dec(cfg.f):('Config '+(index+1));
   var net=params.type||'xhttp';
   var sec=params.security||'tls';
-
   var ss=buildStreamSettings(params,net,sec,null,host);
-
   var fmStr=params.fm||DEF.fm;
   var finalmaskObj;try{finalmaskObj=JSON.parse(fmStr);}catch(e){finalmaskObj=JSON.parse(FM_STR);}
   var merged={ finalmask:finalmaskObj };
   for(var k in ss){ if(Object.prototype.hasOwnProperty.call(ss,k)) merged[k]=ss[k]; }
-
   var csVal=params.cs||DEF.cs;
   if(merged.tlsSettings) merged.tlsSettings.cipherSuites=csVal;
   if(merged.xtlsSettings) merged.xtlsSettings.cipherSuites=csVal;
-
   var mux=buildMux(params);
-
   return{
     dns:{hosts:{"domain:googleapis.cn":"googleapis.com","dns.alidns.com":["223.5.5.5","223.6.6.6","2400:3200::1","2400:3200:baba::1"],"dns.sse.cisco.com":["208.67.220.220","208.67.222.222","2620:119:35::35","2620:119:53::53"],"dns.umbrella.com":["208.67.220.220","208.67.222.222","2620:119:35::35","2620:119:53::53"],"one.one.one.one":["1.1.1.1","1.0.0.1","2606:4700:4700::1111","2606:4700:4700::1001"],"1dot1dot1dot1.cloudflare-dns.com":["1.1.1.1","1.0.0.1","2606:4700:4700::1111","2606:4700:4700::1001"],"dns.cloudflare.com":["162.159.61.8","172.64.41.8","2a06:98c1:52::8","2803:f800:53::8"],"cloudflare-dns.com":["104.16.248.249","104.16.249.249","2606:4700::6810:f8f9","2606:4700::6810:f9f9"],"engage.cloudflareclient.com":["162.159.192.1","2606:4700:d0::a29f:c001"],"doh.pub":["1.12.12.12","120.53.53.53"],"dot.pub":["1.12.12.12","120.53.53.53"],"dns.google":["8.8.8.8","8.8.4.4","2001:4860:4860::8888","2001:4860:4860::8844"],"dns.quad9.net":["9.9.9.9","149.112.112.112","2620:fe::fe","2620:fe::9"],"dns.sb":["45.11.45.11","185.222.222.222","2a09::","2a11::"],"common.dot.dns.yandex.net":["77.88.8.8","77.88.8.1","2a02:6b8::feed:0ff","2a02:6b8:0:1::feed:0ff"]},servers:["https://cloudflare-dns.com/dns-query",{address:"223.5.5.5",domains:["geosite:cn"],expectIPs:["geoip:cn"],skipFallback:true,tag:"domestic-dns_cn_expect_0"},{address:"https://cloudflare-dns.com/dns-query",domains:["geosite:google"]},{address:"223.5.5.5",domains:["geosite:private"],skipFallback:true,tag:"domestic-dns_1_0"},{address:"223.5.5.5",domains:["domain:alidns.com","domain:doh.pub","domain:dot.pub","domain:360.cn","domain:onedns.net"],skipFallback:true,tag:"domestic-dns_2_0"},{address:"223.5.5.5",domains:["geosite:cn"],skipFallback:true,tag:"domestic-dns_3_0"}],tag:"dns-module"},
     inbounds:[{listen:"127.0.0.1",port:10808,protocol:"socks",settings:{auth:"noauth",udp:true,userLevel:8},sniffing:{destOverride:["http","tls","quic"],enabled:true,routeOnly:false},tag:"socks"},{listen:"127.0.0.1",port:10809,protocol:"http",settings:{userLevel:8},sniffing:{destOverride:["http","tls","quic"],enabled:true,routeOnly:false},tag:"http"}],
@@ -1142,12 +1386,19 @@ jsonBtn.addEventListener('click',function(){
   if(!isJsonMode){
     var lines=base.split('\n').filter(function(l){return l.trim();});
     var configs=[];
-    lines.forEach(function(line,i){var obj=configToJson(line,i);if(obj)configs.push(obj);});
+    var skipped=0;
+    lines.forEach(function(line,i){
+      var obj=configToJson(line,i);
+      if(obj)configs.push(obj);
+      else if(PROTO_START.test(line))skipped++;
+    });
     if(!configs.length){flash(jsonBtn,'کانفیگ معتبر برای JSON یافت نشد','no');return;}
     savedJsonOutput=JSON.stringify(configs,null,2);jsonBaseOutput=base;
     out.value=truncateForDisplay(savedJsonOutput,5);
     ocnt.textContent=fa(configs.length)+' JSON';
-    sumEl.textContent=fa(configs.length)+' کانفیگ به فرمت JSON (آرایه) نمایش داده شد';
+    var msg=fa(configs.length)+' کانفیگ به فرمت JSON (آرایه)';
+    if(skipped) msg += ' · '+fa(skipped)+' نادیده گرفته شد (پشتیبانی نمی‌شود)';
+    sumEl.textContent=msg;
     jsonBtn.innerHTML='<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 9 12 4 7"/><line x1="12" y1="19" x2="20" y2="19"/></svg> تبدیل به حالت عادی';
     isJsonMode=true;
     flash(jsonBtn,'JSON آرایه‌ای آماده شد');
@@ -1174,6 +1425,7 @@ jsonBtn.addEventListener('click',function(){
 
   var echNormalOut='',echJsonOut='',echJsonBase='',echIsJson=false;
   var echRunning=false;
+  var echPendingRerun=false;
   var lastProcessScroll=true;
 
   function loadEchPrefs(){
@@ -1185,12 +1437,7 @@ jsonBtn.addEventListener('click',function(){
     }catch(e){return null;}
   }
   function saveEchPrefs(){
-    try{
-      localStorage.setItem(ECH_LS_KEY,JSON.stringify({
-        list:echListEl.value,
-        suffix:echSuffixEl.value
-      }));
-    }catch(e){}
+    try{localStorage.setItem(ECH_LS_KEY,JSON.stringify({list:echListEl.value,suffix:echSuffixEl.value}));}catch(e){}
   }
   var savedEch=loadEchPrefs();
   if(savedEch){
@@ -1212,11 +1459,20 @@ jsonBtn.addEventListener('click',function(){
 
   function getEchList(){
     var raw=(echListEl.value||'').trim();
-    if(!raw) return [];
+    if(!raw) return {list: [], dupIps: 0};
     var list=raw.split(/\r?\n/).map(function(x){return x.trim();}).filter(Boolean);
     var seen={},out=[];
-    list.forEach(function(x){ if(!seen[x]){seen[x]=1;out.push(x);} });
-    return out;
+    var ipSeen={},dupIps=0;
+    list.forEach(function(x){
+      if(seen[x]) return;
+      seen[x]=1;
+      var m=String(x).match(/udp:\/\/([^+\s]+)/i);
+      var ip=m ? m[1].replace(/^\[|\]$/g,'') : x;
+      if(ipSeen[ip]) dupIps++;
+      else ipSeen[ip]=1;
+      out.push(x);
+    });
+    return {list: out, dupIps: dupIps};
   }
   function extractIpFromEch(echValue){
     var m=String(echValue||'').match(/udp:\/\/([^+\s]+)/i);
@@ -1229,10 +1485,7 @@ jsonBtn.addEventListener('click',function(){
     return i>=0?s.slice(0,i):s;
   }
   function getSuffix(){ return echSuffixEl.value||''; }
-
-  function safeReplaceAll(str,re,val){
-    return str.replace(re,function(){return val;});
-  }
+  function safeReplaceAll(str,re,val){ return str.replace(re,function(){return val;}); }
   function buildRemark(originalName,tmpl,ip,domain,type){
     var name=originalName&&originalName.trim()?originalName.trim():type;
     var out;
@@ -1245,8 +1498,15 @@ jsonBtn.addEventListener('click',function(){
   }
 
   function runProcess(scroll){ lastProcessScroll=!!scroll; process(); }
+  var debouncedRunProcess = debounce(function(){ runProcess(false); }, 250);
 
-  echGo.addEventListener('click',function(){ runProcess(true); });
+  echGo.addEventListener('click',function(){
+    if(echGo._running){
+      if(echGo._cancelToken) echGo._cancelToken.cancel();
+      return;
+    }
+    runProcess(true);
+  });
   echInp.addEventListener('keydown',function(e){
     if((e.ctrlKey||e.metaKey)&&e.key==='Enter'){e.preventDefault();runProcess(true);}
   });
@@ -1257,7 +1517,7 @@ jsonBtn.addEventListener('click',function(){
   [echListEl,echSuffixEl].forEach(function(el){
     el.addEventListener('input',function(){
       saveEchPrefs();
-      if(!echRes.hidden&&echInp.value.trim()) runProcess(false);
+      if(!echRes.hidden&&echInp.value.trim()) debouncedRunProcess();
     });
   });
   $('ech-rst').addEventListener('click',function(){
@@ -1332,10 +1592,8 @@ jsonBtn.addEventListener('click',function(){
     var isTrojan=type==='trojan';
     var net=params.type||'ws';
     var sec=params.security||'tls';
-
     var ss=buildStreamSettings(params,net,sec,echValue,address);
     var mux=buildMux(params);
-
     var hosts={
       "domain:googleapis.cn":"googleapis.com",
       "dns.alidns.com":["223.5.5.5","223.6.6.6","2400:3200::1","2400:3200:baba::1"],
@@ -1353,10 +1611,7 @@ jsonBtn.addEventListener('click',function(){
       "dns.sb":["45.11.45.11","185.222.222.222","2a09::","2a11::"],
       "common.dot.dns.yandex.net":["77.88.8.8","77.88.8.1","2a02:6b8::feed:0ff","2a02:6b8:0:1::feed:0ff"]
     };
-    if(isTrojan && address==='www.speedtest.net'){
-      hosts['www.speedtest.net']=['104.17.148.22','104.17.147.22'];
-    }
-
+    if(isTrojan && address==='www.speedtest.net'){hosts['www.speedtest.net']=['104.17.148.22','104.17.147.22'];}
     var dns={
       hosts:hosts,
       servers:[
@@ -1366,29 +1621,24 @@ jsonBtn.addEventListener('click',function(){
       ],
       tag:"dns-module"
     };
-
     var inbounds=[{
       listen:"127.0.0.1",port:10808,protocol:"socks",
       settings:{auth:"noauth",udp:true,userLevel:8},
       sniffing:{destOverride:["http","tls","quic"],enabled:true,routeOnly:false},
       tag:"socks"
     }];
-
     var settings=isTrojan
       ? {address:address,level:8,password:cfg.pass,port:port}
       : {address:address,encryption:"none",id:cfg.id,level:8,port:port};
-
     var outbounds=[
       {mux:mux,protocol:isTrojan?"trojan":"vless",settings:settings,streamSettings:ss,tag:"proxy"},
       {protocol:"freedom",streamSettings:{network:"tcp",sockopt:{domainStrategy:"UseIP"}},tag:"direct"},
       {protocol:"blackhole",settings:{},tag:"block"}
     ];
-
     var policy={
       levels:{"8":{connIdle:300,downlinkOnly:1,handshake:4,uplinkOnly:1}},
       system:{statsOutboundUplink:true,statsOutboundDownlink:true}
     };
-
     var routing={
       domainStrategy:"AsIs",
       rules:[
@@ -1401,67 +1651,70 @@ jsonBtn.addEventListener('click',function(){
         {inboundTag:["dns-module"],outboundTag:"proxy",type:"field"}
       ]
     };
-
     return{
-      dns:dns,
-      inbounds:inbounds,
-      log:{loglevel:"warning"},
-      outbounds:outbounds,
-      policy:policy,
-      remarks:remark,
-      routing:routing,
-      stats:{}
+      dns:dns,inbounds:inbounds,log:{loglevel:"warning"},
+      outbounds:outbounds,policy:policy,remarks:remark,
+      routing:routing,stats:{}
     };
   }
 
-  function process(){
-    if(echRunning) return;
-    var raw=echInp.value.trim();
+  function showEmptyPanel(){
+    echRes.hidden=true;
+    echOut.value='';echSum.textContent='—';echOcnt.textContent='۰';echErrs.innerHTML='';
+    setBtns(false);echNormalOut='';resetJson();
+  }
 
-    if(!raw){
-      echRes.hidden=true;
-      echOut.value='';echSum.textContent='—';echOcnt.textContent='۰';echErrs.innerHTML='';
-      setBtns(false);echNormalOut='';resetJson();
-      flash(echGo,'ورودی خالی است','no');
-      echInp.focus();
-      return;
-    }
+  function buildEchOutputs(configs, initialFailed, echData){
+    var echList=echData.list;
+    var dupIps=echData.dupIps;
+    var parsed=[],failed=initialFailed.slice(),seenKey={},skippedOther=0;
+    var echUnsupportedCount=0;
+    var yamlHint=false;
 
-    var echList=getEchList();
-    var suffix=getSuffix();
-
-    if(!echList.length){
-      echRes.hidden=false;
-      echErrs.innerHTML='<div class="er">لیست ECH خالی است — حداقل یک ECH وارد کنید</div>';
-      echSum.textContent='لیست ECH خالی است';
-      echOut.value='';echOcnt.textContent='۰';setBtns(false);
-      return;
-    }
-
-    var lines=raw.split(/\r?\n/).map(function(l){return l.trim();}).filter(Boolean);
-    var parsed=[],failed=[],seenKey={};
-
-    lines.forEach(function(line,i){
+    configs.forEach(function(line,i){
       try{
         if(/^vless:\/\//i.test(line)){
           var c=parseVless(line);
           removeParam(c.p,'ech');
           var p1={};c.p.forEach(function(x){p1[x.k.toLowerCase()]=x.v;});
+          var sec1=p1.security||'tls';
           var k=['vless',c.id,c.host,c.port,p1.type||'',p1.security||'',p1.sni||'',p1.host||'',p1.path||'',p1.alpn||''].join('|');
-          if(!seenKey[k]){seenKey[k]=1;parsed.push({type:'vless',cfg:c,originalName:dec(c.f||'')});}
+          if(!seenKey[k]){
+            seenKey[k]=1;
+            if(sec1!=='tls') echUnsupportedCount++;
+            parsed.push({type:'vless',cfg:c,originalName:dec(c.f||'')});
+          }
         }else if(/^trojan:\/\//i.test(line)){
           var t=parseTrojan(line);
           removeParam(t.p,'ech');
           var p2={};t.p.forEach(function(x){p2[x.k.toLowerCase()]=x.v;});
+          var sec2=p2.security||'tls';
           var k2=['trojan',t.pass,t.host,t.port,p2.type||'',p2.security||'',p2.sni||'',p2.host||'',p2.path||'',p2.alpn||''].join('|');
-          if(!seenKey[k2]){seenKey[k2]=1;parsed.push({type:'trojan',cfg:t,originalName:dec(t.f||'')});}
+          if(!seenKey[k2]){
+            seenKey[k2]=1;
+            if(sec2!=='tls') echUnsupportedCount++;
+            parsed.push({type:'trojan',cfg:t,originalName:dec(t.f||'')});
+          }
+        }else if(PROTO_START.test(line)){
+          skippedOther++;
         }else{
-          failed.push('خط '+fa(i+1)+' — فقط vless/trojan پشتیبانی می‌شود');
+          if(looksLikeYaml(line)) yamlHint = true;
+          var label=line.length>50?line.slice(0,47)+'…':line;
+          failed.push('«'+label+'» — پروتکل نامعتبر');
         }
-      }catch(e){ failed.push('خط '+fa(i+1)+' — '+e.message); }
+      }catch(e){
+        var label2=line.length>50?line.slice(0,47)+'…':line;
+        failed.push('«'+label2+'» — '+e.message);
+      }
     });
 
     if(!parsed.length){
+      if(yamlHint){
+        echErrs.innerHTML='<div class="er">ورودی به فرمت YAML (Clash) شناسایی شد — در حال حاضر پشتیبانی نمی‌شود.</div>';
+        echSum.textContent='YAML پشتیبانی نمی‌شود';
+        echOut.value='';echOcnt.textContent='۰';setBtns(false);echRes.hidden=false;
+        return;
+      }
       echRes.hidden=false;
       echErrs.innerHTML=failed.map(function(t){return '<div class="er">'+esc(t)+'</div>';}).join('')
                        || '<div class="er">کانفیگ معتبر vless/trojan پیدا نشد</div>';
@@ -1470,40 +1723,122 @@ jsonBtn.addEventListener('click',function(){
       return;
     }
 
-    echRunning=true;
-    try{
-      var outConfigs=[],outJsons=[];
-
-      echList.forEach(function(echVal){
-        var ip=extractIpFromEch(echVal);
-        var domain=extractDomainFromEch(echVal);
-        parsed.forEach(function(item){
-          var cfg=JSON.parse(JSON.stringify(item.cfg));
-          removeParam(cfg.p,'ech');
-          cfg.p.push({k:'ech',v:echVal});
-          var remark=buildRemark(item.originalName,suffix,ip,domain,item.type);
-          cfg.f=echEncodeRemark(remark);
-          outConfigs.push(item.type==='vless'?buildVless(cfg,ORDER_ECH):buildTrojan(cfg,ORDER_ECH));
-          outJsons.push(buildEchJson(item.type,item.cfg,echVal,remark));
-        });
+    var suffix=getSuffix();
+    var outConfigs=[],outJsons=[];
+    echList.forEach(function(echVal){
+      var ip=extractIpFromEch(echVal);
+      var domain=extractDomainFromEch(echVal);
+      parsed.forEach(function(item){
+        var cfg=JSON.parse(JSON.stringify(item.cfg));
+        removeParam(cfg.p,'ech');
+        cfg.p.push({k:'ech',v:echVal});
+        var remark=buildRemark(item.originalName,suffix,ip,domain,item.type);
+        cfg.f=echEncodeRemark(remark);
+        outConfigs.push(item.type==='vless'?buildVless(cfg,ORDER_ECH):buildTrojan(cfg,ORDER_ECH));
+        outJsons.push(buildEchJson(item.type,item.cfg,echVal,remark));
       });
+    });
 
-      echNormalOut=outConfigs.join('\n');
-      echJsonOut=JSON.stringify(outJsons,null,2);
-      echJsonBase=echNormalOut;
-      echOut.value=truncateForDisplay(echNormalOut,8);
-      echOcnt.textContent=fa(outConfigs.length)+' کانفیگ';
-      echErrs.innerHTML=failed.map(function(t){return '<div class="er">'+esc(t)+'</div>';}).join('');
-      echSum.textContent=fa(outConfigs.length)+' کانفیگ ECH ساخته شد · '+fa(parsed.length)+' ورودی × '+fa(echList.length)+' ECH';
-      setBtns(true);
-      echRes.hidden=false;
-      resetJson();
-      if(lastProcessScroll){
-        echRes.scrollIntoView({behavior:'smooth',block:'nearest'});
-      }
-    }finally{
-      echRunning=false;
+    echNormalOut=outConfigs.join('\n');
+    echJsonOut=JSON.stringify(outJsons,null,2);
+    echJsonBase=echNormalOut;
+    echOut.value=truncateForDisplay(echNormalOut,8);
+    echOcnt.textContent=fa(outConfigs.length)+' کانفیگ';
+    echErrs.innerHTML=failed.map(function(t){return '<div class="er">'+esc(t)+'</div>';}).join('');
+
+    var summary=fa(outConfigs.length)+' کانفیگ ECH ساخته شد · '+fa(parsed.length)+' ورودی × '+fa(echList.length)+' ECH';
+    if(skippedOther) summary += ' · '+fa(skippedOther)+' نادیده گرفته شد';
+    if(dupIps) summary += ' · '+fa(dupIps)+' IP تکراری';
+    if(echUnsupportedCount) summary += ' · '+fa(echUnsupportedCount)+' کانفیگ فقط در URL دارای ECH (JSON بدون echConfigList)';
+    echSum.textContent=summary;
+    setBtns(true);
+    echRes.hidden=false;
+    resetJson();
+    if(lastProcessScroll){ echRes.scrollIntoView({behavior:'smooth',block:'nearest'}); }
+  }
+
+  function process(){
+    if(echRunning){
+      echPendingRerun = true;
+      return;
     }
+    var raw=echInp.value.trim();
+
+    if(!raw){
+      showEmptyPanel();
+      flash(echGo,'ورودی خالی است','no');
+      echInp.focus();
+      return;
+    }
+
+    var echData=getEchList();
+    if(!echData.list.length){
+      echRes.hidden=false;
+      echErrs.innerHTML='<div class="er">لیست ECH خالی است — حداقل یک ECH وارد کنید</div>';
+      echSum.textContent='لیست ECH خالی است';
+      echOut.value='';echOcnt.textContent='۰';setBtns(false);
+      return;
+    }
+
+    var lines=raw.split(/\r?\n/).map(function(l){return l.trim();}).filter(Boolean);
+    var subsFromInput=findSubUrls(lines);
+    var extracted=extract(raw);
+    var direct=extracted.configs;
+    var subs=subsFromInput.concat(extracted.subs);
+    var subSeen={},uniqueSubs=[];
+    subs.forEach(function(u){if(!subSeen[u]){subSeen[u]=1;uniqueSubs.push(u);}});
+    subs=uniqueSubs;
+
+    if(!subs.length){
+      echRunning=true;
+      try{
+        var extra=[];
+        if(extracted.yamlDetected && !direct.length){
+          extra.push('ورودی به فرمت YAML (Clash) شناسایی شد — در حال حاضر پشتیبانی نمی‌شود');
+        }
+        buildEchOutputs(direct, extra, echData);
+      }
+      finally{ echRunning=false; }
+      if(echPendingRerun){ echPendingRerun=false; process(); }
+      return;
+    }
+
+    echRunning=true;
+    var savedHTML=echGo.innerHTML;
+    var cancelToken=makeCancelToken();
+    echGo._cancelToken=cancelToken;
+    echGo.disabled=false;
+    echGo.textContent='لغو ('+fa(subs.length)+' ساب)';
+    echGo.classList.add('no');
+    echGo.classList.remove('bp');
+    echGo._running=true;
+
+    var allConfigs=direct.slice();
+    var fails=[];
+    var seenUrls={};
+    fetchSubsDeep(subs, SUB_FETCH_DEPTH, seenUrls, allConfigs, fails, cancelToken)
+    .then(function(){
+      var seen={},unique=[];
+      allConfigs.forEach(function(l){if(!seen[l]){seen[l]=1;unique.push(l);}});
+      if(cancelToken.cancelled) fails.push('عملیات توسط کاربر لغو شد');
+      if(extracted.yamlDetected && !unique.length){
+        fails.push('ورودی به فرمت YAML (Clash) شناسایی شد — در حال حاضر پشتیبانی نمی‌شود');
+      }
+      buildEchOutputs(unique, fails, echData);
+    })
+    .catch(function(err){
+      buildEchOutputs(direct, [String(err && err.message || err)], echData);
+    })
+    .then(function(){
+      echGo.innerHTML=savedHTML;
+      echGo.disabled=false;
+      echGo.classList.remove('no');
+      echGo.classList.add('bp');
+      echGo._running=false;
+      echGo._cancelToken=null;
+      echRunning=false;
+      if(echPendingRerun){ echPendingRerun=false; process(); }
+    });
   }
 
   echJsonBtn.addEventListener('click',function(){
@@ -1530,4 +1865,4 @@ jsonBtn.addEventListener('click',function(){
 })();
 </script>
 </body>
-  </html>
+</html>
